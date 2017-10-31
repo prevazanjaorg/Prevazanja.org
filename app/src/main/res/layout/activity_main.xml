@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="nameplaceholder.prevazanjaorg.MainActivity">
+
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Zapomni si me"
+        tools:layout_editor_absoluteX="69dp"
+        tools:layout_editor_absoluteY="196dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="41dp"
+        android:layout_alignTop="@+id/editText3"
+        android:layout_alignLeft="@+id/editText3"
+        android:layout_alignStart="@+id/editText3" />
+
+    <EditText
+        android:id="@+id/editText2"
+        android:layout_width="248dp"
+        android:layout_height="46dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Uporabniško ime"
+        app:layout_constraintBottom_toTopOf="@+id/editText3"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="68dp"
+        android:layout_marginTop="67dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:id="@+id/editText3"
+        android:layout_width="248dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:text="tojegeslo123"
+        app:layout_constraintBottom_toTopOf="@+id/checkBox"
+        app:layout_constraintTop_toBottomOf="@+id/editText2"
+        tools:layout_editor_absoluteX="69dp"
+        android:layout_below="@+id/editText2"
+        android:layout_alignLeft="@+id/editText2"
+        android:layout_alignStart="@+id/editText2"
+        android:layout_marginTop="19dp" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="249dp"
+        android:layout_height="79dp"
+        android:onClick="sendMessage"
+        android:text="PRIJAVA"
+        android:textSize="32sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/checkBox"
+        tools:layout_editor_absoluteX="69dp"
+        android:layout_below="@+id/editText3"
+        android:layout_alignRight="@+id/editText3"
+        android:layout_alignEnd="@+id/editText3"
+        android:layout_marginTop="55dp" />
+
+
+    </RelativeLayout>
