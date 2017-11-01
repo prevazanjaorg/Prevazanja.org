@@ -29,6 +29,6 @@ public class MainActivity extends AppCompatActivity {
 //        int duration = Toast.LENGTH_LONG;
 //        Toast toast = Toast.makeText(context, "TOAST", duration);
 //        toast.show();
-        //asd
+        
     }
 }
