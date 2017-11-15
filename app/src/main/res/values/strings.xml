@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Prevazanja.org</string>
+    <string name="app_name">Prevozi+</string>
     <string name="register">Register</string>
     <string name="birthday">Birthday</string>
     <!-- Strings related to login -->
@@ -16,4 +16,7 @@
         completions."
     </string>
     <string name="title_activity_login">Prijava</string>
+    <string name="action_settings">Settings</string>
+    <string name="placeholder">Placeholder</string>
+    <string name="evro"> €</string>
 </resources>
