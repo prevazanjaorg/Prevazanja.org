@@ -297,7 +297,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     //funkcija ob kliku na TextView gre na activity za registracijo
     public void naRegistracijo(View view) {
-//        Context context = getApplicationContext();
+       // Context context = getApplicationContext();
 //        Toast toast = Toast.makeText(context,"TEST", LENGTH_LONG);
 //        toast.show();
 //        setContentView(R.layout.activity_register);
