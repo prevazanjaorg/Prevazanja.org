@@ -17,7 +17,7 @@ public class Prevoz {
     Context c;
 
     /*
-shiit
+shiitttt
     */
 
     public String getIme() {
