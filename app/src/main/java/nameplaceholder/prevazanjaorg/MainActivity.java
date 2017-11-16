@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     public void sendMessage(View view) {
         //Temporary to show list activity
         finish();
+        //komentar
         Intent mojIntent = new Intent(MainActivity.this, ScrollingActivityIskanjePrevozov.class);
         startActivity(mojIntent);
     }
