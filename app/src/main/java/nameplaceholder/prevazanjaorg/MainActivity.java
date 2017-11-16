@@ -29,6 +29,9 @@ public class MainActivity extends AppCompatActivity {
 //        int duration = Toast.LENGTH_LONG;
 //        Toast toast = Toast.makeText(context, "TOAST", duration);
 //        toast.show();
-        
+        //Temporary to show list activity
+        finish();
+        Intent mojIntent = new Intent(MainActivity.this, ScrollingActivityIskanjePrevozov.class);
+        startActivity(mojIntent);
     }
 }
