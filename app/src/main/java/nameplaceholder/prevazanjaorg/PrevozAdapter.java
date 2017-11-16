@@ -10,8 +10,8 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import java.util.ArrayList;
 
-class AktivniPrevoziAdapter extends ArrayAdapter<nameplaceholder.prevazanjaorg.AktivniPrevozi> {
-    public AktivniPrevoziAdapter(@NonNull Context context, ArrayList<nameplaceholder.prevazanjaorg.AktivniPrevozi> prevozi) {
+class PrevozAdapter extends ArrayAdapter<Prevoz> {
+    public PrevozAdapter(@NonNull Context context, ArrayList<Prevoz> prevozi) {
         super(context, R.layout.list_item, prevozi);
     }
 
@@ -20,7 +20,7 @@ class AktivniPrevoziAdapter extends ArrayAdapter<nameplaceholder.prevazanjaorg.A
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         LayoutInflater inflater = LayoutInflater.from(getContext());
         View customView = inflater.inflate(R.layout.list_item, parent, false);
-        nameplaceholder.prevazanjaorg.AktivniPrevozi prevoz = getItem(position);
+        Prevoz prevoz = getItem(position);
 
         TextView ime = customView.findViewById(R.id.ime);
         TextView cas = customView.findViewById(R.id.cas);
