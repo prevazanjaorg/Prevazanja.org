@@ -32,4 +32,6 @@ class AktivniPrevoziAdapter extends ArrayAdapter<nameplaceholder.prevazanjaorg.A
 
         return customView;
     }
+
+
 }

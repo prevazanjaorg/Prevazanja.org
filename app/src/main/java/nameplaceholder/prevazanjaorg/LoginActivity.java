@@ -91,6 +91,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
+
+        // Login already filled in for testing
+        mEmailView.setText("foo@example.com");
+        mPasswordView.setText("hello");
+
         Button mEmailSignInButton = (Button) findViewById(R.id.btnRegister); //naj bi bil email sign in button?
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
