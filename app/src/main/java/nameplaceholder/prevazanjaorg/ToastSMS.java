@@ -11,7 +11,6 @@ import android.widget.Toast;
 public class ToastSMS {
     public PB BAZA;
     private ReservationManager RManager;
-  //  private SmsReceiver receiver;
 
     public boolean running;
     private Context contXt;
@@ -19,9 +18,7 @@ public class ToastSMS {
     public ToastSMS(){
         BAZA = new PB();
         RManager = new ReservationManager();
-    //    receiver = new SmsReceiver();
         running = true;
-        Log.e("ToastSMS-INIT", "INIT:....:");
     }
 
     public boolean SendResponseQueue(boolean log){
@@ -44,10 +41,6 @@ public class ToastSMS {
         }
     }
 
-    public boolean LogReservations(){
-        return  RManager.LogRezervations();
-    }
-
     public boolean ProcessNewUser(UserData a){ //novSMS iz MainActivity
         printToast("Nov UserData prejet: " + a.sender + " " + a.body + " TIP:" + a.tip, Toast.LENGTH_LONG);
         if(BAZA.FormResponse(a)) {
@@ -63,7 +56,7 @@ public class ToastSMS {
             else if(a.tip == UserData.PREKLIC){
                 RManager.PrekliciRezervacijo(a);
             }
-            RManager.sendSMS(a);
+            SendResponseQueue(true);
             return true;
         }
         else{

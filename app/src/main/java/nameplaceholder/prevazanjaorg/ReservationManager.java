@@ -24,8 +24,8 @@ public class ReservationManager {
         SmsManager manager = SmsManager.getDefault();
         try {
             ArrayList<String> deli = manager.divideMessage(a.response);
-            //manager.sendMultipartTextMessage(a.sender, null, deli, null, null);
-            manager.sendTextMessage(a.sender,null,a.response,null,null);
+            manager.sendMultipartTextMessage(a.sender, null, deli, null, null);
+            //manager.sendTextMessage(a.sender,null,a.response,null,null);
         }catch (Exception e) {
              Log.e("RManager-Except.>>>;: ", a.sender + " - " + a.response);
         }
@@ -64,10 +64,10 @@ public class ReservationManager {
         }
     }
 
-    boolean LogRezervations(){
+    public boolean LogReservations(){
         if(!Rezervacije.isEmpty()) {
             for(UserData rezervacija : Rezervacije){
-                Log.e("RManager-LOG", rezervacija.response + " " + rezervacija.sender);
+                Log.e("RManager-LOG", rezervacija.response + " " + rezervacija.sender + " ID: "+rezervacija.prevozID);
             }
             return true;
         }
@@ -78,13 +78,12 @@ public class ReservationManager {
     }
 
     void PrekliciRezervacijo(UserData a){
-        int i = 0;
         for(UserData rezervacija : Rezervacije){
             if(rezervacija.sender == a.sender && rezervacija.prevozID == a.prevozID){
-                Rezervacije.remove(i);
+                Rezervacije.remove((UserData)rezervacija);
             }
-            i++;
         }
+        LogReservations();
     }
 
 

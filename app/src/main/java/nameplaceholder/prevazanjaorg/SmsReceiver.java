@@ -91,6 +91,10 @@ public class SmsReceiver extends BroadcastReceiver {
                 curr.tip = UserData.PREKLIC;
                 return true;
             }
+            else{
+                Log.e("SMSRec-SCANNER:>> ", "COMMAND NOT RECOGNIZED");
+                return false;
+            }
         }
         Log.e("SMSRec-SCANNER:>> ", "empty");
         return false;
