@@ -17,7 +17,7 @@ public class ToastSMS {
 
     public ToastSMS(){
         BAZA = new PB();
-        RManager = new ReservationManager();
+        RManager = new ReservationManager(BAZA.GetRezervacijeFromPB());
         running = true;
     }
 
@@ -70,7 +70,7 @@ public class ToastSMS {
         contXt = a;
     }
 
-    void printToast(String text, int dur){
+    public void printToast(String text, int dur){
         Toast.makeText(contXt,text, dur).show();
     }
 

@@ -15,9 +15,9 @@ public class ReservationManager {
     public Stack<UserData> IOSMS;
     public Vector<UserData> Rezervacije;
 
-    public ReservationManager(){
+    public ReservationManager(Vector<UserData> rezervacije){
         IOSMS = new Stack<UserData>();
-        Rezervacije = new Vector<UserData>();
+        Rezervacije = rezervacije;
     }
 
     void sendSMS(UserData a){

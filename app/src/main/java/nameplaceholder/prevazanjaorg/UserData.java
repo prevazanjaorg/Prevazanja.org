@@ -29,6 +29,12 @@ public class UserData {
         Log.e("UserData-NEW UserData: " , sender + "\n" + body + "\n" + "TIP: " + tip);
     }
 
+    public UserData(String s, String resp, String pID){
+        this.sender = s;
+        this.response = resp;
+        this.prevozID = pID;
+    }
+
     public UserData(UserData a){
         this.body = a.body;
         this.sender = a.sender;
