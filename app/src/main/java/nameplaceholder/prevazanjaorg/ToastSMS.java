@@ -11,7 +11,7 @@ import android.widget.Toast;
 public class ToastSMS {
     public PB BAZA;
     private ReservationManager RManager;
-
+//
     public boolean running;
     private Context contXt;
 
