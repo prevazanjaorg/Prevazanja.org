@@ -2,6 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="nameplaceholder.prevazanjaorg">
 
+    <!-- SMS -->
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.WRITE_SMS" />
+    <!-- PODATKOVNA BAZA -->
+    <uses-permission android:name="android.permission.INTERNET"/>
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
@@ -33,10 +40,15 @@
         <activity android:name=".RegisterActivity"></activity>
         <activity android:name=".MainActivity">
         </activity>
-        <activity android:name=".ScrollingActivityIskanjePrevozov">
+        <activity android:name=".ListPrevozovActivity">
             <meta-data android:name="android.app.searchable"
                 android:resource="@xml/searchable"/>
         </activity>
+        <receiver android:name=".SmsReceiver" >
+            <intent-filter android:priority="1">
+                <action android:name="android.provider.Telephony.SMS_RECEIVED"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

@@ -3,7 +3,7 @@ package nameplaceholder.prevazanjaorg;
 import android.content.Context;
 import android.widget.Toast;
 
-public class AktivniPrevozi {
+public class Prevoz {
     String iz;
     String kam;
     String mobitel;
@@ -15,6 +15,10 @@ public class AktivniPrevozi {
     String ime;
     String cas;
     Context c;
+
+    /*
+shiitttt
+    */
 
     public String getIme() {
         if (ime!=null)
@@ -31,11 +35,11 @@ public class AktivniPrevozi {
         Toast.makeText(c, "test Toasta :D", Toast.LENGTH_SHORT).show();
     }
 
-    public AktivniPrevozi(Context context) {
+    public Prevoz(Context context) {
         c = context;
     }
 
-    public AktivniPrevozi() {}  //default konstruktor
+    public Prevoz() {}  //default konstruktor
 
     public String getCas() {
         return cas;
@@ -45,7 +49,7 @@ public class AktivniPrevozi {
         this.cas = cas;
     }
 
-    public AktivniPrevozi(String initIz, String initKam, String initMobitel, Integer initStrosek, Integer initOseb, Boolean initZavarovanje, String initAvto, String initDatum, String initIme, String initCas) {
+    public Prevoz(String initIz, String initKam, String initMobitel, Integer initStrosek, Integer initOseb, Boolean initZavarovanje, String initAvto, String initDatum, String initIme, String initCas) {
         iz = initIz;
         kam = initKam;
         mobitel = initMobitel;
