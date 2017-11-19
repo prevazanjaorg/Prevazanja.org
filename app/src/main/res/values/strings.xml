@@ -24,4 +24,5 @@
     <string name="search_hint">Išči prevoz</string>
     <string name="title_activity_landing">LandingActivity</string>
     <string name="section_format">Hello World from section: %1$d</string>
+    <string name="placeholdercas">15:00</string>
 </resources>

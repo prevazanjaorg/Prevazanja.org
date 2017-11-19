@@ -8,11 +8,13 @@ import android.view.MenuInflater;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.support.v7.widget.Toolbar;
+import android.widget.SearchView;
 
 import java.util.ArrayList;
 
 public class ListPrevozovActivity extends AppCompatActivity {
-    ListAdapter listAdapterPrevozov;
+    PrevozAdapter listAdapterPrevozov;
+    SearchView searchViewPrevozov;
 
     private ToastSMS SMSsistem;
     private SmsReceiver Receiver;
@@ -51,8 +53,27 @@ public class ListPrevozovActivity extends AppCompatActivity {
         listAdapterPrevozov = new PrevozAdapter(this, aktivniPrevozi);
         ListView listViewPrevozov = (ListView) findViewById(R.id.seznamPrevozov);
         listViewPrevozov.setAdapter(listAdapterPrevozov);
+        /*
+
+        // TODO najti napako
+
+        searchViewPrevozov.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String query) {
+
+                listAdapterPrevozov.getFilter().filter(query);
+
+                return false;
+            }
+        });
 
 
+        */
 
     }
 
@@ -60,22 +81,7 @@ public class ListPrevozovActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main, menu);
-        //jakasaa
-//        MenuItem item = menu.findItem(R.id.search);
-//        SearchView searchView = (SearchView)item.getActionView();
-//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//
-//                return false;
-//            }
-//        });
-//
+
         return true;
     }
 }

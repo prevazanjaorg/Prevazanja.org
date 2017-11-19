@@ -16,10 +16,6 @@ public class Prevoz {
     String cas;
     Context c;
 
-    /*
-shiitttt
-    */
-
     public String getIme() {
         if (ime!=null)
             return ime;

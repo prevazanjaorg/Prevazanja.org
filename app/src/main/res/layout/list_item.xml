@@ -5,7 +5,7 @@
     android:padding="6dp">
     <TextView
         android:id="@+id/cas"
-        android:text="@string/placeholder"
+        android:text="@string/placeholdercas"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
         android:layout_alignParentBottom="true"
@@ -17,9 +17,9 @@
     <TextView
         android:id="@+id/strosek"
         android:text="@string/placeholder"
+        android:textStyle="bold"
         android:layout_width="fill_parent"
         android:layout_height="26dp"
-        android:textStyle="bold"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
