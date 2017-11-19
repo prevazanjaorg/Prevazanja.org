@@ -3,8 +3,8 @@ package nameplaceholder.prevazanjaorg;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -21,7 +21,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -31,21 +30,18 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static android.Manifest.permission.READ_CONTACTS;
-import static android.widget.Toast.LENGTH_LONG;
 
 /**
  * A login screen that offers login via email/password.
  */
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
+    SessionManager session; //create new session from SessionManager class
     /**
      * Id to identity READ_CONTACTS permission request.
      */
@@ -66,6 +62,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private UserLoginTask mAuthTask = null;
 
     // UI references.
+    private TextView mUsernameView;
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
     private View mProgressView;
@@ -73,9 +70,21 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        session = new SessionManager(getApplicationContext());
+        if (session.isLoggedIn()){
+            Intent mojIntent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(mojIntent);
+            finish();
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        /* SESSION MANAGER */
+        session = new SessionManager(getApplicationContext());
+        /* SESSION MANAGER */
+
         // Set up the login form.
+        mUsernameView = (TextView) findViewById(R.id.etImeLogin);
         mEmailView = (AutoCompleteTextView) findViewById(R.id.etEmailLogin);
         populateAutoComplete();
 
@@ -91,8 +100,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
-
         // Login already filled in for testing
+        mUsernameView.setText("Hackerman01");
         mEmailView.setText("foo@example.com");
         mPasswordView.setText("hello");
 
@@ -206,11 +215,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic
+        //database logic
         return email.contains("@");
     }
 
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
+        //database logic
         return password.length() > 4;
     }
 
@@ -275,7 +286,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             emails.add(cursor.getString(ProfileQuery.ADDRESS));
             cursor.moveToNext();
         }
-
         addEmailsToAutoComplete(emails);
     }
 
@@ -297,10 +307,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     //funkcija ob kliku na TextView gre na activity za registracijo
     public void naRegistracijo(View view) {
-       // Context context = getApplicationContext();
-//        Toast toast = Toast.makeText(context,"TEST", LENGTH_LONG);
-//        toast.show();
-//        setContentView(R.layout.activity_register);
         startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
     }
 
@@ -351,8 +357,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // TODO: register the new account here.
             //foo@example - hello
             //bar@example - world
-            //če ni taka kombinacija username in gesla, return false - geslo napačno
-            return false;
+
+             return false;
         }
 
         @Override
@@ -360,11 +366,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mAuthTask = null;
             showProgress(false);
 
+            //this executes when login is successful
             if (success) {
-                finish();
-                //ko se loginaš uspešno zažene MainActivity
+//              //Toast.makeText(getApplicationContext(),pref.getString(mEmail,null),LENGTH_LONG).show();
+                // Creating user login session
+                session.createLoginSession(mUsernameView.getText().toString(),mEmailView.getText().toString());
+                SharedPreferences pref = getApplicationContext().getSharedPreferences(session.pref.toString(), 0); // 0 - for private mode
+
                 Intent mojIntent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(mojIntent);
+                finish();
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();

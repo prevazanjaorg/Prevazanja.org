@@ -9,6 +9,7 @@ import android.os.Bundle;
  */
 
 public class SplashScreen extends Activity {
+    SessionManager session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,5 +38,4 @@ public class SplashScreen extends Activity {
         super.onPause();
         finish();
     }
-
 }

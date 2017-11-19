@@ -22,4 +22,6 @@
     <string name="action_favorite">Priljubljeno</string>
     <string name="search_title">Iskanje</string>
     <string name="search_hint">Išči prevoz</string>
+    <string name="title_activity_landing">LandingActivity</string>
+    <string name="section_format">Hello World from section: %1$d</string>
 </resources>
