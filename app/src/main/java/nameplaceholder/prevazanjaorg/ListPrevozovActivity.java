@@ -5,10 +5,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.support.v7.widget.Toolbar;
-import android.widget.SearchView;
+import android.support.v7.widget.SearchView;
 
 import java.util.ArrayList;
 
@@ -44,17 +45,23 @@ public class ListPrevozovActivity extends AppCompatActivity {
 
 
         //TESTIRANJE
-        Prevoz dummyPrevoz = new Prevoz("Maribor", "Koper", "040202108", 10, 4, false, "Toyota Yaris črne barve", "18:00", "Luka", "19:00");
-        Prevoz dummyPrevoz2 = new Prevoz("Ljubljana", "Maribor", "040256339", 5, 3, false, "Toyota Hilux", "16:00", "Žiga", "15:00");
+        Prevoz dummyPrevoz = new Prevoz("Maribor", "Koper", "040202108", 10, 4, false, "Toyota Yaris črne barve", "20.11.2017", "Luka", "19:00");
+        Prevoz dummyPrevoz2 = new Prevoz("Ljubljana", "Maribor", "040256339", 5, 3, false, "Toyota Hilux", "20.11.2017", "Žiga", "15:00");
+        Prevoz dummyPrevoz3 = new Prevoz("Celje", "Novo Mesto", "04025897464", 7, 4, true, "Mazda 3", "20.11.2017", "Anja", "09:00");
         aktivniPrevozi.add(dummyPrevoz2);
+        aktivniPrevozi.add(dummyPrevoz3);
         for (Integer i=0; i<50; i++)
             aktivniPrevozi.add(dummyPrevoz);
 
-        listAdapterPrevozov = new PrevozAdapter(this, aktivniPrevozi);
-        ListView listViewPrevozov = (ListView) findViewById(R.id.seznamPrevozov);
-        listViewPrevozov.setAdapter(listAdapterPrevozov);
+    }
 
-        /*searchViewPrevozov.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main, menu);
+        MenuItem searchItem = menu.findItem(R.id.listSearch);
+        searchViewPrevozov = (SearchView) searchItem.getActionView();
+        searchViewPrevozov.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
                 return false;
@@ -67,14 +74,7 @@ public class ListPrevozovActivity extends AppCompatActivity {
 
                 return false;
             }
-        });*/
-
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main, menu);
+        });
 
         return true;
     }

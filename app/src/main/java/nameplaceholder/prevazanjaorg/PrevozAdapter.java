@@ -35,6 +35,9 @@ class PrevozAdapter extends ArrayAdapter<Prevoz> implements Filterable {
         TextView ime = customView.findViewById(R.id.ime);
         TextView cas = customView.findViewById(R.id.cas);
         TextView strosek = customView.findViewById(R.id.strosek);
+        TextView iz = customView.findViewById(R.id.iz);
+        TextView kam = customView.findViewById(R.id.kam);
+
 
         Prevoz prevoz = getItem(position);
 
@@ -42,6 +45,8 @@ class PrevozAdapter extends ArrayAdapter<Prevoz> implements Filterable {
         ime.setText(prevoz.getIme());
         cas.setText(prevoz.getCas());
         strosek.setText(String.valueOf(prevoz.getStrosek()));
+        iz.setText(prevoz.getIz());
+        kam.setText(prevoz.getKam());
 
         return customView;
     }
