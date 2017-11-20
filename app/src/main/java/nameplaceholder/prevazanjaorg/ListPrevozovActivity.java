@@ -53,11 +53,8 @@ public class ListPrevozovActivity extends AppCompatActivity {
         listAdapterPrevozov = new PrevozAdapter(this, aktivniPrevozi);
         ListView listViewPrevozov = (ListView) findViewById(R.id.seznamPrevozov);
         listViewPrevozov.setAdapter(listAdapterPrevozov);
-        /*
 
-        // TODO najti napako
-
-        searchViewPrevozov.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        /*searchViewPrevozov.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
                 return false;
@@ -70,10 +67,7 @@ public class ListPrevozovActivity extends AppCompatActivity {
 
                 return false;
             }
-        });
-
-
-        */
+        });*/
 
     }
 
