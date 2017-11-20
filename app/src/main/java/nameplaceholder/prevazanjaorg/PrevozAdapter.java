@@ -3,6 +3,7 @@ package nameplaceholder.prevazanjaorg;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,32 +24,47 @@ class PrevozAdapter extends ArrayAdapter<Prevoz> implements Filterable {
 
     public PrevozAdapter(@NonNull Context context, ArrayList<Prevoz> prevozi) {
         super(context, R.layout.list_item, prevozi);
+        this.c=context;
+        this.prevozi=prevozi;
         this.filterList=prevozi;
+    }
+
+    @Override
+    public int getCount() {
+        return prevozi.size();
     }
 
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         LayoutInflater inflater = LayoutInflater.from(getContext());
-        View customView = inflater.inflate(R.layout.list_item, parent, false);
+        if (convertView==null)
+            convertView = inflater.inflate(R.layout.list_item, parent, false);
 
-        TextView ime = customView.findViewById(R.id.ime);
-        TextView cas = customView.findViewById(R.id.cas);
-        TextView strosek = customView.findViewById(R.id.strosek);
-        TextView iz = customView.findViewById(R.id.iz);
-        TextView kam = customView.findViewById(R.id.kam);
+        //Log.d("T4-prevozi(size):",String.valueOf(prevozi.size()));
+        Log.d("T4-position:",String.valueOf(position));
+
+        if (prevozi==null)
+            prevozi = new ArrayList<Prevoz>();
+
+        //if (prevozi!=null && position < prevozi.size()) {
+            TextView ime = convertView.findViewById(R.id.ime);
+            TextView cas = convertView.findViewById(R.id.cas);
+            TextView strosek = convertView.findViewById(R.id.strosek);
+            TextView iz = convertView.findViewById(R.id.iz);
+            TextView kam = convertView.findViewById(R.id.kam);
 
 
-        Prevoz prevoz = getItem(position);
+            // Set data to them
+            ime.setText(prevozi.get(position).getIme());
+            cas.setText(prevozi.get(position).getCas());
+            strosek.setText(String.valueOf(prevozi.get(position).getStrosek()));
+            iz.setText(prevozi.get(position).getIz());
+            kam.setText(prevozi.get(position).getKam());
 
-        // Set data to them
-        ime.setText(prevoz.getIme());
-        cas.setText(prevoz.getCas());
-        strosek.setText(String.valueOf(prevoz.getStrosek()));
-        iz.setText(prevoz.getIz());
-        kam.setText(prevoz.getKam());
-
-        return customView;
+            Log.d("T3-getview", "se izvaja");
+        //}
+        return convertView;
     }
 
     @NonNull
@@ -73,11 +89,13 @@ class PrevozAdapter extends ArrayAdapter<Prevoz> implements Filterable {
                 // Contraint to upper for uniformity
                 constraint=constraint.toString().toUpperCase();
 
-                ArrayList<Prevoz> filters = new ArrayList<Prevoz>();
+                ArrayList<Prevoz> filters = new ArrayList<>();
 
                 // Za dobit zadetke
                 for (int i=0; i<filterList.size(); i++){
                     if (filterList.get(i).getIz().toUpperCase().contains(constraint)){
+                        Log.d("T3-constraint",constraint.toString());
+                        Log.d("T3-getIz()",filterList.get(i).getIz().toUpperCase());
                         Prevoz p = new Prevoz();
                         p = filterList.get(i);
                         filters.add(p);
@@ -98,7 +116,6 @@ class PrevozAdapter extends ArrayAdapter<Prevoz> implements Filterable {
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-
             prevozi = (ArrayList<Prevoz>) results.values;
             notifyDataSetChanged();
 
