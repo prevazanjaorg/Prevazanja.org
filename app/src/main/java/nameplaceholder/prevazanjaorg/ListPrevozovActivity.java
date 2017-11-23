@@ -68,12 +68,9 @@ public class ListPrevozovActivity extends AppCompatActivity implements OnQueryTe
             public boolean onQueryTextSubmit(String s) {
                 return false;
             }
-
             @Override
             public boolean onQueryTextChange(String query) {
-
                 listAdapterPrevozov.getFilter().filter(query);
-
                 return false;
             }
         });*/
