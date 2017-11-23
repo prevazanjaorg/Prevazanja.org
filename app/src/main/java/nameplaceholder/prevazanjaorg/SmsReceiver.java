@@ -75,7 +75,13 @@ public class SmsReceiver extends BroadcastReceiver {
             }
             else if (ukaz.toLowerCase().equals("rezerviraj")) {
                 Log.e("SMSRec-SCANNER:>> ", "rezerviraj");
-                curr.prevozID = scnr.next();
+                try {
+                    curr.prevozID = scnr.next();
+                }
+                catch (Exception e){
+                    Log.e("SMSRec-SCANNER:>> ", "rezerviraj PREVOZ ID NOT FOUND");
+                    return false;
+                }
                 if(scnr.hasNext()){
                     return false;
                 }
@@ -111,7 +117,5 @@ public class SmsReceiver extends BroadcastReceiver {
     public static void bindOnReceive(OnReceiveSMS a){
         onreceive = a;
     }
-
-
 
 }

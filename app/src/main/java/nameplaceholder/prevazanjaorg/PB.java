@@ -30,9 +30,6 @@ public class PB {
 
     public PB(){
         try {
-            Class.forName("net.sourceforge.jtds.jdbc.Driver").newInstance();
-            url = "jdbc:jtds:sqlserver://" + IP + ";DatabaseName=" + DBname + ";integratedSecurity=false;";
-            connection = DriverManager.getConnection(url);
             Log.e("PB:CON>>", "CONNECTION SUCCESSFUL");
         }catch (Exception e){
             Log.e("PB:CON>>", "CONNECTION FAILED");
@@ -109,18 +106,6 @@ public class PB {
             Log.e("PB:CONN>>", e.getMessage());
             return false;
         }
-    }
-
-    public boolean executeStatement(String sql){
-      //  try{
-      //      st = connection.createStatement();
-      //      st.executeUpdate("update Prevozi set" + ...)
-        // return true;
-      //  }catch (SQLException e){
-      //      Log.e("PB-CONN>>:", e.getMessage());
-      //    return false;
-      //  }
-        return true;
     }
 
 
