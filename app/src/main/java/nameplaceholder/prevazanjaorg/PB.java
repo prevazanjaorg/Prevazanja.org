@@ -30,7 +30,6 @@ public class PB {
 
     public PB(){
         try {
-            //
             Log.e("PB:CON>>", "CONNECTION SUCCESSFUL");
         }catch (Exception e){
             Log.e("PB:CON>>", "CONNECTION FAILED");
