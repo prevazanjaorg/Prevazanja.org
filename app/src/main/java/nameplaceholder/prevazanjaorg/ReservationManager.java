@@ -13,21 +13,25 @@ import java.util.Vector;
 
 public class ReservationManager {
     public Stack<UserData> IOSMS;
-    public Vector<UserData> Rezervacije;
+    public ArrayList<Prevoz> AktivniPrevozi;
 
-    public ReservationManager(Vector<UserData> rezervacije){
+    public ReservationManager(){
         IOSMS = new Stack<UserData>();
-        Rezervacije = rezervacije;
     }
 
-    void sendSMS(UserData a){
+    public boolean BindRezervacije(ArrayList<Prevoz> aktivniPrevozi){
+        AktivniPrevozi = aktivniPrevozi;
+        return true;
+    }
+
+    void sendSMS(String mobitel, String response){
         SmsManager manager = SmsManager.getDefault();
         try {
-            ArrayList<String> deli = manager.divideMessage(a.response);
-            manager.sendMultipartTextMessage(a.sender, null, deli, null, null);
+            ArrayList<String> deli = manager.divideMessage(response);
+            manager.sendMultipartTextMessage(mobitel, null, deli, null, null);
             //manager.sendTextMessage(a.sender,null,a.response,null,null);
         }catch (Exception e) {
-             Log.e("RManager-Except.>>>;: ", a.sender + " - " + a.response);
+             Log.e("RManager-Except.>>>;: ", mobitel + " - " + response);
         }
     }
 
@@ -38,7 +42,7 @@ public class ReservationManager {
                 if(log) {
                     Log.e("RManager-QUEUE: ", "SENDING " + tmp.sender);
                 }
-                sendSMS(tmp);
+                sendSMS(tmp.sender,tmp.response);
             }while(IOSMS.empty() == false);
         }
         else{
@@ -46,14 +50,23 @@ public class ReservationManager {
         }
     }
 
-    void sendRezervationVector(boolean log, boolean IgnoreIfAlreadySentBefore){
+    boolean Add(UserData a){
+        for(Prevoz p : AktivniPrevozi){
+            if(p.getPrevozID() == a.prevozID){
+                Uporabnik
+            }
+        }
+    }
+
+    void sendRezervacije(boolean log, boolean IgnoreIfAlreadySentBefore){
         if(!Rezervacije.isEmpty()) {
-            for(UserData rezervacija : Rezervacije){
+            for(Prevoz rezervacija : Rezervacije){
                 if(IgnoreIfAlreadySentBefore) {
-                    sendSMS(rezervacija);
+                    String response = "Imate rezerviran prevoz: " + rezervacija.getCas() + " "+ rezervacija.getDatum()+ " " + rezervacija.getKam();
+                    sendSMS(rezervacija.getMobitel(),response);
                 }
                 if(log) {
-                    Log.e("RManager-LOG", rezervacija.response + " " + rezervacija.sender);
+                    Log.e("RManager-LOG", rezervacija.getMobitel());
                 }
             }
         }
@@ -66,7 +79,7 @@ public class ReservationManager {
 
     public boolean LogReservations(){
         if(!Rezervacije.isEmpty()) {
-            for(UserData rezervacija : Rezervacije){
+            for(Prevoz rezervacija : Rezervacije){
                 Log.e("RManager-LOG", rezervacija.response + " " + rezervacija.sender + " ID: "+rezervacija.prevozID);
             }
             return true;
@@ -78,7 +91,7 @@ public class ReservationManager {
     }
 
     void PrekliciRezervacijo(UserData a){
-        for(UserData rezervacija : Rezervacije){
+        for(Prevoz rezervacija : Rezervacije){
             if(rezervacija.sender == a.sender && rezervacija.prevozID == a.prevozID){
                 Rezervacije.remove((UserData)rezervacija);
             }

@@ -1,14 +1,11 @@
 package nameplaceholder.prevazanjaorg;
 
-import android.app.SearchManager;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.support.v7.widget.Toolbar;
 import android.widget.SearchView;
@@ -27,6 +24,7 @@ public class ListPrevozovActivity extends AppCompatActivity implements OnQueryTe
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
+
         ArrayList<Prevoz> aktivniPrevozi = new ArrayList<Prevoz>();
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
@@ -34,6 +32,7 @@ public class ListPrevozovActivity extends AppCompatActivity implements OnQueryTe
 
         //Jaka
         SMSsistem = new ToastSMS();
+        SMSsistem.RManager.BindRezervacije(aktivniPrevozi);
         SmsReceiver Receiver = new SmsReceiver();
         SMSsistem.bindContext(this);
         Log.e("SMSSistem:>>" , "Reciever started");
