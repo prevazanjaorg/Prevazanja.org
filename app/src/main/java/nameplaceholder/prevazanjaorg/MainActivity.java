@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
         session = new SessionManager(getApplicationContext());
         Toast.makeText(getApplicationContext(), "User Login Status: " + session.isLoggedIn(), Toast.LENGTH_LONG).show();
+        //le komentar
 
         TextView lblName = (TextView) findViewById(R.id.txtUsername);
         TextView lblEmail = (TextView) findViewById(R.id.txtEmail);
