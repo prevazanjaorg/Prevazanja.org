@@ -3,17 +3,53 @@ package nameplaceholder.prevazanjaorg;
 import android.content.Context;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class Prevoz {
     String iz;
     String kam;
     String mobitel;
-    Integer strosek;
+    Double strosek;
     Integer maxOseb;
     Boolean zavarovanje;
     String avto;
     String datum;
     String ime;
     String cas;
+    Integer ID;
+    ArrayList<Uporabnik> rezervacije;
+
+    public Integer getID() {
+        return ID;
+    }
+
+    public void setID(Integer ID) {
+        this.ID = ID;
+    }
+
+    public ArrayList<Uporabnik> getRezervacije() {
+        return rezervacije;
+    }
+
+    public void setRezervacije(ArrayList<Uporabnik> rezervacije) {
+        this.rezervacije = rezervacije;
+    }
+
+    public void addRezervacija(Uporabnik rezervacija) {
+        this.rezervacije.add(rezervacija);
+    }
+
+    public void remRezervacijaMobitel (Uporabnik uporabnik) {
+        Integer i = 0;
+        for (Uporabnik u : rezervacije) {
+            if (u.getTelefon() == uporabnik.getTelefon()) {
+                rezervacije.remove(i);
+                i--;
+            }
+            i++;
+        }
+    }
+
     Context c;
 
     public String getIme() {
@@ -45,7 +81,7 @@ public class Prevoz {
         this.cas = cas;
     }
 
-    public Prevoz(String initIz, String initKam, String initMobitel, Integer initStrosek, Integer initOseb, Boolean initZavarovanje, String initAvto, String initDatum, String initIme, String initCas) {
+    public Prevoz(String initIz, String initKam, String initMobitel, Double initStrosek, Integer initOseb, Boolean initZavarovanje, String initAvto, String initDatum, String initIme, String initCas) {
         iz = initIz;
         kam = initKam;
         mobitel = initMobitel;
@@ -56,7 +92,6 @@ public class Prevoz {
         datum = initDatum;
         ime = initIme;
         cas = initCas;
-
     }
 
     public String getIz() {
@@ -83,11 +118,11 @@ public class Prevoz {
         this.mobitel = mobitel;
     }
 
-    public Integer getStrosek() {
+    public Double getStrosek() {
         return strosek;
     }
 
-    public void setStrosek(Integer strosek) {
+    public void setStrosek(Double strosek) {
         this.strosek = strosek;
     }
 

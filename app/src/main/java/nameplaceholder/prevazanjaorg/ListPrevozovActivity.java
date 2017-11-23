@@ -48,9 +48,9 @@ public class ListPrevozovActivity extends AppCompatActivity implements OnQueryTe
 
 
         //TESTIRANJE
-        Prevoz dummyPrevoz = new Prevoz("Maribor", "Koper", "040202108", 10, 4, false, "Toyota Yaris črne barve", "20.11.2017", "Luka", "19:00");
-        Prevoz dummyPrevoz2 = new Prevoz("Ljubljana", "Maribor", "040256339", 5, 3, false, "Toyota Hilux", "20.11.2017", "Žiga", "15:00");
-        Prevoz dummyPrevoz3 = new Prevoz("Celje", "Novo Mesto", "04025897464", 7, 4, true, "Mazda 3", "20.11.2017", "Anja", "09:00");
+        Prevoz dummyPrevoz = new Prevoz("Maribor", "Koper", "040202108", 10.0, 4, false, "Toyota Yaris črne barve", "20.11.2017", "Luka", "19:00");
+        Prevoz dummyPrevoz2 = new Prevoz("Ljubljana", "Maribor", "040256339", 5.0, 3, false, "Toyota Hilux", "20.11.2017", "Žiga", "15:00");
+        Prevoz dummyPrevoz3 = new Prevoz("Celje", "Novo Mesto", "04025897464", 7.0, 4, true, "Mazda 3", "20.11.2017", "Anja", "09:00");
         aktivniPrevozi.add(dummyPrevoz2);
         aktivniPrevozi.add(dummyPrevoz3);
         for (Integer i=0; i<50; i++)
@@ -90,10 +90,12 @@ public class ListPrevozovActivity extends AppCompatActivity implements OnQueryTe
         return true;
     }
 
+    /*
     public boolean    onOptionsItemSelected       (MenuItem item) {
         Toast.makeText(this, "Selected Item: " + item.getTitle(), Toast.LENGTH_SHORT).show();
         return true;
     }
+    */
 
     @Override
     public boolean onQueryTextSubmit(String s) {
