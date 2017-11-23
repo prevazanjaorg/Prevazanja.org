@@ -1,59 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="?android:attr/listPreferredItemHeight"
-    android:padding="6dp">
+    android:layout_height="92dp"
+    android:padding="6dp"
+    android:background="@color/colorPrimaryLight">
     <TextView
         android:id="@+id/cas"
         android:text="@string/placeholdercas"
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginEnd="6dp"
-        android:layout_marginRight="6dp"
         android:contentDescription="@string/placeholder"
-        android:textSize="@dimen/ura"/>
-    <TextView
-        android:id="@+id/strosek"
-        android:text="@string/placeholder"
-        android:textStyle="bold"
-        android:layout_width="fill_parent"
-        android:layout_height="26dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_toEndOf="@id/cas"
-        android:layout_toRightOf="@id/cas"
-        android:layout_marginEnd="10dp"
-        android:layout_marginRight="10dp"
-        android:singleLine="true"
-        android:textSize="@dimen/text_size_1"
-        android:textAlignment="textEnd"
-        android:gravity="end"/>
-
-    <TextView
-        android:id="@+id/ime"
-        android:text="@string/placeholder"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/strosek"
-        android:layout_alignParentTop="true"
-        android:layout_alignWithParentIfMissing="true"
-        android:layout_toEndOf="@id/cas"
-        android:layout_toRightOf="@id/cas"
-        android:textColor="@color/colorPrimary"
-        android:textAlignment="textEnd"
-        android:gravity="end"
-        android:textSize="@dimen/text_size_1"/>
-    <TextView
-        android:id="@+id/€"
-        android:text="@string/evro"
         android:layout_width="wrap_content"
-        android:layout_height="26dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:textSize="@dimen/ura"
+        android:textColor="@color/colorPrimary"/>
+
+    <LinearLayout
+        android:id="@+id/linearZgoraj"
         android:layout_alignParentRight="true"
-        android:singleLine="true"
-        android:textSize="@dimen/text_size_1"/>
+        android:layout_alignParentEnd="true"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_toRightOf="@id/cas"
+        android:layout_toEndOf="@id/cas"
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:id="@+id/iz"
+            android:text="@string/iz"
+            android:textSize="@dimen/text_size_1"
+            android:layout_width="0dp"
+            android:layout_weight="9"
+            android:paddingLeft="20dp"
+            android:paddingStart="20dp"
+            android:layout_height="match_parent"
+            android:gravity="bottom"/>
+        <TextView
+            android:id="@+id/ime"
+            android:text="@string/placeholderime"
+            android:layout_weight="7"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical|end"
+            android:textSize="@dimen/text_size_1"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearSpodaj"
+        android:layout_height="40dp"
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_toEndOf="@+id/cas"
+        android:layout_toRightOf="@+id/cas">
+        <TextView
+            android:text="@string/kam"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:id="@+id/kam"
+            android:layout_weight="11"
+            android:gravity="top"
+            android:textSize="@dimen/text_size_1"
+            android:paddingStart="40dp"
+            android:paddingLeft="40dp"/>
+        <TextView
+            android:id="@+id/strosek"
+            android:text="@string/placeholder"
+            android:textStyle="bold"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:textSize="@dimen/text_size_1"
+            android:gravity="center_vertical|end"
+            android:layout_weight="4"
+            android:textColor="@color/colorPrimary"/>
+        <TextView
+            android:id="@+id/€"
+            android:text="@string/evro"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical|end"
+            android:textSize="@dimen/text_size_1" />
+    </LinearLayout>
 </RelativeLayout>

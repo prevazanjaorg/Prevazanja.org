@@ -7,7 +7,8 @@
     <color name="colorAccent">#FF4081</color>
     -->
     <color name="colorPrimary">#da5700</color>
-    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorPrimaryDark">#101010</color>
+    <color name="colorPrimaryDarkish">#e2e2e2</color>
     <color name="colorPrimaryLight">#ffffff</color>
     <color name="colorAccent">#ff4081</color>
 

@@ -58,8 +58,7 @@
             </intent-filter>
         </receiver>
 
-        <activity
-            android:name=".LandingActivity"
+        <activity android:name=".LandingActivity"
             android:label="@string/title_activity_landing"
             android:theme="@style/AppTheme"></activity>
     </application>
