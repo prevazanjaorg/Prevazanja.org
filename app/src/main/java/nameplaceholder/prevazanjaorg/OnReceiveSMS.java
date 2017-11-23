@@ -5,5 +5,5 @@ package nameplaceholder.prevazanjaorg;
  */
 
 public interface OnReceiveSMS {
-    public void messageReceived(UserData novSMS);
+    public void messageReceived(SMSData novSMS);
 }
