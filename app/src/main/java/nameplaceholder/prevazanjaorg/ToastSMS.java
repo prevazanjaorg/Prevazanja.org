@@ -21,19 +21,9 @@ public class ToastSMS {
         running = true;
     }
 
-    public boolean SendResponseQueue(boolean log){
-        try{
-            RManager.sendQueue(log);
-            return true;
-        }catch (Exception e){
-            Log.e("SMSRec-SEND ERROR:>>", "Sending response queue failed...");
-            return false;
-        }
-    }
-
     public boolean SendReservationQueue(boolean log, boolean IgnoreIfAlreadySentBefore){
         try{
-            RManager.sendRezervationVector(log, IgnoreIfAlreadySentBefore);
+            RManager.sendRezervacije(log, IgnoreIfAlreadySentBefore);
             return true;
         }catch (Exception e){
             Log.e("SMSRec-SEND ERROR:>>", "Sending rezervation queue failed...");
@@ -41,56 +31,60 @@ public class ToastSMS {
         }
     }
 
-    boolean FormResponse(UserData curr){
-        if(curr.tip == UserData.STANJE){
-            if(GetStanje(curr)){
-                Log.e("PB-RES", "STANJE GOOD");
+    boolean FormResponse(SMSData curr){
+        if(curr.tip == SMSData.STANJE){
+            if(RManager.GetStanje(curr)){
+                Log.e("RM-RES", "STANJE GOOD");
                 return true;
             }
             else{
-                Log.e("PB-RES", "STANJE BAD");
+                Log.e("RM-RES", "STANJE BAD");
                 return true;
             }
         }
-        else if(curr.tip == UserData.REZERVACIJA){
-            if(RezervirajSedez(curr)){
-                Log.e("PB-RES", "REZERVACIJA GOOD");
+        else if(curr.tip == SMSData.REZERVACIJA){
+            if(RManager.RezervirajSedez(curr)){
+                Log.e("RM-RES", "REZERVACIJA GOOD");
                 return true;
             }
             else{
-                Log.e("PB-RES", "REZERVACIJA BAD");
-                return true;
+                Log.e("RM-RES", "REZERVACIJA BAD");
+                return false;
             }
         }
-        else if(curr.tip == UserData.PREKLIC){
-            PrekliciRezervacijo(curr);
-            return true;
+        else if(curr.tip == SMSData.PREKLIC){
+            if(RManager.PrekliciRezervacijo(curr)){
+                Log.e("RM-RES", "REZERVACIJA GOOD");
+                return true;
+            }
+            else{
+                Log.e("RM-RES", "REZERVACIJA BAD");
+                return false;
+            }
         }
-        Log.e("PB-SCANNER:>> ", "empty");
+        else{
+            curr.response = "Napaka pri interpretaciji sporočila";
+            Log.e("RM-EXCEPT:>> ", "NAPACEN TIP");
+        }
+        Log.e("RM-SCANNER:>> ", "empty");
         return false;
     }
 
-    public boolean ProcessNewUser(UserData a){ //novSMS iz MainActivity
-        printToast("Nov UserData prejet: " + a.sender + " " + a.body + " TIP:" + a.tip, Toast.LENGTH_LONG);
+    public boolean ProcessNewUser(SMSData a){ //novSMS iz MainActivity
+        printToast("Nov SMSData prejet: " + a.sender + " " + a.body + " TIP:" + a.tip, Toast.LENGTH_LONG);
         if(FormResponse(a)) {
-            Log.e("ToastSMS-GOOD RES:>>: ", a.sender +" "+ a.response + " TIP:" + a.tip);
-            printToast("Nov UserData prejet: " + a.sender + " " + a.body, Toast.LENGTH_LONG);
+            Log.e("ToastSMS-GOOD RES:>>: ", a.sender +"\n"+ a.response + " TIP:" + a.tip);
+            printToast("Nov SMSData prejet: " + a.sender + " " + a.body, Toast.LENGTH_LONG);
             RManager.IOSMS.push(a);
-            if(a.tip == UserData.REZERVACIJA){
-                UserData b = new UserData(a);
-                b.response = "Imate rezerviran sedež! čez 15 min gremo!" + "\n" + "prevozID: " + b.prevozID;
-                RManager.AktivniPrevozi.Add(b);
+            if(a.tip == SMSData.REZERVACIJA){
                 Log.e("ToastSMS-Nova rezerv:>>", a.sender);
             }
-            else if(a.tip == UserData.PREKLIC){
-                RManager.PrekliciRezervacijo(a);
-            }
-            SendResponseQueue(true);
+            RManager.sendQueue(true);
             return true;
         }
         else{
             Log.e("ToastSMS-BAD RES:>>: ", a.sender + "\n" + a.body + "\n" + a.response);
-            RManager.sendSMS(a);
+            RManager.sendQueue(true);
             return false;
         }
     }
@@ -104,24 +98,13 @@ public class ToastSMS {
     }
 
 
-    boolean GetStanje(UserData curr){
-        try{
-            stanje = "Stanje prevoza: " + "\n" + " Na voljo sta dva prevoza:" + "\n" + " 1. IDX001 - Koper-Špar 04:20 - 20:40" + "\n" + " 2. IDX002 - Špar-Stanovanje 16:20 - 20:16";
-            curr.response = stanje;
-            return true;
-        }catch(Exception e){
-            stanje = "Napaka pri dostopu do podatkovne baze";
-            Log.e("PB:CONN>>", e.getMessage());
-            return false;
-        }
-    }
 
         /*
 
     void deleteDQUEUE() {
         if (!deleteQueue.empty()) {
             do {
-                UserData tmp = deleteQueue.pop();
+                SMSData tmp = deleteQueue.pop();
                 Log.e("Delete QUEUE: ", tmp.sender + "\n" + tmp.body);
                 deleteSMS(tmp);
             } while (deleteQueue.empty() == false);
@@ -131,7 +114,7 @@ public class ToastSMS {
         }
     }
 
-    void deleteSMS(UserData sms){
+    void deleteSMS(SMSData sms){
         Cursor c = contXt.getContentResolver().query(Uri.parse("content://sms/"),
                                                     new String[]{"_id", "thread_id", "address", "person", "date", "body"},
                                                     null, null, null);

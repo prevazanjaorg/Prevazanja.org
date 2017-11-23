@@ -30,7 +30,7 @@ public class SmsReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         contXt = context;
-        Log.e("SMSRec-UserData>>>","NEW UserData" );
+        Log.e("SMSRec-SMSData>>>","NEW SMSData" );
         Bundle data  = intent.getExtras();
         if (data != null && running == true) {
             //GET INFO
@@ -41,7 +41,7 @@ public class SmsReceiver extends BroadcastReceiver {
 
             //CHECK FOR PREVOZ
             if (prevozSMS(sender, msgbody)) {
-                UserData novsms = new UserData(sender,msgbody);
+                SMSData novsms = new SMSData(sender,msgbody);
                 if(GetUserDataDetails(novsms)){
                     onreceive.messageReceived(novsms);
                 }
@@ -61,7 +61,7 @@ public class SmsReceiver extends BroadcastReceiver {
         return false;
     }
 
-    boolean GetUserDataDetails(UserData curr){
+    boolean GetUserDataDetails(SMSData curr){
         String ukaz;
         Scanner scnr = new Scanner(curr.body);
         ukaz = scnr.next();
@@ -70,13 +70,13 @@ public class SmsReceiver extends BroadcastReceiver {
             ukaz = scnr.next();
             if (ukaz.toLowerCase().equals("stanje")) {
                 Log.e("SMSRec-SCANNER:>>", "stanje");
-                curr.tip = UserData.STANJE;
+                curr.tip = SMSData.STANJE;
                 return true;
             }
             else if (ukaz.toLowerCase().equals("rezerviraj")) {
                 Log.e("SMSRec-SCANNER:>> ", "rezerviraj");
                 try {
-                    curr.prevozID = scnr.next();
+                    curr.prevozID = Integer.parseInt(scnr.next());
                 }
                 catch (Exception e){
                     Log.e("SMSRec-SCANNER:>> ", "rezerviraj PREVOZ ID NOT FOUND");
@@ -85,16 +85,22 @@ public class SmsReceiver extends BroadcastReceiver {
                 if(scnr.hasNext()){
                     return false;
                 }
-                curr.tip = UserData.REZERVACIJA;
+                curr.tip = SMSData.REZERVACIJA;
                 return true;
                 }
             else if (ukaz.toLowerCase().equals("preklic")) {
                 Log.e("SMSRec-SCANNER:>> ", "preklic rezervacije");
-                curr.prevozID = scnr.next();
+                try {
+                    curr.prevozID = Integer.parseInt(scnr.next());
+                }
+                catch (Exception e){
+                    Log.e("SMSRec-SCANNER:>> ", "rezerviraj PREVOZ ID NOT FOUND");
+                    return false;
+                }
                 if(scnr.hasNext()){
                     return false;
                 }
-                curr.tip = UserData.PREKLIC;
+                curr.tip = SMSData.PREKLIC;
                 return true;
             }
             else{

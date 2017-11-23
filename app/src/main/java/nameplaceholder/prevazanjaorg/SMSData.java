@@ -6,11 +6,11 @@ import android.util.Log;
  * Created by Jaka on 31/10/2017.
  */
 
-public class UserData {
+public class SMSData {
    public String body;
    public String sender;
    public String response;
-   public String prevozID;
+   public int prevozID;
    public int tip;
    public static final int PREVOZ = 0;
    public static final int STANJE = 1;
@@ -21,21 +21,21 @@ public class UserData {
    public static final int PRIVATE = 6;
 
 
-    public UserData(String s, String t){
+    public SMSData(String s, String t){
         this.body = t;
         this.sender = s;
         this.response = "";
         this.tip = PREVOZ;
-        Log.e("UserData-NEW UserData: " , sender + "\n" + body + "\n" + "TIP: " + tip);
+        Log.e("SMSData-NEW SMSData: " , sender + "\n" + body + "\n" + "TIP: " + tip);
     }
 
-    public UserData(String s, String resp, String pID){
+    public SMSData(String s, String resp, int pID){
         this.sender = s;
         this.response = resp;
         this.prevozID = pID;
     }
 
-    public UserData(UserData a){
+    public SMSData(SMSData a){
         this.body = a.body;
         this.sender = a.sender;
         this.response = a.response;

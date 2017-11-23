@@ -1,9 +1,11 @@
 package nameplaceholder.prevazanjaorg;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Prevoz {
     String iz;
@@ -18,6 +20,7 @@ public class Prevoz {
     String cas;
     Integer ID;
     ArrayList<Uporabnik> rezervacije;
+    Context c;
 
     public Integer getID() {
         return ID;
@@ -35,22 +38,22 @@ public class Prevoz {
         this.rezervacije = rezervacije;
     }
 
-    public void addRezervacija(Uporabnik rezervacija) {
-        this.rezervacije.add(rezervacija);
+    public void addSMSRezervacija(SMSData rezervacija) {
+        Uporabnik tmp = new Uporabnik(rezervacija.sender,null);
+        this.rezervacije.add(tmp);
     }
 
-    public void remRezervacijaMobitel (Uporabnik uporabnik) {
-        Integer i = 0;
-        for (Uporabnik u : rezervacije) {
-            if (u.getTelefon() == uporabnik.getTelefon()) {
-                rezervacije.remove(i);
-                i--;
+    public void remRezervacijaMobitel (SMSData rezervacija) {
+        for (Iterator<Uporabnik> it = rezervacije.iterator(); it.hasNext(); ) {
+            Uporabnik user = it.next();
+            if (user.getTelefon().equals(rezervacija.sender)) {
+                Log.e("PREVOZ RM:", user.getTelefon());
+                it.remove();
             }
-            i++;
         }
     }
 
-    Context c;
+
 
     public String getIme() {
         if (ime!=null)
@@ -69,9 +72,12 @@ public class Prevoz {
 
     public Prevoz(Context context) {
         c = context;
+        rezervacije = new ArrayList<Uporabnik>();
     }
 
-    public Prevoz() {}  //default konstruktor
+    public Prevoz() {
+        rezervacije = new ArrayList<Uporabnik>();
+    }  //default konstruktor
 
     public String getCas() {
         return cas;
@@ -92,6 +98,7 @@ public class Prevoz {
         datum = initDatum;
         ime = initIme;
         cas = initCas;
+        rezervacije = new ArrayList<Uporabnik>();
     }
 
     public String getIz() {
