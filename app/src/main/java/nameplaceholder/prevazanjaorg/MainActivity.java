@@ -1,6 +1,7 @@
 package nameplaceholder.prevazanjaorg;
 
 import android.content.Intent;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -58,6 +59,17 @@ public class MainActivity extends AppCompatActivity {
                 Intent mojIntent = new Intent(MainActivity.this, LandingActivity.class);
                 startActivity(mojIntent);
         }
+        });
+        Button btnNotification=(Button)findViewById(R.id.Notifications);
+        btnNotification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+                NotificationCompat.Builder notification;
+                private static final int uniqueID = 123;
+
+                notification=new NotificationCompat.Builder(this);
+            }
         });
     }
 
