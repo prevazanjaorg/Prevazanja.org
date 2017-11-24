@@ -1,20 +1,59 @@
 package nameplaceholder.prevazanjaorg;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Prevoz {
     String iz;
     String kam;
     String mobitel;
-    Integer strosek;
+    Double strosek;
     Integer maxOseb;
     Boolean zavarovanje;
     String avto;
     String datum;
     String ime;
     String cas;
+    Integer ID;
+    ArrayList<Uporabnik> rezervacije;
     Context c;
+
+    public Integer getID() {
+        return ID;
+    }
+
+    public void setID(Integer ID) {
+        this.ID = ID;
+    }
+
+    public ArrayList<Uporabnik> getRezervacije() {
+        return rezervacije;
+    }
+
+    public void setRezervacije(ArrayList<Uporabnik> rezervacije) {
+        this.rezervacije = rezervacije;
+    }
+
+    public void addSMSRezervacija(SMSData rezervacija) {
+        Uporabnik tmp = new Uporabnik(rezervacija.sender,null);
+        this.rezervacije.add(tmp);
+    }
+
+    public void remRezervacijaMobitel (SMSData rezervacija) {
+        for (Iterator<Uporabnik> it = rezervacije.iterator(); it.hasNext(); ) {
+            Uporabnik user = it.next();
+            if (user.getTelefon().equals(rezervacija.sender)) {
+                Log.e("PREVOZ RM:", user.getTelefon());
+                it.remove();
+            }
+        }
+    }
+
+
 
     public String getIme() {
         if (ime!=null)
@@ -33,9 +72,12 @@ public class Prevoz {
 
     public Prevoz(Context context) {
         c = context;
+        rezervacije = new ArrayList<Uporabnik>();
     }
 
-    public Prevoz() {}  //default konstruktor
+    public Prevoz() {
+        rezervacije = new ArrayList<Uporabnik>();
+    }  //default konstruktor
 
     public String getCas() {
         return cas;
@@ -45,7 +87,7 @@ public class Prevoz {
         this.cas = cas;
     }
 
-    public Prevoz(String initIz, String initKam, String initMobitel, Integer initStrosek, Integer initOseb, Boolean initZavarovanje, String initAvto, String initDatum, String initIme, String initCas) {
+    public Prevoz(String initIz, String initKam, String initMobitel, Double initStrosek, Integer initOseb, Boolean initZavarovanje, String initAvto, String initDatum, String initIme, String initCas) {
         iz = initIz;
         kam = initKam;
         mobitel = initMobitel;
@@ -56,7 +98,7 @@ public class Prevoz {
         datum = initDatum;
         ime = initIme;
         cas = initCas;
-
+        rezervacije = new ArrayList<Uporabnik>();
     }
 
     public String getIz() {
@@ -83,11 +125,11 @@ public class Prevoz {
         this.mobitel = mobitel;
     }
 
-    public Integer getStrosek() {
+    public Double getStrosek() {
         return strosek;
     }
 
-    public void setStrosek(Integer strosek) {
+    public void setStrosek(Double strosek) {
         this.strosek = strosek;
     }
 
