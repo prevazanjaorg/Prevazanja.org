@@ -16,11 +16,29 @@ public class Prevoz {
     Boolean zavarovanje;
     String avto;
     String datum;
+    String datumObjave;
     String ime;
     String cas;
     Integer ID;
     ArrayList<Uporabnik> rezervacije;
+    String opis;
     Context c;
+
+    public String getDatumObjave() {
+        return datumObjave;
+    }
+
+    public void setDatumObjave(String datumObjave) {
+        this.datumObjave = datumObjave;
+    }
+
+    public String getOpis() {
+        return opis;
+    }
+
+    public void setOpis(String opis) {
+        this.opis = opis;
+    }
 
     public Integer getID() {
         return ID;

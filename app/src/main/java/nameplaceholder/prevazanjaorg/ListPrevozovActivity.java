@@ -1,11 +1,14 @@
 package nameplaceholder.prevazanjaorg;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.support.v7.widget.Toolbar;
 import android.widget.SearchView;
@@ -35,7 +38,7 @@ public class ListPrevozovActivity extends AppCompatActivity implements OnQueryTe
         Prevoz dummyPrevoz3 = new Prevoz("Celje", "Novo Mesto", "04025897464", 7.0, 4, true, "Mazda 3", "20.11.2017", "Anja", "09:00");
         aktivniPrevozi.add(dummyPrevoz2);
         aktivniPrevozi.add(dummyPrevoz3);
-        //for (Integer i=0; i<50; i++)
+        //for (Integer i=0; i<5; i++)
         aktivniPrevozi.add(dummyPrevoz);
 
 
@@ -61,19 +64,12 @@ public class ListPrevozovActivity extends AppCompatActivity implements OnQueryTe
         ListView listViewPrevozov = (ListView) findViewById(R.id.seznamPrevozov);
         listViewPrevozov.setAdapter(listAdapterPrevozov);
 
-
-
-        /*searchViewPrevozov.setOnQueryTextListener(new OnQueryTextListener() {
+        listViewPrevozov.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public boolean onQueryTextSubmit(String s) {
-                return false;
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                startActivity(new Intent(MainActivity.this, Pop.class));
             }
-            @Override
-            public boolean onQueryTextChange(String query) {
-                listAdapterPrevozov.getFilter().filter(query);
-                return false;
-            }
-        });*/
+        });
 
     }
 
