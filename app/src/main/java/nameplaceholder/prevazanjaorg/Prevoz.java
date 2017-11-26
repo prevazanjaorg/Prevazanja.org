@@ -4,8 +4,12 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Iterator;
+import org.joda.time.DateTime;
 
 public class Prevoz {
     String iz;
@@ -15,20 +19,19 @@ public class Prevoz {
     Integer maxOseb;
     Boolean zavarovanje;
     String avto;
-    String datum;
-    String datumObjave;
+    Calendar datumObjave;
     String ime;
-    String cas;
+    DateTime casDatum;
     Integer ID;
     ArrayList<Uporabnik> rezervacije;
     String opis;
     Context c;
 
-    public String getDatumObjave() {
+    public Calendar getDatumObjave() {
         return datumObjave;
     }
 
-    public void setDatumObjave(String datumObjave) {
+    public void setDatumObjave(Calendar datumObjave) {
         this.datumObjave = datumObjave;
     }
 
@@ -97,15 +100,15 @@ public class Prevoz {
         rezervacije = new ArrayList<Uporabnik>();
     }  //default konstruktor
 
-    public String getCas() {
-        return cas;
+    public DateTime getCasDatum() {
+        return casDatum;
     }
 
-    public void setCas(String cas) {
-        this.cas = cas;
+    public void setCasDatum(DateTime casDatum) {
+        this.casDatum = casDatum;
     }
 
-    public Prevoz(String initIz, String initKam, String initMobitel, Double initStrosek, Integer initOseb, Boolean initZavarovanje, String initAvto, String initDatum, String initIme, String initCas) {
+    public Prevoz(String initIz, String initKam, String initMobitel, Double initStrosek, Integer initOseb, Boolean initZavarovanje, String initAvto, String initIme, DateTime initCas) {
         iz = initIz;
         kam = initKam;
         mobitel = initMobitel;
@@ -113,9 +116,8 @@ public class Prevoz {
         maxOseb = initOseb;
         zavarovanje = initZavarovanje;
         avto = initAvto;
-        datum = initDatum;
         ime = initIme;
-        cas = initCas;
+        casDatum = initCas;
         rezervacije = new ArrayList<Uporabnik>();
     }
 
@@ -175,11 +177,11 @@ public class Prevoz {
         this.avto = avto;
     }
 
-    public String getDatum() {
-        return datum;
+    public String getCas() {
+        return casDatum.toLocalTime().getHourOfDay()+":"+casDatum.toLocalTime().getMinuteOfHour();
     }
 
-    public void setDatum(String datum) {
-        this.datum = datum;
+    public String getDatum() {
+        return casDatum.toLocalDate().getDayOfMonth()+"."+casDatum.toLocalDate().getMonthOfYear();
     }
 }

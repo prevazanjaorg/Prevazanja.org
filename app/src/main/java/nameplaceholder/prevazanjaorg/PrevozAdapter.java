@@ -13,7 +13,10 @@ import android.widget.Filterable;
 import android.widget.TextView;
 
 import java.lang.reflect.Array;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 class PrevozAdapter extends ArrayAdapter<Prevoz> implements Filterable {
 
@@ -43,6 +46,7 @@ class PrevozAdapter extends ArrayAdapter<Prevoz> implements Filterable {
             convertView = inflater.inflate(R.layout.list_item, parent, false);
         if (prevozi==null)
             prevozi = new ArrayList<Prevoz>();
+
         TextView ime = convertView.findViewById(R.id.ime);
         TextView cas = convertView.findViewById(R.id.cas);
         TextView strosek = convertView.findViewById(R.id.strosek);

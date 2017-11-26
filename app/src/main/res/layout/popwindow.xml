@@ -1,62 +1,146 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/pop_relative"
+    android:background="@color/colorPrimaryLight"
     android:contextClickable="false">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="80dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:orientation="vertical"
         android:background="@color/colorPrimary"
-        android:id="@+id/linearLayout">
+        android:id="@+id/pop_linearLayout">
 
         <TextView
-            android:id="@+id/iz"
+            android:id="@+id/pop_iz"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textColor="@color/colorPrimaryLight"
             android:text="Maribor"
             android:layout_weight="1"
-            android:paddingStart="20dp"
-            android:textSize="36sp"
-            android:paddingLeft="20dp" />
+            android:paddingStart="@dimen/paddingPOP"
+            android:textSize="28sp"
+            android:paddingLeft="@dimen/paddingPOP" />
 
         <TextView
-            android:id="@+id/kam"
+            android:id="@+id/pop_kam"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textColor="@color/colorPrimaryLight"
             android:text="Koper"
             android:singleLine="true"
             android:layout_weight="1"
-            android:paddingEnd="20dp"
+            android:paddingEnd="@dimen/paddingPOP"
             android:gravity="end"
-            android:textSize="36sp"
-            android:paddingRight="20dp" />
+            android:textSize="28sp"
+            android:paddingRight="@dimen/paddingPOP" />
 
     </LinearLayout>
-
-    <EditText
-        android:id="@+id/editText"
+    <TextView
+        android:id="@+id/pop_ime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/pop_linearLayout"
+        android:layout_marginLeft="@dimen/paddingPOP"
+        android:text="Luka"
+        android:textSize="@dimen/uraPop"
+        android:textStyle="bold"/>
+    <ImageView
+        android:id="@+id/pop_icoTelefon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/linearLayout"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="35dp"
-        android:ems="10"
-        android:inputType="phone" />
-
-    <EditText
-        android:id="@+id/editText2"
+        android:src="@android:drawable/ic_menu_call"
+        android:layout_below="@id/ime"
+        android:layout_alignTop="@id/pop_telefon"
+        android:layout_alignBottom="@id/pop_telefon"
+        android:layout_marginLeft="@dimen/paddingPOP"
+        android:layout_toRightOf="@id/pop_telefon"/>
+    <TextView
+        android:id="@+id/pop_telefon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/editText"
+        android:layout_below="@id/pop_ime"
+        android:inputType="phone"
+        android:text="040202108"
+        android:textSize="@dimen/uraPop"
+        android:layout_marginLeft="@dimen/paddingPOP"
+        android:autoLink="phone" />
+    <LinearLayout
+        android:id="@+id/pop_llUraDatum"
+        android:layout_width="match_parent"
+        android:layout_below="@id/pop_telefon"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/pop_datum"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="date"
+            android:layout_weight="3"
+            android:text="15.2.2017"
+            android:textSize="@dimen/uraPop"
+            android:paddingStart="@dimen/paddingPOP"
+            android:paddingLeft="@dimen/paddingPOP" />
+        <TextView
+            android:id="@+id/pop_ura"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="time"
+            android:layout_weight="5"
+            android:text="15:00"
+            android:textSize="@dimen/uraPop"
+            android:gravity="end"
+            android:paddingEnd="@dimen/paddingPOP"
+            android:paddingRight="@dimen/paddingPOP" />
+    </LinearLayout>
+    <TextView
+        android:id="@+id/pop_prostaMestaLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/pop_llUraDatum"
+        android:paddingEnd="@dimen/paddingPOP"
+        android:paddingRight="@dimen/paddingPOP"
+        android:textSize="@dimen/uraPop"
+        android:text="prosta mesta: "
+        android:layout_marginLeft="@dimen/paddingPOP"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/pop_prostaMesta"
+        android:layout_toRightOf="@id/pop_prostaMestaLabel"
+        android:layout_below="@id/pop_llUraDatum"
+        android:paddingEnd="@dimen/paddingPOP"
+        android:paddingRight="@dimen/paddingPOP"
+        android:textSize="@dimen/uraPop"
+        android:text="3"/>
+    <TextView
+        android:id="@+id/pop_opis"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/pop_buttons"
+        android:text="Poberem/odložim kjerkoli v kraju odhoda/prihoda. Avto je rdeča toyota yaris KP registracije. Napiši sms, kje naj te poberem."
+        android:gravity="bottom"
+        android:textSize="@dimen/text_size_2"
+        android:padding="@dimen/paddingPOP"/>
+    <LinearLayout
+        android:id="@+id/pop_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignRight="@+id/editText"
-        android:layout_marginBottom="97dp"
-        android:ems="10"
-        android:inputType="textMultiLine" />
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_margin="@dimen/paddingPOP"
+            style="@style/GreenButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="REZERVIRAJ"
+            android:textSize="20sp" />
+    </LinearLayout>
 </RelativeLayout>
