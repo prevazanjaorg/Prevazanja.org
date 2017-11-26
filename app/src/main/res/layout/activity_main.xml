@@ -38,9 +38,11 @@
         android:id="@+id/btnLogout"
         android:layout_width="100dp"
         android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
-        android:layout_toLeftOf="@+id/btnPonujam"
-        android:layout_toStartOf="@+id/btnPonujam"
+        android:layout_alignTop="@+id/Notifications"
+        android:layout_marginLeft="23dp"
+        android:layout_marginStart="23dp"
+        android:layout_toEndOf="@+id/btnLanding"
+        android:layout_toRightOf="@+id/btnLanding"
         android:onClick="listPrevozovActivity"
         android:text="LOGOUT"
         android:textSize="15sp" />
@@ -72,6 +74,15 @@
         android:layout_alignStart="@+id/txtUsername"
         android:layout_below="@+id/txtUsername"
         android:textSize="24sp" />
+
+    <Button
+        android:id="@+id/Notifications"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:text="Notifications" />
 
 
 </RelativeLayout>
