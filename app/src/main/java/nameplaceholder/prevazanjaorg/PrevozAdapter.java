@@ -106,6 +106,7 @@ class PrevozAdapter extends ArrayAdapter<Prevoz> implements Filterable {
                     keywords+= filterList.get(i).getIme().toUpperCase();
                     keywords+= filterList.get(i).getDatum().toUpperCase();
                     keywords+= filterList.get(i).getMobitel().toUpperCase();
+                    keywords+= filterList.get(i).getDan().toUpperCase();
                     flag = true;
                     Log.d("keywords",keywords);
 
