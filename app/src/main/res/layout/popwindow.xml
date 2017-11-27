@@ -127,14 +127,22 @@
         android:text="Poberem/odložim kjerkoli v kraju odhoda/prihoda. Avto je rdeča toyota yaris KP registracije. Napiši sms, kje naj te poberem."
         android:gravity="bottom"
         android:textSize="@dimen/text_size_2"
-        android:padding="@dimen/paddingPOP"/>
+        android:padding="@dimen/paddingPOP"/>-
     <LinearLayout
         android:id="@+id/pop_buttons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal">
-
+        <Button
+            style=""
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Na prevoz"
+            android:textSize="20sp"
+            android:layout_margin="@dimen/paddingPOP"
+            android:textColor="@color/colorPrimaryDark"
+            />
         <Button
             android:layout_margin="@dimen/paddingPOP"
             style="@style/GreenButton"

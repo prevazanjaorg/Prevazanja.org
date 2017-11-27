@@ -9,7 +9,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
+import java.util.Locale;
+
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 public class Prevoz {
     String iz;
@@ -19,7 +23,7 @@ public class Prevoz {
     Integer maxOseb;
     Boolean zavarovanje;
     String avto;
-    Calendar datumObjave;
+    DateTime datumObjave;
     String ime;
     DateTime casDatum;
     Integer ID;
@@ -27,11 +31,19 @@ public class Prevoz {
     String opis;
     Context c;
 
-    public Calendar getDatumObjave() {
+    public static final int MONDAY = 1;
+    public static final int TUESDAY = 2;
+    public static final int WEDNESDAY = 3;
+    public static final int THURSDAY = 4;
+    public static final int FRIDAY = 5;
+    public static final int SATURDAY = 6;
+    public static final int SUNDAY = 7;
+
+    public DateTime getDatumObjave() {
         return datumObjave;
     }
 
-    public void setDatumObjave(Calendar datumObjave) {
+    public void setDatumObjave(DateTime datumObjave) {
         this.datumObjave = datumObjave;
     }
 
@@ -178,10 +190,36 @@ public class Prevoz {
     }
 
     public String getCas() {
-        return casDatum.toLocalTime().getHourOfDay()+":"+casDatum.toLocalTime().getMinuteOfHour();
+        DateTimeFormatter dtf = DateTimeFormat.forPattern("HH:mm");
+        return dtf.print(casDatum);
     }
 
     public String getDatum() {
-        return casDatum.toLocalDate().getDayOfMonth()+"."+casDatum.toLocalDate().getMonthOfYear();
+        DateTimeFormatter dtf = DateTimeFormat.forPattern("dd.MM.yyyy");
+        return dtf.print(casDatum);
+    }
+
+    public String getDan() {
+        int dan = casDatum.dayOfWeek().get();
+        if (dan == MONDAY)
+            return "Ponedeljek";
+        else if (dan == TUESDAY)
+            return "Torek";
+        else if (dan == WEDNESDAY)
+            return "Sreda";
+        else if (dan == THURSDAY)
+            return "Četrtek";
+        else if (dan == FRIDAY)
+            return "Petek";
+        else if (dan == SATURDAY)
+            return "Sobota";
+        else if (dan == SUNDAY)
+            return "Nedelja";
+        else
+            return "!napaka!";
+    }
+
+    public String getDanShort() {
+        return getDan().substring(0,3);
     }
 }
