@@ -31,6 +31,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 public class ListPrevozovActivity extends AppCompatActivity implements OnQueryTextListener {
+
+    //update za commit
     PrevozAdapter listAdapterPrevozov;
     SearchView searchViewPrevozov;
 
