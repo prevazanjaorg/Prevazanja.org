@@ -17,7 +17,7 @@ import java.util.Scanner;
 
 public class SmsReceiver extends BroadcastReceiver {
 
-    public boolean running;
+    public boolean running; // nekak iz naastavitev če je res, drugače skso laufa
     private Context contXt;
     private static OnReceiveSMS onreceive;
 
@@ -101,6 +101,16 @@ public class SmsReceiver extends BroadcastReceiver {
                     return false;
                 }
                 curr.tip = SMSData.PREKLIC;
+                return true;
+            }
+            else if (ukaz.toLowerCase().equals("stop")) {
+                Log.e("SMSRec-SCANNER:>> ", "ToastSMS STOP COMMAND");
+                curr.tip = SMSData.STOP;
+                return true;
+            }
+            else if (ukaz.toLowerCase().equals("start")) {
+                Log.e("SMSRec-SCANNER:>> ", "ToastSMS STOP COMMAND");
+                curr.tip = SMSData.START;
                 return true;
             }
             else{
