@@ -1,5 +1,7 @@
 package nameplaceholder.prevazanjaorg;
 
+import android.app.IntentService;
+import android.app.Service;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -10,25 +12,22 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.support.v7.widget.Toolbar;
 import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
-import android.widget.TextView;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 public class ListPrevozovActivity extends AppCompatActivity implements OnQueryTextListener {
 
@@ -36,14 +35,14 @@ public class ListPrevozovActivity extends AppCompatActivity implements OnQueryTe
     PrevozAdapter listAdapterPrevozov;
     SearchView searchViewPrevozov;
 
-    private ToastSMS SMSsistem;
-    private SmsReceiver Receiver;
+    boolean BackgroundServiceRunning = true;//dobim iz nastavitev
 
     private LayoutInflater layoutInflater;
     private PopupWindow popupWindow;
     private FrameLayout frameLayout;
 
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
 
@@ -62,24 +61,13 @@ public class ListPrevozovActivity extends AppCompatActivity implements OnQueryTe
         Prevoz dummyPrevoz3 = new Prevoz("Celje", "Novo Mesto", "04025897464", 7.0, 4, true, "Mazda 3", "Anja", drugCas.plusDays(2));
         aktivniPrevozi.add(dummyPrevoz2);
         aktivniPrevozi.add(dummyPrevoz3);
-        for (Integer i=0; i<20;i++)
+        //for (Integer i=0; i<20;i++)
             aktivniPrevozi.add(dummyPrevoz);
 
 
         //Jaka
-        SMSsistem = new ToastSMS();
-        SMSsistem.RManager.BindAktivniPrevozi(aktivniPrevozi);
-        SmsReceiver Receiver = new SmsReceiver();
-        SMSsistem.bindContext(this);
-        Log.e("SMSSistem:>>" , "Reciever started");
-
-        Receiver.bindOnReceive(new OnReceiveSMS() {
-            @Override
-            public void messageReceived(SMSData novSMS) {
-                SMSsistem.ProcessNewUser(novSMS);
-                Log.e("SMSSistem:>>" , "SMSData RECEIVED" + " " + novSMS.sender + " " + novSMS.tip);
-            }
-        });
+        if(BackgroundServiceRunning)//če so smsi v nastavitvah vklopljeni
+            startService(new Intent(this, SMSBackgroundService.class));
         //Jaka
 
 
@@ -142,3 +130,4 @@ public class ListPrevozovActivity extends AppCompatActivity implements OnQueryTe
         return false;
     }
 }
+
