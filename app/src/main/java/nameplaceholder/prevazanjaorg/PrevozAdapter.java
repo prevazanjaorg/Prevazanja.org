@@ -13,7 +13,10 @@ import android.widget.Filterable;
 import android.widget.TextView;
 
 import java.lang.reflect.Array;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 class PrevozAdapter extends ArrayAdapter<Prevoz> implements Filterable {
 
@@ -43,6 +46,7 @@ class PrevozAdapter extends ArrayAdapter<Prevoz> implements Filterable {
             convertView = inflater.inflate(R.layout.list_item, parent, false);
         if (prevozi==null)
             prevozi = new ArrayList<Prevoz>();
+
         TextView ime = convertView.findViewById(R.id.ime);
         TextView cas = convertView.findViewById(R.id.cas);
         TextView strosek = convertView.findViewById(R.id.strosek);
@@ -102,6 +106,7 @@ class PrevozAdapter extends ArrayAdapter<Prevoz> implements Filterable {
                     keywords+= filterList.get(i).getIme().toUpperCase();
                     keywords+= filterList.get(i).getDatum().toUpperCase();
                     keywords+= filterList.get(i).getMobitel().toUpperCase();
+                    keywords+= filterList.get(i).getDan().toUpperCase();
                     flag = true;
                     Log.d("keywords",keywords);
 

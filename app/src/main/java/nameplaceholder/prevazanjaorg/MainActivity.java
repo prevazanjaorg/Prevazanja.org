@@ -1,6 +1,14 @@
 package nameplaceholder.prevazanjaorg;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -17,6 +25,35 @@ public class MainActivity extends AppCompatActivity {
     Button btnLanding;
     SessionManager session;
 
+    private void showNotification(){
+        //channel
+        String id = "main_channel";
+        if(android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            CharSequence name = "Channel Name";
+            String desctription = "Channel description";
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel notificationChannel = new NotificationChannel(id, name, importance);
+            notificationChannel.setDescription(desctription);
+            notificationChannel.enableLights(true);
+            notificationChannel.setLightColor(Color.WHITE);
+            notificationChannel.enableVibration(true);
+            if(notificationManager != null){
+                notificationManager.createNotificationChannel(notificationChannel);
+            }
+        }
+        //notification
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this,id);
+        notificationBuilder.setSmallIcon(R.mipmap.ic_launcher);
+        notificationBuilder.setContentTitle("Titleee");
+        notificationBuilder.setContentText("text");
+        notificationBuilder.setLights(Color.WHITE,500,5000);
+        notificationBuilder.setColor(Color.RED);
+        notificationBuilder.setDefaults(Notification.DEFAULT_SOUND);
+        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
+        notificationManagerCompat.notify(1000,notificationBuilder.build());
+    }
+    Button notification;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +96,14 @@ public class MainActivity extends AppCompatActivity {
                 Intent mojIntent = new Intent(MainActivity.this, LandingActivity.class);
                 startActivity(mojIntent);
         }
+        });
+
+        notification = (Button) findViewById(R.id.Notifications   );
+        notification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showNotification();
+            }
         });
     }
 

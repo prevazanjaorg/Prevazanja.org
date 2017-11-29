@@ -9,7 +9,9 @@
     <color name="colorPrimary">#da5700</color>
     <color name="colorPrimaryDark">#101010</color>
     <color name="colorPrimaryDarkish">#e2e2e2</color>
+    <color name="colorGrey">#535353</color>
     <color name="colorPrimaryLight">#ffffff</color>
-    <color name="colorAccent">#ff4081</color>
+    <color name="colorAccent">#a6ff4d</color>
+    <color name="colorGreen">#a6ff4d</color>
 
 </resources>
