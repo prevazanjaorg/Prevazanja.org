@@ -1,0 +1,63 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="nameplaceholder.prevazanjaorg.PonujamFragment">
+
+    <TextView
+        android:id="@+id/tvPrevoz"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="59dp"
+        android:layout_marginStart="59dp"
+        android:layout_marginTop="66dp"
+        android:text="PREVOZ 1"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/btnDodaj"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="22dp"
+        android:layout_marginLeft="43dp"
+        android:layout_marginStart="43dp"
+        android:width="50dp"
+        android:height="50dp"
+        android:minHeight="0dp"
+        android:minWidth="0dp"
+        android:text="+" />
+
+    <Button
+        android:id="@+id/btnOdstrani"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/btnDodaj"
+        android:layout_alignBottom="@+id/btnDodaj"
+        android:layout_centerHorizontal="true"
+        android:width="50dp"
+        android:height="50dp"
+        android:minHeight="0dp"
+        android:minWidth="0dp"
+        android:text="-" />
+
+    <ImageButton
+        android:id="@+id/btnSettings"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/btnOdstrani"
+        android:layout_marginEnd="47dp"
+        android:layout_marginRight="47dp"
+        android:minHeight="0dp"
+        android:minWidth="0dp"
+        android:src="@drawable/traffic"/>
+
+
+</RelativeLayout>
