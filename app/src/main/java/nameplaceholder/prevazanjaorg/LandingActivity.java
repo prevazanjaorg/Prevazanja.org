@@ -1,67 +1,110 @@
 package nameplaceholder.prevazanjaorg;
 
-import android.app.Activity;
-import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
+import android.view.ViewGroup;
 
-public class LandingActivity extends FragmentActivity {
+import android.view.Window;
+import android.widget.TextView;
 
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_landing);
-//
-////        PonujamFragment ponujam = PonujamFragment.newInstance("Fragment 1", "Instance 1");
-////        Intent mojIntent = new Intent(LandingActivity.this, PonujamFragment.class);
-////        startActivity(mojIntent);
-//
-////        FragmentManager fragmentManager = getSupportFragmentManager();
-////        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-////
-////        PonujamFragment ponujamFragment = new PonujamFragment();
-////        fragmentTransaction.add(R.id.ponujamFragment,ponujamFragment);
-////        fragmentTransaction.commit();
-//    }
+public class LandingActivity extends AppCompatActivity {
 
-    static final int ITEMS = 1;
-    MyAdapter mAdapter;
-    ViewPager mPager;
+    /**
+     * The {@link android.support.v4.view.PagerAdapter} that will provide
+     * fragments for each of the sections. We use a
+     * {@link FragmentPagerAdapter} derivative, which will keep every
+     * loaded fragment in memory. If this becomes too memory intensive, it
+     * may be best to switch to a
+     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
+     */
+    private SectionsPagerAdapter mSectionsPagerAdapter;
+
+    /**
+     * The {@link ViewPager} that will host the section contents.
+     */
+    private ViewPager mViewPager;
+    private PonujamFragment ponujamFragment;
+    private IscemFragment iscemFragment;
+    private LandingFragment landingFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_landing);
-        mAdapter = new MyAdapter(getSupportFragmentManager());
-        mPager = (ViewPager) findViewById(R.id.view_pager);
-        mPager.setAdapter(mAdapter);
+        // Create the adapter that will return a fragment for each of the three
+        // primary sections of the activity.
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+
+        // Set up the ViewPager with the sections adapter.
+        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager.setAdapter(mSectionsPagerAdapter);
+        mViewPager.setCurrentItem(1);
     }
 
-    public static class MyAdapter extends FragmentPagerAdapter {
-        public MyAdapter(FragmentManager fragmentManager) {
-            super(fragmentManager);
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_landingfragment, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
         }
 
-        @Override
-        public int getCount() {
-            return ITEMS;
+        return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
+     * one of the sections/tabs/pages.
+     */
+    public class SectionsPagerAdapter extends FragmentPagerAdapter {
+
+        public SectionsPagerAdapter(FragmentManager fm) {
+            super(fm);
         }
 
         @Override
         public Fragment getItem(int position) {
-            switch (position) {
+            // getItem is called to instantiate the fragment for the given page.
+            // Return a PlaceholderFragment (defined as a static inner class below).
+            switch(position){
                 case 0:
-                    return new PonujamFragment();
+                    return ponujamFragment.newInstance(position);
+                case 1:
+                    return landingFragment.newInstance(position);
+                case 2:
+                    return iscemFragment.newInstance(position);
                 default:
-                    return new PonujamFragment();
+                    return landingFragment.newInstance(position);
             }
+        }
+
+        @Override
+        public int getCount() {
+            // Show 3 total pages.
+            return 3;
         }
     }
 }
