@@ -2,7 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="nameplaceholder.prevazanjaorg.PonujamFragment">
+    tools:context="nameplaceholder.prevazanjaorg.PonujamFragment"
+    android:background="#f2680d">
 
     <TextView
         android:id="@+id/tvPrevoz"
@@ -31,7 +32,8 @@
         android:height="50dp"
         android:minHeight="0dp"
         android:minWidth="0dp"
-        android:text="+" />
+        android:text="+"
+        android:textSize="25dp"/>
 
     <Button
         android:id="@+id/btnOdstrani"
@@ -44,11 +46,12 @@
         android:height="50dp"
         android:minHeight="0dp"
         android:minWidth="0dp"
-        android:text="-" />
+        android:text="-"
+        android:textSize="25dp"/>
 
     <ImageButton
         android:id="@+id/btnSettings"
-        android:layout_width="50dp"
+        android:layout_width="55dp"
         android:layout_height="50dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
@@ -57,7 +60,8 @@
         android:layout_marginRight="47dp"
         android:minHeight="0dp"
         android:minWidth="0dp"
-        android:src="@drawable/traffic"/>
+        android:src="@drawable/settings"
+        android:scaleType="fitXY"/>
 
 
 </RelativeLayout>
