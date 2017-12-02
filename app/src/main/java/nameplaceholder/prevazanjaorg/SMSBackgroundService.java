@@ -16,12 +16,10 @@ import java.util.ArrayList;
 
 public class SMSBackgroundService extends Service {
     public Context context = this;
-    public Handler handler = null;
-    public static Runnable runnable = null;
-
+    public Handler handler;
+    public Runnable runnable;
     private ToastSMS SMSsistem;
-    private SmsReceiver Receiver;
-
+    private SmsReceiver receiver;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -46,47 +44,35 @@ public class SMSBackgroundService extends Service {
         SMSsistem = new ToastSMS();
         SMSsistem.RManager.BindAktivniPrevozi(aktivniPrevozi);
         SMSsistem.bindContext(this);
-        //Receiver = new SmsReceiver();
         Log.e("SMSSistem:>>" , "SMSSistem RUNNING...OK");
-
-        Receiver.bindOnReceive(new OnReceiveSMS() {
+        receiver.bindOnReceive(new OnReceiveSMS() {
             @Override
             public void messageReceived(SMSData novSMS) {
-                if(novSMS.tip == SMSData.STOP){
+                if (novSMS.tip == SMSData.STOP) {
                     SMSsistem.Stop(novSMS);
                     stopSelf();
-                    onDestroy();
                     Log.e("BackgroundService:>> ", "ToastSMS STOP COMMAND");
-                }
-                else if(novSMS.tip == SMSData.START){
+                } else if (novSMS.tip == SMSData.START) {
                     SMSsistem.Start(novSMS);
-                }
-                else if(SMSsistem.STATUS == ToastSMS.RUNNING){
+                } else if (novSMS.tip == SMSData.PRIVATE) {
+                    SMSsistem.RManager.sendRezervacije(true);
+                } else if (SMSsistem.STATUS == ToastSMS.RUNNING) {
                     SMSsistem.ProcessNewUser(novSMS);
                     Log.e("SMSSistem:>>", "SMSData RECEIVED" + " " + novSMS.sender + " " + novSMS.tip);
                 }
             }
+
         });
-
-        handler = new Handler();
-        runnable = new Runnable() {
-            public void run() {
-                Toast.makeText(context, "ToastSMS Service is still running!", Toast.LENGTH_LONG).show();
-                handler.postDelayed(runnable, 10000);
-            }
-        };
-
-        handler.postDelayed(runnable, 15000);
     }
 
     @Override
     public void onDestroy() {
-        handler.removeCallbacks(runnable);
         Toast.makeText(this, "ToastSMS Service stopped!", Toast.LENGTH_LONG).show();
-                }
+    }
 
-        @Override
-        public void onStart(Intent intent, int startid) {
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startID){
         Toast.makeText(this, "ToastSMS Service started!", Toast.LENGTH_LONG).show();
-        }
+        return START_STICKY;
+    }
 }
