@@ -20,6 +20,7 @@ public class SMSData {
    public static final int PREKLIC = 5;
    public static final int STOP = -1;
    public static final int START = 6;
+    public static final int PRIVATE = 69;
 
 
     public SMSData(String s, String t){

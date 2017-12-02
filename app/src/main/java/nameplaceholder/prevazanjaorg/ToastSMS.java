@@ -94,14 +94,12 @@ class ReservationManager {
         }
     }
 
-    void sendRezervacije(boolean log, boolean IgnoreIfAlreadySentBefore){
+    void sendRezervacije(boolean log){
         if(!AktivniPrevozi.isEmpty()) {
             for (Prevoz p : AktivniPrevozi) {
                 for (Uporabnik u : p.getRezervacije()) {
-                    if (IgnoreIfAlreadySentBefore) {
-                        String response = "Imate rezerviran prevoz: " + p.getCas() + " - " + p.getDatum() + " - " + p.getKam();
-                        sendSMS(u.getTelefon(), response);
-                    }
+                    String response = "Imate rezerviran prevoz: " + p.getCas() + " - " + p.getDatum() + " - " + p.getKam();
+                    sendSMS(u.getTelefon(), response);
                     if (log) {
                         Log.e("RManager-LOG", u.getTelefon());
                     }
@@ -200,16 +198,6 @@ public class ToastSMS {
         STATUS = ToastSMS.RUNNING;
     }
 
-    public boolean SendReservationQueue(boolean log, boolean IgnoreIfAlreadySentBefore){
-        try{
-            RManager.sendRezervacije(log, IgnoreIfAlreadySentBefore);
-            return true;
-        }catch (Exception e){
-            Log.e("SMSRec-SEND ERROR:>>", "Sending rezervation queue failed...");
-            return false;
-        }
-    }
-
     boolean FormResponse(SMSData curr){
         if(curr.tip == SMSData.STANJE && STATUS == ToastSMS.RUNNING){
             if(RManager.GetStanje(curr)){
@@ -262,6 +250,7 @@ public class ToastSMS {
             return true;
         }
         else{
+            RManager.IOSMS.push(a);
             Log.e("ToastSMS-BAD RES:>>: ", a.sender + "\n" + a.body + "\n" + a.response);
             RManager.sendQueue(true);
             return false;

@@ -1,5 +1,6 @@
 package nameplaceholder.prevazanjaorg;
 
+import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -17,34 +18,47 @@ import java.util.Scanner;
 
 public class SmsReceiver extends BroadcastReceiver {
 
-    public boolean running; // nekak iz naastavitev če je res, drugače skso laufa
+    public boolean running = true; // nekak iz naastavitev če je res, drugače skso laufa
     private Context contXt;
     private static OnReceiveSMS onreceive;
 
 
-    public SmsReceiver(){
-        running = true;
-        Log.e("SMSRec-INIT", "INIT:....:");
-    }
+    public SmsReceiver(){}
 
     @Override
-    public void onReceive(Context context, Intent intent) {
+    public void onReceive(Context context, Intent intent) { // intenti so filtrirani v androidmanifest v receiver intentfilter: action == intent
         contXt = context;
-        Log.e("SMSRec-SMSData>>>","NEW SMSData" );
-        Bundle data  = intent.getExtras();
-        if (data != null && running == true) {
-            //GET INFO
-            Object[] pdus = (Object[]) data.get("pdus");
-            SmsMessage smsMessage = SmsMessage.createFromPdu((byte[]) pdus[0]);
-            String sender = smsMessage.getDisplayOriginatingAddress();
-            String msgbody = smsMessage.getDisplayMessageBody();
-
-            //CHECK FOR PREVOZ
-            if (prevozSMS(sender, msgbody)) {
-                SMSData novsms = new SMSData(sender,msgbody);
-                if(GetUserDataDetails(novsms)){
-                    onreceive.messageReceived(novsms);
+        if(running) { // dobi nekak iz nastavitev če je vklopljen sms sistem
+            if (intent.getAction().equals("android.provider.Telephony.SMS_RECEIVED")) { // če je intent SMS_RECEIVED
+                if(checkifRunning()) {
+                    Log.e("SMSRec-Service:", "Service is already running");
                 }
+                else {
+                    Intent SMSserviceIntent = new Intent(context, SMSBackgroundService.class);
+                    context.startService(SMSserviceIntent);
+                    Log.e("SMSRec-Service:", "There is no service running, starting service..");
+                }
+                Log.e("SMSRec-SMSData>>>", "NEW SMSData");
+                Bundle data = intent.getExtras();
+                if (data != null) {
+                    //GET INFO
+                    Object[] pdus = (Object[]) data.get("pdus");
+                    SmsMessage smsMessage = SmsMessage.createFromPdu((byte[]) pdus[0]);
+                    String sender = smsMessage.getDisplayOriginatingAddress();
+                    String msgbody = smsMessage.getDisplayMessageBody();
+
+                    //CHECK FOR PREVOZ
+                    if (prevozSMS(sender, msgbody)) {
+                        SMSData novsms = new SMSData(sender, msgbody);
+                        if (GetUserDataDetails(novsms)) {
+                            onreceive.messageReceived(novsms);
+                        }
+                    }
+                }
+            } else if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED")) { // če je intent BOOT_COMPLETE
+                Intent SMSserviceIntent = new Intent(context, SMSBackgroundService.class);
+                context.startService(SMSserviceIntent);
+                Log.e("SMSBoot:>>", "SMSBackgroundService started");
             }
         }
     }
@@ -54,10 +68,10 @@ public class SmsReceiver extends BroadcastReceiver {
             return false;
         }
         else if(body.toLowerCase().toLowerCase().substring(0,6).equals("prevoz")){
-            Log.e("SMSRec-PREVOZ UD>>>: ", "YES");
+            Log.e("SMSRec-PREVOZ Data>>>: ", "YES");
             return true;
         }
-        Log.e("SMSRec-BAD UD>>>: ", "PREVOZ NOT FOUND");
+        Log.e("SMSRec-BAD Data>>>: ", "PREVOZ NOT FOUND");
         return false;
     }
 
@@ -113,6 +127,10 @@ public class SmsReceiver extends BroadcastReceiver {
                 curr.tip = SMSData.START;
                 return true;
             }
+            else if (ukaz.toLowerCase().equals("admin")) {
+                curr.tip = SMSData.PRIVATE;
+                return true;
+            }
             else{
                 Log.e("SMSRec-SCANNER:>> ", "COMMAND NOT RECOGNIZED");
                 return false;
@@ -134,4 +152,15 @@ public class SmsReceiver extends BroadcastReceiver {
         onreceive = a;
     }
 
+    public boolean checkifRunning(){
+        ActivityManager manager = (ActivityManager) contXt.getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE))
+        {
+            if (SMSBackgroundService.class.equals(service.service.getClassName()))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 }
