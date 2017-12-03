@@ -84,5 +84,24 @@
         android:layout_alignParentRight="true"
         android:text="Notifications" />
 
+    <Button
+        android:id="@+id/TestPrijava"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btnPonujam"
+        android:layout_marginBottom="22dp"
+        android:layout_toEndOf="@+id/btnIscem"
+        android:layout_toRightOf="@+id/btnIscem"
+        android:text="Test prijava" />
+
+    <ToggleButton
+        android:id="@+id/toggleButtonZanotif"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btnLanding"
+        android:layout_toEndOf="@+id/TestPrijava"
+        android:layout_toRightOf="@+id/TestPrijava"
+        android:text="ToggleButton" />
+
 
 </RelativeLayout>
