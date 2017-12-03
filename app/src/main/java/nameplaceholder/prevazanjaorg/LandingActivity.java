@@ -1,5 +1,6 @@
 package nameplaceholder.prevazanjaorg;
 
+import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -41,6 +42,8 @@ public class LandingActivity extends AppCompatActivity {
     private IscemFragment iscemFragment;
     private LandingFragment landingFragment;
 
+    boolean BackgroundServiceRunning = true;//dobim nekak iz nastavitev
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +56,11 @@ public class LandingActivity extends AppCompatActivity {
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setCurrentItem(1);
+
+        //Jaka
+        if(BackgroundServiceRunning)//če so smsi v nastavitvah vklopljeni
+            startService(new Intent(this, SMSBackgroundService.class));
+        //Jaka
     }
 
     @Override

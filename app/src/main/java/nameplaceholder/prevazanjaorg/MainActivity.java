@@ -15,15 +15,27 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
+import org.ksoap2.SoapEnvelope;
+import org.ksoap2.serialization.SoapObject;
+import org.ksoap2.serialization.SoapPrimitive;
+import org.ksoap2.serialization.SoapSerializationEnvelope;
+import org.ksoap2.transport.HttpTransportSE;
+import org.xmlpull.v1.XmlPullParserException;
+
+import java.io.IOException;
 import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
+
     TextView txtUsername;
     TextView txtEmail;
     Button btnLogout;
     Button btnLanding;
     SessionManager session;
+
+    PB jolo;
 
     private void showNotification(){
         //channel
@@ -45,14 +57,16 @@ public class MainActivity extends AppCompatActivity {
         //notification
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this,id);
         notificationBuilder.setSmallIcon(R.mipmap.ic_launcher);
-        notificationBuilder.setContentTitle("Titleee");
-        notificationBuilder.setContentText("text");
+        notificationBuilder.setContentTitle("PrEvOz *Koper-Šper* ČeZ 30 MiNuT");
+        notificationBuilder.setContentText("V primeru, da ste si premislili to sporočite *darkotu*");
         notificationBuilder.setLights(Color.WHITE,500,5000);
         notificationBuilder.setColor(Color.RED);
         notificationBuilder.setDefaults(Notification.DEFAULT_SOUND);
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
         notificationManagerCompat.notify(1000,notificationBuilder.build());
     }
+
+
     Button notification;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -99,13 +113,26 @@ public class MainActivity extends AppCompatActivity {
         });
 
         notification = (Button) findViewById(R.id.Notifications   );
+
         notification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showNotification();
+                ToggleButton toggleButtonZanotif=(ToggleButton) findViewById(R.id.toggleButtonZanotif);
+                if(toggleButtonZanotif.isChecked())
+                    showNotification();
+            }
+        });
+
+        Button Prijava = (Button) findViewById(R.id.TestPrijava   );
+        Prijava.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent mojIntent = new Intent(MainActivity.this, Lastnosti_prevoza.class);
+                startActivity(mojIntent);
             }
         });
     }
+
 
     public void listPrevozovActivity(View view) {
         //Temporary to show list activity

@@ -35,8 +35,6 @@ public class ListPrevozovActivity extends AppCompatActivity implements OnQueryTe
     PrevozAdapter listAdapterPrevozov;
     SearchView searchViewPrevozov;
 
-    boolean BackgroundServiceRunning = true;//dobim iz nastavitev
-
     private LayoutInflater layoutInflater;
     private PopupWindow popupWindow;
     private FrameLayout frameLayout;
@@ -65,10 +63,7 @@ public class ListPrevozovActivity extends AppCompatActivity implements OnQueryTe
             aktivniPrevozi.add(dummyPrevoz);
 
 
-        //Jaka
-        if(BackgroundServiceRunning)//če so smsi v nastavitvah vklopljeni
-            startService(new Intent(this, SMSBackgroundService.class));
-        //Jaka
+
 
 
         //TESTIRANJE
