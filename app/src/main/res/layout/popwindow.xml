@@ -69,7 +69,8 @@
         android:text="040202108"
         android:textSize="@dimen/uraPop"
         android:layout_marginLeft="@dimen/paddingPOP"
-        android:autoLink="phone" />
+        android:autoLink="phone"
+        android:clickable="true" />
     <LinearLayout
         android:id="@+id/pop_llUraDatum"
         android:layout_width="match_parent"
