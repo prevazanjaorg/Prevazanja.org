@@ -3,6 +3,7 @@ package nameplaceholder.prevazanjaorg;
 import android.app.IntentService;
 import android.app.Service;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
@@ -31,7 +32,6 @@ import java.util.ArrayList;
 
 public class ListPrevozovActivity extends AppCompatActivity implements OnQueryTextListener {
 
-    //update za commit
     PrevozAdapter listAdapterPrevozov;
     SearchView searchViewPrevozov;
 
@@ -84,9 +84,12 @@ public class ListPrevozovActivity extends AppCompatActivity implements OnQueryTe
                 int width = dm.widthPixels;
                 int height = dm.heightPixels;
 
-                popupWindow = new PopupWindow(container, (int)(width*.8), (int)(height*.6), true);
+                popupWindow = new PopupWindow(container, (int)(width*.8), (int)(height*.8), true);
                 popupWindow.showAtLocation(frameLayout, Gravity.CENTER, 0, 0);
                 frameLayout.getForeground().setAlpha(220);// Ozadju nastavim transparency, da je zatemnjeno
+
+                popupWindow.setBackgroundDrawable(new BitmapDrawable());// Ker na Android 5.0.1 ne deluje dismiss popupa, poskusim s tem pristopom
+                popupWindow.setOutsideTouchable(true);// <-----
 
                 /*TextView ime = (TextView) frameLayout.findViewById(R.id.pop_ime);
                 Prevoz p = (Prevoz) adapterView.getItemAtPosition(i);

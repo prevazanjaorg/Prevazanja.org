@@ -13,5 +13,11 @@
     <color name="colorPrimaryLight">#ffffff</color>
     <color name="colorAccent">#a6ff4d</color>
     <color name="colorGreen">#a6ff4d</color>
+    <color name="yellow1">#ffce00</color>
+    <color name="yellow2">#ffd700</color>
+    <color name="grey05">#c9c9c9</color>
+    <color name="orange5">#ff8c00</color>
+    <color name="blue2">#000080</color>
+    <color name="blue25">#13aeb5</color>
 
 </resources>
