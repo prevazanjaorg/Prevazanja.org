@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     Button btnLogout;
     Button btnLanding;
     SessionManager session;
-
+    Button notification;
     PB jolo;
 
     private void showNotification(){
@@ -66,8 +66,6 @@ public class MainActivity extends AppCompatActivity {
         notificationManagerCompat.notify(1000,notificationBuilder.build());
     }
 
-
-    Button notification;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
 
         session = new SessionManager(getApplicationContext());
         Toast.makeText(getApplicationContext(), "User Login Status: " + session.isLoggedIn(), Toast.LENGTH_LONG).show();
-        //le komentar
 
         TextView lblName = (TextView) findViewById(R.id.txtUsername);
         TextView lblEmail = (TextView) findViewById(R.id.txtEmail);
@@ -133,11 +130,4 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
-    public void listPrevozovActivity(View view) {
-        //Temporary to show list activity
-        finish();
-        Intent mojIntent = new Intent(MainActivity.this, ListPrevozovActivity.class);
-        startActivity(mojIntent);
-    }
 }

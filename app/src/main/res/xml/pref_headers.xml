@@ -14,9 +14,10 @@
 
     <header
         android:fragment="nameplaceholder.prevazanjaorg.SettingsActivity$DataSyncPreferenceFragment"
-        android:icon="@drawable/ic_sync_black_24dp"
-        android:title="@string/pref_header_data_sync" />
 
+        android:icon="@drawable/ic_info_black_24dp"
+        android:title="@string/pref_header_data_sync" />
+    <!--android:icon="@drawable/ic_sync_black_24dp"-->
     <header
         android:fragment="nameplaceholder.prevazanjaorg.SettingsActivity$InfoPrevozaFragment"
         android:title="@string/pref_header_prevoz_nastavitve" />
