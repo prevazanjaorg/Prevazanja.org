@@ -109,9 +109,9 @@ public class LoginActivity extends AppCompatActivity {
 //        });
 
         // Login already filled in for testing
-        mUsernameView.setText("Hackerman01");
-        mEmailView.setText("foo@example.com");
-        mPasswordView.setText("hello");
+        mUsernameView.setText("niko");
+        mEmailView.setText("niko.polarStudent@mail.si");
+        mPasswordView.setText("niko");
 
         Button mEmailSignInButton = (Button) findViewById(R.id.btnRegister); //naj bi bil email sign in button?
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
@@ -132,7 +132,7 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... strings) {
             CallSoap CS = new CallSoap();
-            String response = CS.Prijava(mUsernameView.getText().toString(), mEmailView.getText().toString(), mPasswordView.getText().toString());
+            String response = CS.Prijava(mEmailView.getText().toString(), mUsernameView.getText().toString(), mPasswordView.getText().toString());
             return response;
         }
         @Override
@@ -149,7 +149,14 @@ public class LoginActivity extends AppCompatActivity {
                 s = s.substring(1, s.indexOf("<"));
             }
             //TV.setText(s);
-            Toast.makeText(getApplicationContext(),s, Toast.LENGTH_LONG).show(); // naredi login da daš al username,mail al pa stevilko /slashi/, naredi register
+            if (s.contains("true")){
+                Intent mojIntent = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(mojIntent);
+                finish();
+            }
+            else{
+                Toast.makeText(getApplicationContext(),"Napačni uporabniški podatki!", Toast.LENGTH_LONG).show(); // naredi login da daš al username,mail al pa stevilko /slashi/, naredi register
+            }
         }
     }
 

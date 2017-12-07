@@ -103,5 +103,15 @@
         android:layout_toRightOf="@+id/TestPrijava"
         android:text="ToggleButton" />
 
+    <Button
+        android:id="@+id/btnPodrobnosti"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/btnLogout"
+        android:layout_alignRight="@+id/btnLogout"
+        android:layout_below="@+id/txtEmail"
+        android:layout_marginTop="43dp"
+        android:text="podrobnosti" />
+
 
 </RelativeLayout>

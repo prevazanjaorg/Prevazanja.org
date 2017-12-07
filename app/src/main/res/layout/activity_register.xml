@@ -42,7 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <AutoCompleteTextView
+                <EditText
                     android:id="@+id/etEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -88,8 +88,7 @@
                 android:text="@string/register"
                 android:textStyle="bold"
                 tools:text="registracija"
-                android:clickable="true"
-                android:onClick="naMainActivity"/>
+                android:clickable="true"/>
 
         </LinearLayout>
     </ScrollView>
