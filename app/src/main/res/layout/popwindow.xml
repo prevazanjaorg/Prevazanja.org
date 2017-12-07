@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/pop_relative"
-    android:background="@color/colorPrimaryLight"
+    android:background="@drawable/layout_background"
     android:contextClickable="false">
 
     <LinearLayout
@@ -13,31 +13,31 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:orientation="vertical"
-        android:background="@color/colorPrimary"
+        android:background="@drawable/popup_top_rounded"
         android:id="@+id/pop_linearLayout">
 
         <TextView
             android:id="@+id/pop_iz"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textColor="@color/colorPrimaryLight"
             android:text="Maribor"
             android:layout_weight="1"
             android:paddingStart="@dimen/paddingPOP"
-            android:textSize="28sp"
-            android:paddingLeft="@dimen/paddingPOP" />
+            android:paddingLeft="@dimen/paddingPOP"
+            android:textColor="@color/colorPrimaryLight"
+            android:textSize="@dimen/text_size_3"/>
 
         <TextView
             android:id="@+id/pop_kam"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textColor="@color/colorPrimaryLight"
             android:text="Koper"
             android:singleLine="true"
             android:layout_weight="1"
             android:paddingEnd="@dimen/paddingPOP"
             android:gravity="end"
-            android:textSize="28sp"
+            android:textColor="@color/colorPrimaryLight"
+            android:textSize="@dimen/text_size_3"
             android:paddingRight="@dimen/paddingPOP" />
 
     </LinearLayout>
@@ -69,7 +69,8 @@
         android:text="040202108"
         android:textSize="@dimen/uraPop"
         android:layout_marginLeft="@dimen/paddingPOP"
-        android:autoLink="phone" />
+        android:autoLink="phone"
+        android:clickable="true" />
     <LinearLayout
         android:id="@+id/pop_llUraDatum"
         android:layout_width="match_parent"
@@ -127,7 +128,7 @@
         android:text="Poberem/odložim kjerkoli v kraju odhoda/prihoda. Avto je rdeča toyota yaris KP registracije. Napiši sms, kje naj te poberem."
         android:gravity="bottom"
         android:textSize="@dimen/text_size_2"
-        android:padding="@dimen/paddingPOP"/>-
+        android:padding="10dp"/>-
     <LinearLayout
         android:id="@+id/pop_buttons"
         android:layout_width="match_parent"
@@ -135,20 +136,19 @@
         android:layout_alignParentBottom="true"
         android:orientation="horizontal">
         <Button
-            style=""
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Na prevoz"
-            android:textSize="20sp"
+            android:textSize="@dimen/text_size_2"
             android:layout_margin="@dimen/paddingPOP"
-            android:textColor="@color/colorPrimaryDark"
+            android:background="@drawable/popup_button2"
             />
         <Button
-            android:layout_margin="@dimen/paddingPOP"
-            style="@style/GreenButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="REZERVIRAJ"
-            android:textSize="20sp" />
+            android:layout_margin="@dimen/paddingPOP"
+            android:text="REZERVACIJA"
+            android:textSize="@dimen/text_size_2"
+            android:background="@drawable/popup_button"/>
     </LinearLayout>
 </RelativeLayout>
