@@ -4,13 +4,18 @@
 
     <header
         android:fragment="nameplaceholder.prevazanjaorg.SettingsActivity$GeneralPreferenceFragment"
-        android:icon="@drawable/ic_info_black_24dp"
-        android:title="@string/pref_header_general" />
+        android:icon="@drawable/ic_account_black_24dp"
+        android:title="@string/pref_header_racun" />
 
     <header
         android:fragment="nameplaceholder.prevazanjaorg.SettingsActivity$NotificationPreferenceFragment"
         android:icon="@drawable/ic_notifications_black_24dp"
-        android:title="@string/pref_header_notifications" />
+        android:title="@string/pref_header_obvestila" />
+
+    <header
+        android:fragment="nameplaceholder.prevazanjaorg.SettingsActivity$SporocanjeFragment"
+        android:icon="@drawable/ic_message_black_24dp"
+        android:title="@string/pref_header_sporocanje" />
 
     <header
         android:fragment="nameplaceholder.prevazanjaorg.SettingsActivity$DataSyncPreferenceFragment"
@@ -19,7 +24,24 @@
         android:title="@string/pref_header_data_sync" />
     <!--android:icon="@drawable/ic_sync_black_24dp"-->
     <header
-        android:fragment="nameplaceholder.prevazanjaorg.SettingsActivity$InfoPrevozaFragment"
+        android:fragment="nameplaceholder.prevazanjaorg.SettingsActivity$SporocanjeFragment"
+        android:icon="@drawable/ic_location_black_24dp"
+        android:title="@string/pref_header_lokacija" />
+
+    <header
+        android:fragment="nameplaceholder.prevazanjaorg.SettingsActivity$SporocanjeFragment"
+        android:icon="@drawable/ic_car_black_24dp"
         android:title="@string/pref_header_prevoz_nastavitve" />
+
+    <header
+        android:fragment="nameplaceholder.prevazanjaorg.SettingsActivity$SporocanjeFragment"
+        android:icon="@drawable/ic_contacts_black_24dp"
+        android:title="@string/pref_header_kontakt" />
+
+    <header
+        android:fragment="nameplaceholder.prevazanjaorg.SettingsActivity$SporocanjeFragment"
+        android:icon="@drawable/ic_info_black_24dp"
+        android:title="@string/pref_header_ekipa" />
+
 
 </preference-headers>

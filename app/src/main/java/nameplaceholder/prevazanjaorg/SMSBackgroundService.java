@@ -45,24 +45,6 @@ public class SMSBackgroundService extends Service {
         SMSsistem.RManager.BindAktivniPrevozi(aktivniPrevozi);
         SMSsistem.bindContext(this);
         Log.e("SMSSistem:>>" , "SMSSistem RUNNING...OK");
-        receiver.bindOnReceive(new OnReceiveSMS() {
-            @Override
-            public void messageReceived(SMSData novSMS) {
-                if (novSMS.tip == SMSData.STOP) {
-                    SMSsistem.Stop(novSMS);
-                    stopSelf();
-                    Log.e("BackgroundService:>> ", "ToastSMS STOP COMMAND");
-                } else if (novSMS.tip == SMSData.START) {
-                    SMSsistem.Start(novSMS);
-                } else if (novSMS.tip == SMSData.PRIVATE) {
-                    SMSsistem.RManager.sendRezervacije(true);
-                } else if (SMSsistem.STATUS == ToastSMS.RUNNING) {
-                    SMSsistem.ProcessNewUser(novSMS);
-                    Log.e("SMSSistem:>>", "SMSData RECEIVED" + " " + novSMS.sender + " " + novSMS.tip);
-                }
-            }
-
-        });
     }
 
     @Override
@@ -72,7 +54,28 @@ public class SMSBackgroundService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startID){
-        Toast.makeText(this, "ToastSMS Service started!", Toast.LENGTH_LONG).show();
-        return START_STICKY;
+        if(intent.getSerializableExtra("SMSData") != null){
+            SMSData novSMS = (SMSData) intent.getSerializableExtra("SMSData");
+            if (novSMS.tip == SMSData.STOP) {
+                SMSsistem.Stop(novSMS);
+                //stopSelf();
+                Log.e("BackgroundService:>> ", "ToastSMS STOP COMMAND");
+            } else if (novSMS.tip == SMSData.START) {
+                SMSsistem.Start(novSMS);
+            } else if (novSMS.tip == SMSData.PRIVATE) {
+                SMSsistem.RManager.sendRezervacije(true);
+            } else if (SMSsistem.STATUS == ToastSMS.RUNNING) {
+                SMSsistem.ProcessNewUser(novSMS);
+                Log.e("SMSSistem:>>", "SMSData RECEIVED" + " " + novSMS.sender + " " + novSMS.tip);
+            }
+            else{
+                Log.e("BackgroundService:>> ", "ToastSMS IS STOPPED");
+            }
+            return super.onStartCommand(intent,flags,startID);
+        }
+        else{
+            Toast.makeText(this, "ToastSMS Service started!", Toast.LENGTH_LONG).show();
+            return START_STICKY;
+        }
     }
 }

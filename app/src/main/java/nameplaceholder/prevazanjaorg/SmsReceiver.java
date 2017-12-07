@@ -20,7 +20,6 @@ public class SmsReceiver extends BroadcastReceiver {
 
     public boolean running = true; // nekak iz naastavitev če je res, drugače skso laufa
     private Context contXt;
-    private static OnReceiveSMS onreceive;
 
 
     public SmsReceiver(){}
@@ -30,6 +29,7 @@ public class SmsReceiver extends BroadcastReceiver {
         contXt = context;
         if(running) { // dobi nekak iz nastavitev če je vklopljen sms sistem
             if (intent.getAction().equals("android.provider.Telephony.SMS_RECEIVED")) { // če je intent SMS_RECEIVED
+               /*
                 if(checkifRunning()) {
                     Log.e("SMSRec-Service:", "Service is already running");
                 }
@@ -38,6 +38,7 @@ public class SmsReceiver extends BroadcastReceiver {
                     context.startService(SMSserviceIntent);
                     Log.e("SMSRec-Service:", "There is no service running, starting service..");
                 }
+                */
                 Log.e("SMSRec-SMSData>>>", "NEW SMSData");
                 Bundle data = intent.getExtras();
                 if (data != null) {
@@ -49,10 +50,15 @@ public class SmsReceiver extends BroadcastReceiver {
 
                     //CHECK FOR PREVOZ
                     if (prevozSMS(sender, msgbody)) {
-                        SMSData novsms = new SMSData(sender, msgbody);
-                        if (GetUserDataDetails(novsms)) {
-                            onreceive.messageReceived(novsms);
+                        SMSData novSMS = new SMSData(sender, msgbody);
+                        if (GetUserDataDetails(novSMS)) {
+                            Intent novSMSintent = new Intent(context,SMSBackgroundService.class);
+                            novSMSintent.putExtra("SMSData",novSMS);
+                            context.startService(novSMSintent);
+                            Log.e("BackgroundService:>> ", novSMS.body + " " + novSMS.sender + " " + novSMS.prevozID + " " + novSMS.tip);
+
                         }
+
                     }
                 }
             } else if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED")) { // če je intent BOOT_COMPLETE
@@ -123,7 +129,7 @@ public class SmsReceiver extends BroadcastReceiver {
                 return true;
             }
             else if (ukaz.toLowerCase().equals("start")) {
-                Log.e("SMSRec-SCANNER:>> ", "ToastSMS STOP COMMAND");
+                Log.e("SMSRec-SCANNER:>> ", "ToastSMS START COMMAND");
                 curr.tip = SMSData.START;
                 return true;
             }
@@ -146,10 +152,6 @@ public class SmsReceiver extends BroadcastReceiver {
 
     void On(){
         running = true;
-    }
-
-    public static void bindOnReceive(OnReceiveSMS a){
-        onreceive = a;
     }
 
     public boolean checkifRunning(){

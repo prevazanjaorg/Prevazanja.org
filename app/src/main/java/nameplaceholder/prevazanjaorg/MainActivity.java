@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
+import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -34,8 +35,6 @@ public class MainActivity extends AppCompatActivity {
     Button btnLogout;
     Button btnLanding;
     SessionManager session;
-    Button notification;
-    PB jolo;
 
     private void showNotification(){
         //channel
@@ -66,13 +65,25 @@ public class MainActivity extends AppCompatActivity {
         notificationManagerCompat.notify(1000,notificationBuilder.build());
     }
 
+
+    Button notification;
+    Button btnPodrobnosti;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        btnPodrobnosti = (Button) findViewById(R.id.btnPodrobnosti);
+        btnPodrobnosti.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent mojIntent = new Intent(MainActivity.this, PodrobnostiActivity.class);
+                startActivity(mojIntent);
+            }
+        });
+
         session = new SessionManager(getApplicationContext());
-        Toast.makeText(getApplicationContext(), "User Login Status: " + session.isLoggedIn(), Toast.LENGTH_LONG).show();
+        //Toast.makeText(getApplicationContext(), "User Login Status: " + session.isLoggedIn(), Toast.LENGTH_LONG).show();
 
         TextView lblName = (TextView) findViewById(R.id.txtUsername);
         TextView lblEmail = (TextView) findViewById(R.id.txtEmail);
@@ -88,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
         lblName.setText(name);
         lblEmail.setText(email);
 
-        Toast.makeText(getApplicationContext(), "User Login Status: " + session.isLoggedIn(), Toast.LENGTH_LONG).show();
+        //Toast.makeText(getApplicationContext(), "User Login Status: " + session.isLoggedIn(), Toast.LENGTH_LONG).show();
 
         Button btnLogout = (Button) findViewById(R.id.btnLogout);
         btnLogout.setOnClickListener(new View.OnClickListener() {
