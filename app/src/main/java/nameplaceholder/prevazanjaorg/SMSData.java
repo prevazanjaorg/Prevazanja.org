@@ -2,24 +2,27 @@ package nameplaceholder.prevazanjaorg;
 
 import android.util.Log;
 
+import java.io.Serializable;
+
 /**
  * Created by Jaka on 31/10/2017.
  */
 
-public class SMSData {
-   public String body;
-   public String sender;
-   public String response;
-   public int prevozID;
-   public int tip;
-   public static final int PREVOZ = 0;
-   public static final int STANJE = 1;
-   public static final int REZERVACIJA = 2;
-   public static final int SENT = 3;
-   public static final int BAD_SMS = 4;
-   public static final int PREKLIC = 5;
-   public static final int STOP = -1;
-   public static final int START = 6;
+public class SMSData implements Serializable {
+
+    public String body;
+    public String sender;
+    public String response;
+    public int prevozID;
+    public int tip;
+    public static final int PREVOZ = 0;
+    public static final int STANJE = 1;
+    public static final int REZERVACIJA = 2;
+    public static final int SENT = 3;
+    public static final int BAD_SMS = 4;
+    public static final int PREKLIC = 5;
+    public static final int STOP = -1;
+    public static final int START = 6;
     public static final int PRIVATE = 69;
 
 
