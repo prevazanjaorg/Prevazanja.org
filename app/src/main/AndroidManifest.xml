@@ -75,8 +75,12 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".SettingsActivity"
-            android:label="@string/title_activity_settings"></activity>
-        <activity android:name=".Lastnosti_prevoza"></activity>
+            android:label="@string/title_activity_settings" />
+        <activity android:name=".Lastnosti_prevoza" />
+        <activity
+            android:name=".PodrobnostiActivity"
+            android:label="@string/title_activity_podrobnosti"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>
