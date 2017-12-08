@@ -136,4 +136,5 @@
     <!-- Nastavitve za "o ekipi" -->
     <string name="pref_header_ekipa">O ekipi</string>
     <string name="title_activity_podrobnosti">PodrobnostiActivity</string>
+    <string name="title_activity_maps">Map</string>
 </resources>

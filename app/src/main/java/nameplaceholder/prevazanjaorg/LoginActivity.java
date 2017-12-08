@@ -78,12 +78,17 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-//        session = new SessionManager(getApplicationContext());
-//        if (session.isLoggedIn()){
-//            Intent mojIntent = new Intent(LoginActivity.this, MainActivity.class);
-//            startActivity(mojIntent);
-//            finish();
-//        }
+        Intent mojIntent = new Intent(LoginActivity.this, MainActivity.class);
+        startActivity(mojIntent);
+        finish();
+        session = new SessionManager(getApplicationContext());
+        /*
+        if (session.isLoggedIn()){
+            Intent mojIntent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(mojIntent);
+            finish();
+        }
+        */
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
