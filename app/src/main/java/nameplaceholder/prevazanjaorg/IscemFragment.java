@@ -1,112 +1,164 @@
 package nameplaceholder.prevazanjaorg;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.FrameLayout;
+import android.widget.ListView;
+import android.widget.PopupWindow;
+import android.widget.SearchView;
+import android.widget.SearchView.OnQueryTextListener;
+import android.widget.TextView;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+
+import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * to handle interaction events.
- * Use the {@link IscemFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class IscemFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-//    private static final String ARG_PARAM1 = "param1";
-//    private static final String ARG_PARAM2 = "param2";
+public class IscemFragment extends Fragment implements OnQueryTextListener {
+
+    // deklaracije
     private static final String ARG_SECTION_NUMBER = "section_number";
-
-    // TODO: Rename and change types of parameters
-//    private String mParam1;
-//    private String mParam2;
-
-   // private OnFragmentInteractionListener mListener;
+    private PrevozAdapter listAdapterPrevozov;
+    private SearchView searchViewPrevozov;
+    private LayoutInflater layoutInflater;
+    private PopupWindow popupWindow;
+    private FrameLayout frameLayout;
 
     public IscemFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-//     * @param param1 Parameter 1.
-//     * @param param2 Parameter 2.
-     * @return A new instance of fragment IscemFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static IscemFragment newInstance(int sectionNumber) {
         IscemFragment fragment = new IscemFragment();
         Bundle args = new Bundle();
-//        args.putString(ARG_PARAM1, param1);
-//        args.putString(ARG_PARAM2, param2);
         args.putInt(ARG_SECTION_NUMBER,sectionNumber);
         fragment.setArguments(args);
         return fragment;
     }
 
-//    @Override
-//    public void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        if (getArguments() != null) {
-//            mParam1 = getArguments().getString(ARG_PARAM1);
-//            mParam2 = getArguments().getString(ARG_PARAM2);
-//        }
-//    }
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-//        return inflater.inflate(R.layout.fragment_iscem, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
         View rootView = inflater.inflate(R.layout.fragment_iscem, container, false);
+
+        ArrayList<Prevoz> aktivniPrevozi = new ArrayList<Prevoz>();
+        Toolbar myToolbar = (Toolbar) rootView.findViewById(R.id.my_toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(myToolbar); //need to cast your activity from getActivity() to AppCompatActivity first,  because getActivity() returns a FragmentActivity and you need an AppCompatActivity
+
+        // TESTNI PREVBOZI
+        final String dateTime = "29.11.2017 16:00:00";
+        DateTime trenutniCas = new DateTime(); //trenutni datum in točen čas
+        DateTimeFormatter dtf = DateTimeFormat.forPattern("dd.MM.yyyy HH:mm:ss");
+        DateTime drugCas = dtf.parseDateTime(dateTime);
+        Prevoz dummyPrevoz = new Prevoz("Maribor", "Koper", "040202108", 10.0, 3, 4, false, "Toyota Yaris črne barve", "Luka", trenutniCas);
+        Prevoz dummyPrevoz2 = new Prevoz("Ljubljana", "Maribor", "040256339", 5.0, 3, 3, false, "Toyota Hilux", "Žiga", drugCas);
+        Prevoz dummyPrevoz3 = new Prevoz("Celje", "Novo Mesto", "04025897464", 7.0, 1, 4, true, "Mazda 3", "Anja", drugCas.plusDays(2));
+        aktivniPrevozi.add(dummyPrevoz2);
+        aktivniPrevozi.add(dummyPrevoz3);
+        for (Integer i=0; i<10;i++)
+            aktivniPrevozi.add(dummyPrevoz);
+
+        // V adapter damo vse prevoze. nato adapter podamo seznamu
+        listAdapterPrevozov = new PrevozAdapter(getActivity().getApplicationContext(), aktivniPrevozi);
+        final ListView listViewPrevozov = (ListView) rootView.findViewById(R.id.seznamPrevozov);
+        listViewPrevozov.setAdapter(listAdapterPrevozov);
+
+        frameLayout = (FrameLayout) rootView.findViewById(R.id.list_relative); // najdem activity_list.xml <frame>
+
+        frameLayout.getForeground().setAlpha(0); // Črn foreground nardim transparenten
+
+        listViewPrevozov.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                layoutInflater = (LayoutInflater) getActivity().getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+                ViewGroup container = (ViewGroup) layoutInflater.inflate(R.layout.popwindow,null);
+
+                DisplayMetrics dm = new DisplayMetrics();
+                getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
+                int width = dm.widthPixels;
+                int height = dm.heightPixels;
+
+                popupWindow = new PopupWindow(container, (int)(width*.8), (int)(height*.8), true);
+                popupWindow.showAtLocation(frameLayout, Gravity.CENTER, 0, 0);
+                frameLayout.getForeground().setAlpha(200);// Ozadju nastavim transparency, da je zatemnjeno
+
+                // Closes the popup window when touch outside.
+                popupWindow.setOutsideTouchable(true);// Ker na Android 5.0.1 ne deluje dismiss popupa, poskusim s tem pristopom
+                popupWindow.setFocusable(true);
+                // Removes default background.
+                popupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+                //   Nastavljanje vrednosti v popupu
+                Prevoz p = (Prevoz) adapterView.getItemAtPosition(i);
+                // Pridobivanje View-ov
+                TextView ime = (TextView) container.findViewById(R.id.pop_ime);
+                TextView stevilka = (TextView) container.findViewById(R.id.pop_telefon);
+                TextView datum = (TextView) container.findViewById(R.id.pop_datum);
+                TextView ura = (TextView) container.findViewById(R.id.pop_ura);
+                TextView prostaMesta = (TextView) container.findViewById(R.id.pop_prostaMesta);
+                TextView opis = (TextView) container.findViewById(R.id.pop_opis);
+
+                // Prireditev vrednosti
+                ime.setText(p.getIme());
+                stevilka.setText(p.getMobitel());
+                datum.setText(p.getDatum());
+                ura.setText(p.getCas());
+                prostaMesta.setText(p.getOseb() + "/" + p.getMaxOseb());
+                opis.setText(p.getOpis());
+
+                if (p.getOseb() == 1 || p.getOseb() == 0)
+                    prostaMesta.setTextColor(Color.RED);
+
+                popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                    @Override
+                    public void onDismiss() {
+                        frameLayout.getForeground().setAlpha(0);// Ozadje spet transparentno(normalno) ko se popup zapre
+                    }
+                });
+            }
+        });
+
         return rootView;
 
     }
 
-//    // TODO: Rename method, update argument and hook method into UI event
-//    public void onButtonPressed(Uri uri) {
-//        if (mListener != null) {
-//            mListener.onFragmentInteraction(uri);
-//        }
-//    }
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.main, menu);
+        MenuItem menuItem = menu.findItem(R.id.listSearch);
+        searchViewPrevozov = (SearchView) menuItem.getActionView();
+        searchViewPrevozov.setOnQueryTextListener(this);
+    }
 
-//    @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
-//    }
-//
-//    @Override
-//    public void onDetach() {
-//        super.onDetach();
-//        mListener = null;
-//    }
+    @Override
+    public boolean onQueryTextSubmit(String s) {
+        listAdapterPrevozov.getFilter().filter(s);
+        return false;
+    }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-//    public interface OnFragmentInteractionListener {
-//        // TODO: Update argument type and name
-//        void onFragmentInteraction(Uri uri);
-//    }
+    @Override
+    public boolean onQueryTextChange(String query) {
+        listAdapterPrevozov.getFilter().filter(query);
+        return false;
+    }
+
 }

@@ -1,13 +1,28 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="nameplaceholder.prevazanjaorg.IscemFragment">
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDarkish"
+    android:id="@+id/list_relative"
+    android:foreground="@drawable/dimming">
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="SEZNAM PREVOZOV" />
+        android:layout_height="match_parent">
 
-</RelativeLayout>
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/my_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:elevation="4dp"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar" />
+
+        <ListView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/seznamPrevozov"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/my_toolbar"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="5dp"/>
+
+
+    </RelativeLayout>
+</FrameLayout>

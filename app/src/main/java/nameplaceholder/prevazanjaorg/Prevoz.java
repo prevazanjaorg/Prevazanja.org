@@ -20,6 +20,7 @@ public class Prevoz {
     String kam;
     String mobitel;
     Double strosek;
+    Integer oseb;
     Integer maxOseb;
     Boolean zavarovanje;
     String avto;
@@ -38,6 +39,14 @@ public class Prevoz {
     public static final int FRIDAY = 5;
     public static final int SATURDAY = 6;
     public static final int SUNDAY = 7;
+
+    public Integer getOseb() {
+        return oseb;
+    }
+
+    public void setOseb(Integer oseb) {
+        this.oseb = oseb;
+    }
 
     public DateTime getDatumObjave() {
         return datumObjave;
@@ -120,12 +129,13 @@ public class Prevoz {
         this.casDatum = casDatum;
     }
 
-    public Prevoz(String initIz, String initKam, String initMobitel, Double initStrosek, Integer initOseb, Boolean initZavarovanje, String initAvto, String initIme, DateTime initCas) {
+    public Prevoz(String initIz, String initKam, String initMobitel, Double initStrosek, Integer initOseb, Integer initMaxOseb, Boolean initZavarovanje, String initAvto, String initIme, DateTime initCas) {
         iz = initIz;
         kam = initKam;
         mobitel = initMobitel;
         strosek = initStrosek;
-        maxOseb = initOseb;
+        oseb = initOseb;
+        maxOseb = initMaxOseb;
         zavarovanje = initZavarovanje;
         avto = initAvto;
         ime = initIme;
