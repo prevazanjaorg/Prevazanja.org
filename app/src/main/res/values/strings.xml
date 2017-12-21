@@ -16,7 +16,8 @@
         completions."
     </string>
     <string name="title_activity_login">Prijava</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Nastavitve</string>
+    <string name="action_add">Dodaj prevoz</string>
     <string name="placeholder">10</string>
     <string name="evro"> €</string>
     <string name="action_favorite">Priljubljeno</string>
@@ -36,6 +37,8 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_settings">Settings</string>
+
+    <string name="menu_remove">Izbriši prevoz</string>
 
     <!-- Strings related to Settings -->
 
@@ -136,4 +139,5 @@
     <!-- Nastavitve za "o ekipi" -->
     <string name="pref_header_ekipa">O ekipi</string>
     <string name="title_activity_podrobnosti">PodrobnostiActivity</string>
+    <string name="title_activity_maps">Map</string>
 </resources>

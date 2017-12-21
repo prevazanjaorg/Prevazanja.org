@@ -1,10 +1,9 @@
 package nameplaceholder.prevazanjaorg;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -28,6 +27,7 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.zip.Inflater;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
@@ -62,6 +62,7 @@ public class IscemFragment extends Fragment implements OnQueryTextListener {
         ArrayList<Prevoz> aktivniPrevozi = new ArrayList<Prevoz>();
         Toolbar myToolbar = (Toolbar) rootView.findViewById(R.id.my_toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(myToolbar); //need to cast your activity from getActivity() to AppCompatActivity first,  because getActivity() returns a FragmentActivity and you need an AppCompatActivity
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.app_name);
 
         // TESTNI PREVBOZI
         final String dateTime = "29.11.2017 16:00:00";
@@ -136,14 +137,12 @@ public class IscemFragment extends Fragment implements OnQueryTextListener {
                 });
             }
         });
-
         return rootView;
-
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.main, menu);
+        inflater.inflate(R.menu.menu_iscem, menu);
         MenuItem menuItem = menu.findItem(R.id.listSearch);
         searchViewPrevozov = (SearchView) menuItem.getActionView();
         searchViewPrevozov.setOnQueryTextListener(this);
@@ -159,6 +158,23 @@ public class IscemFragment extends Fragment implements OnQueryTextListener {
     public boolean onQueryTextChange(String query) {
         listAdapterPrevozov.getFilter().filter(query);
         return false;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.btnSettings:
+                btnSettingsClick(item);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    public void btnSettingsClick(MenuItem item){
+        Intent intent = new Intent(getActivity(), SettingsActivity.class);
+        startActivity(intent);
     }
 
 }
