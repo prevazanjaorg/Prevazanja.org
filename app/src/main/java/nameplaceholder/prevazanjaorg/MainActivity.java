@@ -141,11 +141,4 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
-    public void listPrevozovActivity(View view) {
-        //Temporary to show list activity
-        finish();
-        Intent mojIntent = new Intent(MainActivity.this, ListPrevozovActivity.class);
-        startActivity(mojIntent);
-    }
 }
