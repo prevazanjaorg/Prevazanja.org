@@ -77,7 +77,9 @@ public class MainActivity extends AppCompatActivity {
         btnPodrobnosti.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Prevoz dummyPrevoz = new Prevoz("Maribor", "Koper", "040202108", 10.0, 3, 4, false, "Toyota Yaris črne barve", "Luka", null,-34,151,100);
                 Intent mojIntent = new Intent(MainActivity.this, PodrobnostiActivity.class);
+                mojIntent.putExtra("Prevoz", dummyPrevoz);
                 startActivity(mojIntent);
             }
         });

@@ -1,5 +1,6 @@
 package nameplaceholder.prevazanjaorg;
 
+import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -34,6 +35,7 @@ public class PodrobnostiActivity extends AppCompatActivity {
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
+    private Prevoz prevoz;
     private MapsFragment mapsFragment;
     private LastnostiFragment lastnostiFragment;
     private PodrobnostiFragment podrobnostiFragment;
@@ -42,6 +44,12 @@ public class PodrobnostiActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_podrobnosti);
+
+        Intent getPrevoz = getIntent();
+
+        if (getPrevoz.getSerializableExtra("Prevoz") != null) {
+            prevoz = (Prevoz)getPrevoz.getSerializableExtra("Prevoz");
+        }
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -91,13 +99,13 @@ public class PodrobnostiActivity extends AppCompatActivity {
             // Return a PlaceholderFragment (defined as a static inner class below).
             switch(position){
                 case 0:
-                    return mapsFragment.newInstance(position);
+                    return mapsFragment.newInstance(position,prevoz);
                 case 1:
-                    return podrobnostiFragment.newInstance(position);
+                    return podrobnostiFragment.newInstance(position,prevoz);
                 case 2:
-                    return lastnostiFragment.newInstance(position);
+                    return lastnostiFragment.newInstance(position,prevoz);
                 default:
-                    return podrobnostiFragment.newInstance(position);
+                    return podrobnostiFragment.newInstance(position,prevoz);
             }
         }
 

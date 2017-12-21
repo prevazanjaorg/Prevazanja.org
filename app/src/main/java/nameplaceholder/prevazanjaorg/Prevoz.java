@@ -4,6 +4,9 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.model.LatLng;
+
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -15,22 +18,25 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
-public class Prevoz {
-    String iz;
-    String kam;
-    String mobitel;
-    Double strosek;
-    Integer oseb;
-    Integer maxOseb;
-    Boolean zavarovanje;
-    String avto;
-    DateTime datumObjave;
-    String ime;
-    DateTime casDatum;
-    Integer ID;
-    ArrayList<Uporabnik> rezervacije;
-    String opis;
-    Context c;
+public class Prevoz implements Serializable {
+    public String iz;
+    public String kam;
+    public String mobitel;
+    public double strosek;
+    public int oseb;
+    public int maxOseb;
+    public Boolean zavarovanje;
+    public String avto;
+    public DateTime datumObjave;
+    public String ime;
+    public DateTime casDatum;
+    public int ID;
+    public ArrayList<Uporabnik> rezervacije;
+    public String opis;
+    public Context c;
+    public double latitude;
+    public double longitude;
+    public int radius;
 
     public static final int MONDAY = 1;
     public static final int TUESDAY = 2;
@@ -40,11 +46,34 @@ public class Prevoz {
     public static final int SATURDAY = 6;
     public static final int SUNDAY = 7;
 
-    public Integer getOseb() {
+
+
+    public Prevoz(Prevoz t){
+        this.rezervacije = t.rezervacije;
+        this.avto = t.avto;
+        this.c = t.c;
+        this.casDatum = t.casDatum;
+        this.datumObjave = t.datumObjave;
+        this.ID = t.ID;
+        this.ime = t.ime;
+        this.iz = t.iz;
+        this.kam = t.kam;
+        this.maxOseb = t.maxOseb;
+        this.mobitel = t.mobitel;
+        this.opis = t.opis;
+        this.strosek = t.strosek;
+        this.oseb = t.oseb;
+        this.zavarovanje = t.zavarovanje;
+        this.latitude = t.latitude;
+        this.longitude = t.longitude;
+        this.radius = t.radius;
+    }
+
+    public int getOseb() {
         return oseb;
     }
 
-    public void setOseb(Integer oseb) {
+    public void setOseb(int oseb) {
         this.oseb = oseb;
     }
 
@@ -64,11 +93,11 @@ public class Prevoz {
         this.opis = opis;
     }
 
-    public Integer getID() {
+    public int getID() {
         return ID;
     }
 
-    public void setID(Integer ID) {
+    public void setID(int ID) {
         this.ID = ID;
     }
 
@@ -108,10 +137,6 @@ public class Prevoz {
         this.ime = ime;
     }
 
-    public void Show(){
-        Toast.makeText(c, "test Toasta :D", Toast.LENGTH_SHORT).show();
-    }
-
     public Prevoz(Context context) {
         c = context;
         rezervacije = new ArrayList<Uporabnik>();
@@ -129,18 +154,21 @@ public class Prevoz {
         this.casDatum = casDatum;
     }
 
-    public Prevoz(String initIz, String initKam, String initMobitel, Double initStrosek, Integer initOseb, Integer initMaxOseb, Boolean initZavarovanje, String initAvto, String initIme, DateTime initCas) {
-        iz = initIz;
-        kam = initKam;
-        mobitel = initMobitel;
-        strosek = initStrosek;
-        oseb = initOseb;
-        maxOseb = initMaxOseb;
-        zavarovanje = initZavarovanje;
-        avto = initAvto;
-        ime = initIme;
-        casDatum = initCas;
-        rezervacije = new ArrayList<Uporabnik>();
+    public Prevoz(String initIz, String initKam, String initMobitel, double initStrosek, int initOseb, int initMaxOseb, Boolean initZavarovanje, String initAvto, String initIme, DateTime initCas,double latitude,double longitude,int rad) {
+        this.iz = initIz;
+        this.kam = initKam;
+        this.mobitel = initMobitel;
+        this.strosek = initStrosek;
+        this.oseb = initOseb;
+        this.maxOseb = initMaxOseb;
+        this.zavarovanje = initZavarovanje;
+        this.avto = initAvto;
+        this.ime = initIme;
+        this.casDatum = initCas;
+        this.rezervacije = new ArrayList<Uporabnik>();
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.radius = rad;
     }
 
     public String getIz() {
@@ -175,11 +203,11 @@ public class Prevoz {
         this.strosek = strosek;
     }
 
-    public Integer getMaxOseb() {
+    public int getMaxOseb() {
         return maxOseb;
     }
 
-    public void setMaxOseb(Integer maxOseb) {
+    public void setMaxOseb(int maxOseb) {
         this.maxOseb = maxOseb;
     }
 
