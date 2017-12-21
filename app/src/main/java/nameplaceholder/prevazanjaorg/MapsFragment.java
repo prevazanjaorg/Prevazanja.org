@@ -41,12 +41,13 @@ public class MapsFragment extends Fragment {
     private GoogleMap googleMap;
     private CameraPosition KameraPos;
     private final static int DEFAULT_ZOOM = 15;
+    private static Prevoz prevoz;
 
     /* NASTAVITVE IZ SHARED PREFERENCES */
     private boolean dovoljenjeZaLokacijo = false;
     private boolean pobiramVradiusu = true;
     private LatLng LokacijaPobiranja;
-    private int radius = 1000;
+    //private int radius = 1000;
 
     /* PRAVICE */
     private final static int ZAHTEVAJ_PRAVICE_ZA_LOKACIJO = 1;
@@ -66,7 +67,8 @@ public class MapsFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static MapsFragment newInstance(int sectionNumber) {
+    public static MapsFragment newInstance(int sectionNumber, Prevoz p) {
+        prevoz = p;
         MapsFragment fragment = new MapsFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_SECTION_NUMBER,sectionNumber);
@@ -135,11 +137,11 @@ public class MapsFragment extends Fragment {
                     Log.e("MAP STYLE: %s",e.getMessage());
                 }
 
-                LokacijaPobiranja = new LatLng(-34,151);
+                LokacijaPobiranja = new LatLng(prevoz.latitude,prevoz.longitude);
                 zahtevaPobiranjaMarker = new MarkerOptions();
                 pobiranjeMarker = new MarkerOptions().position(LokacijaPobiranja).title("Lokacija pobiranja potnikov").snippet("Uporabnik ki ponuja prevoz pobira potnike tukaj!");
                 if(pobiramVradiusu) {
-                    radiusPobiranja = new CircleOptions().center(LokacijaPobiranja).radius(radius).strokePattern(PATTERN_POLYLINE_DOTTED)
+                    radiusPobiranja = new CircleOptions().center(LokacijaPobiranja).radius(prevoz.radius).strokePattern(PATTERN_POLYLINE_DOTTED)
                             .strokeColor(Color.rgb(242, 104, 13)).fillColor(0x22886349); // prve dve 22 so za opacity!!!
                     googleMap.addCircle(radiusPobiranja);
                 }

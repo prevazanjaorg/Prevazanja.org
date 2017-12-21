@@ -1,12 +1,14 @@
 package nameplaceholder.prevazanjaorg;
 
+import java.io.Serializable;
+
 /**
  * Created by Potatoseus on 11/23/2017.
  */
 
-public class Uporabnik {
-    String telefon;
-    String username;
+public class Uporabnik implements Serializable{
+    public String telefon;
+    public String username;
 
     public Uporabnik(String telefon, String username) {
         this.telefon = telefon;

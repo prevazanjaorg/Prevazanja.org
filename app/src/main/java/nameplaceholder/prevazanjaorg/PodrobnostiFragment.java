@@ -15,12 +15,15 @@ public class PodrobnostiFragment extends Fragment {
 
     private static final String ARG_SECTION_NUMBER = "section_number";
 
+    private static Prevoz prevoz;
+
     public PodrobnostiFragment() {
         // Required empty public constructor
     }
 
-    public static PodrobnostiFragment newInstance(int sectionNumber) {
+    public static PodrobnostiFragment newInstance(int sectionNumber, Prevoz p) {
         PodrobnostiFragment fragment = new PodrobnostiFragment();
+        prevoz = p;
         Bundle args = new Bundle();
         args.putInt(ARG_SECTION_NUMBER,sectionNumber);
         fragment.setArguments(args);
