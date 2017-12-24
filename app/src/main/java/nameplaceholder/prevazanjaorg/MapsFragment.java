@@ -1,10 +1,7 @@
 package nameplaceholder.prevazanjaorg;
 
-import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.location.Location;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -135,7 +132,7 @@ public class MapsFragment extends Fragment {
                     Log.e("MAP STYLE: %s",e.getMessage());
                 }
 
-                LokacijaPobiranja = new LatLng(-34,151);
+                LokacijaPobiranja = new LatLng(46.554650,15.645881);
                 zahtevaPobiranjaMarker = new MarkerOptions();
                 pobiranjeMarker = new MarkerOptions().position(LokacijaPobiranja).title("Lokacija pobiranja potnikov").snippet("Uporabnik ki ponuja prevoz pobira potnike tukaj!");
                 if(pobiramVradiusu) {
