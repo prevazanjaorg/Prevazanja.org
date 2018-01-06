@@ -23,15 +23,15 @@
         android:layout_marginTop="30dp"
         android:gravity="center">
         <Button
+            android:id="@+id/btnPrekliciBrisanje"
+            android:layout_width="85dp"
+            android:layout_height="45dp"
+            android:text="Prekliči"/>
+        <Button
             android:id="@+id/btnIzbrisi"
             android:layout_width="75dp"
             android:layout_height="45dp"
             android:text="Izbriši"/>
-        <Button
-            android:id="@+id/btnPreklici"
-            android:layout_width="85dp"
-            android:layout_height="45dp"
-            android:text="Prekliči"/>
     </LinearLayout>
 
 </RelativeLayout>

@@ -105,7 +105,7 @@ public class IscemFragment extends Fragment implements OnQueryTextListener {
                 popupWindow.showAtLocation(frameLayout, Gravity.CENTER, 0, 0);
                 frameLayout.getForeground().setAlpha(200);// Ozadju nastavim transparency, da je zatemnjeno
 
-                // Closes the popup window when touch outside.
+                // Closes the popup_izbrisi window when touch outside.
                 popupWindow.setOutsideTouchable(true);// Ker na Android 5.0.1 ne deluje dismiss popupa, poskusim s tem pristopom
                 popupWindow.setFocusable(true);
                 // Removes default background.
@@ -135,7 +135,7 @@ public class IscemFragment extends Fragment implements OnQueryTextListener {
                 popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
                     @Override
                     public void onDismiss() {
-                        frameLayout.getForeground().setAlpha(0);// Ozadje spet transparentno(normalno) ko se popup zapre
+                        frameLayout.getForeground().setAlpha(0);// Ozadje spet transparentno(normalno) ko se popup_izbrisi zapre
 
                     }
                 });
