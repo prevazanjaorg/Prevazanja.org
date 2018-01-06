@@ -1,131 +1,31 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="nameplaceholder.prevazanjaorg.PonujamFragment"
-    android:background="#f2680d">
-
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="250dp"
-        android:layout_height="440dp"
-        android:layout_alignEnd="@+id/btnSettings"
-        android:layout_alignLeft="@+id/btnDodaj"
-        android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/btnSettings"
-        android:layout_alignStart="@+id/btnDodaj"
-        android:layout_marginTop="40dp"
-        android:background="@drawable/border" />
-
-    <TextView
-        android:id="@+id/tvPrevoz"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="59dp"
-        android:layout_marginStart="59dp"
-        android:layout_marginTop="66dp"
-        android:text="MOJ PREVOZ 1"
-        android:textSize="25sp"
-        android:textStyle="bold"/>
-
-    <Button
-        android:id="@+id/btnDodaj"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="22dp"
-        android:layout_marginLeft="43dp"
-        android:layout_marginStart="43dp"
-        android:width="50dp"
-        android:height="50dp"
-        android:minHeight="0dp"
-        android:minWidth="0dp"
-        android:text="+"
-        android:textSize="25dp"/>
-
-    <Button
-        android:id="@+id/btnOdstrani"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/btnDodaj"
-        android:layout_alignBottom="@+id/btnDodaj"
-        android:layout_centerHorizontal="true"
-        android:width="50dp"
-        android:height="50dp"
-        android:minHeight="0dp"
-        android:minWidth="0dp"
-        android:text="-"
-        android:textSize="25dp"/>
-
-    <ImageButton
-        android:id="@+id/btnSettings"
-        android:layout_width="55dp"
-        android:layout_height="50dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/btnOdstrani"
-        android:layout_marginEnd="47dp"
-        android:layout_marginRight="47dp"
-        android:minHeight="0dp"
-        android:minWidth="0dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/settings" />
-
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="200dp"
-        android:layout_height="150dp"
-        android:layout_above="@+id/button"
-        android:layout_alignEnd="@+id/button"
-        android:layout_alignRight="@+id/button"
-        android:layout_marginBottom="25dp"
-        android:src="@drawable/multipla" />
-
-    <TextView
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#f2680d"
+    android:id="@+id/list_relative"
+    android:foreground="@drawable/dimming">
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignLeft="@+id/imageView"
-        android:layout_alignStart="@+id/imageView"
-        android:layout_below="@+id/tvPrevoz"
-        android:layout_marginTop="42dp"
-        android:text="- Vozim Maribor-Celje, cena 3€"
-        android:id="@+id/textView4" />
+        android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignLeft="@+id/imageView"
-        android:layout_alignStart="@+id/imageView"
-        android:layout_alignTop="@+id/textView4"
-        android:layout_marginTop="20dp"
-        android:text="- Srebrn Fiat Multipla, letnik 1820, nov"
-        android:id="@+id/textView6" />
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/my_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:titleTextColor="#ffffff"
+            android:background="#f2680d"
+            android:elevation="4dp"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignLeft="@+id/imageView"
-        android:layout_alignStart="@+id/imageView"
-        android:layout_alignTop="@+id/textView6"
-        android:layout_marginTop="20dp"
-        android:text="- 5/7 zasedenih mest" />
+        <ListView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/seznamMojihPrevozov"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/my_toolbar"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="5dp"/>
 
-    <Button
-        android:layout_width="175dp"
-        android:layout_height="50dp"
-        android:layout_alignBottom="@+id/textView5"
-        android:layout_marginBottom="21dp"
-        android:layout_toEndOf="@+id/btnDodaj"
-        android:layout_toRightOf="@+id/btnDodaj"
-        android:text="PODROBNO"
-        android:textSize="20dp"
-        android:id="@+id/button" />
 
-</RelativeLayout>
+    </RelativeLayout>
+</FrameLayout>

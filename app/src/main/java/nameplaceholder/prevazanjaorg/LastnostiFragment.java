@@ -12,13 +12,15 @@ public class LastnostiFragment extends Fragment {
     private static final String ARG_SECTION_NUMBER = "section_number";
 
     //private OnFragmentInteractionListener mListener;
+    private static Prevoz prevoz;
 
     public LastnostiFragment() {
         // Required empty public constructor
     }
 
-    public static LastnostiFragment newInstance(int sectionNumber) {
+    public static LastnostiFragment newInstance(int sectionNumber, Prevoz p) {
         LastnostiFragment fragment = new LastnostiFragment();
+        prevoz = p;
         Bundle args = new Bundle();
         args.putInt(ARG_SECTION_NUMBER,sectionNumber);
         fragment.setArguments(args);
