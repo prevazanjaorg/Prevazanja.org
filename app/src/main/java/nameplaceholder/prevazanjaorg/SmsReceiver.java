@@ -4,9 +4,12 @@ import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.telephony.SmsMessage;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.util.Scanner;
 
@@ -18,7 +21,7 @@ import java.util.Scanner;
 
 public class SmsReceiver extends BroadcastReceiver {
 
-    public boolean running = true; // nekak iz naastavitev če je res, drugače skso laufa
+    public boolean running = false; // nekak iz naastavitev če je res, drugače skso laufa
     private Context contXt;
 
 
@@ -27,7 +30,11 @@ public class SmsReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) { // intenti so filtrirani v androidmanifest v receiver intentfilter: action == intent
         contXt = context;
-        if(running) { // dobi nekak iz nastavitev če je vklopljen sms sistem
+
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(contXt);
+        boolean isChecked = settings.getBoolean("sporocanje_switch", false);
+
+        if(isChecked) { // dobi nekak iz nastavitev če je vklopljen sms sistem
             if (intent.getAction().equals("android.provider.Telephony.SMS_RECEIVED")) { // če je intent SMS_RECEIVED
                /*
                 if(checkifRunning()) {

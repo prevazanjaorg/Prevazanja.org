@@ -78,13 +78,13 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Intent mojIntent = new Intent(LoginActivity.this, MainActivity.class);
+        Intent mojIntent = new Intent(LoginActivity.this, LandingActivity.class);
         startActivity(mojIntent);
         finish();
         session = new SessionManager(getApplicationContext());
         /*
         if (session.isLoggedIn()){
-            Intent mojIntent = new Intent(LoginActivity.this, MainActivity.class);
+            Intent mojIntent = new Intent(LoginActivity.this, LandingActivity.class);
             startActivity(mojIntent);
             finish();
         }
@@ -155,7 +155,7 @@ public class LoginActivity extends AppCompatActivity {
             }
             //TV.setText(s);
             if (s.contains("true")){
-                Intent mojIntent = new Intent(LoginActivity.this, MainActivity.class);
+                Intent mojIntent = new Intent(LoginActivity.this, LandingActivity.class);
                 startActivity(mojIntent);
                 finish();
             }
@@ -421,7 +421,7 @@ public class LoginActivity extends AppCompatActivity {
 //                session.createLoginSession(mUsernameView.getText().toString(),mEmailView.getText().toString());
 //                SharedPreferences pref = getApplicationContext().getSharedPreferences(session.pref.toString(), 0); // 0 - for private mode
 //
-//                Intent mojIntent = new Intent(LoginActivity.this, MainActivity.class);
+//                Intent mojIntent = new Intent(LoginActivity.this, LandingActivity.class);
 //                startActivity(mojIntent);
 //                finish();
 //            } else {
