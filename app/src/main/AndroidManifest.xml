@@ -73,7 +73,6 @@
             <!-- </intent-filter> -->
         </activity>
         <activity android:name=".RegisterActivity" />
-        <activity android:name=".MainActivity" />
 
         <receiver android:name=".SmsReceiver">
             <intent-filter android:priority="1">
@@ -98,9 +97,9 @@
             android:name=".PodrobnostiActivity"
             android:label="@string/title_activity_podrobnosti"
             android:theme="@style/AppTheme" />
-        <activity
-            android:name=".MapsActivity"
-            android:label="@string/title_activity_maps"></activity>
+        <!--<activity-->
+            <!--android:name=".MapsActivity"-->
+            <!--android:label="@string/title_activity_maps"></activity>-->
     </application>
 
 </manifest>
