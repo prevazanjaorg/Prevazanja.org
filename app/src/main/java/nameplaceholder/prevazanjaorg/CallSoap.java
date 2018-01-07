@@ -67,6 +67,7 @@ public class CallSoap {
         String OPERATION_NAME="Prijava";
         String NAMESPACE="http://tempuri.org/";
 
+        //String SOAP_ADDRESS="http://213.161.3.238/prevozi/webservice.asmx";
         String SOAP_ADDRESS="http://213.161.3.238/prevozi/webservice.asmx";
         SoapObject request = new SoapObject(NAMESPACE,OPERATION_NAME);
 
@@ -193,7 +194,8 @@ public class CallSoap {
         String OPERATION_NAME="VrniLastnosti";
         String NAMESPACE="http://tempuri.org/";
 
-        String SOAP_ADDRESS="http://213.161.3.238/prevozi/webservice.asmx";
+        //String SOAP_ADDRESS="http://213.161.3.238/prevozi/webservice.asmx";http://93.103.196.202/
+        String SOAP_ADDRESS="http://93.103.196.202/prevozi/webservice.asmx";
         SoapObject request = new SoapObject(NAMESPACE,OPERATION_NAME);
 
         SoapSerializationEnvelope envelope=new SoapSerializationEnvelope(SoapEnvelope.VER11);
