@@ -1,6 +1,5 @@
 package nameplaceholder.prevazanjaorg;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -18,15 +17,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.android.gms.maps.model.LatLng;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -43,12 +40,20 @@ public class PonujamFragment extends Fragment implements OnQueryTextListener{
     private PrevozAdapter listAdapterPrevozov;
     private SearchView searchViewPrevozov;
     private LayoutInflater layoutInflater;
-    private PopupWindow popupWindow;
+    private PopupWindow popupWindowIzbrisi;
+    private PopupWindow popupWindowDodaj;
     private FrameLayout frameLayout;
 
     private Button btnIzbrisi;
-    private Button btnPreklici;
+    private Button btnPrekliciBrisanje;
 
+    private Button btnDodaj;
+    private Button btnPrekliciDodajanje;
+
+    private EditText etOd;
+    private EditText etDo;
+    private EditText etCas;
+    private EditText etCena;
 
     ArrayList<Prevoz> aktivniPrevozi = new ArrayList<Prevoz>();
 
@@ -82,13 +87,13 @@ public class PonujamFragment extends Fragment implements OnQueryTextListener{
         DateTime trenutniCas = new DateTime(); //trenutni datum in točen čas
         DateTimeFormatter dtf = DateTimeFormat.forPattern("dd.MM.yyyy HH:mm:ss");
         DateTime drugCas = dtf.parseDateTime(dateTime);
-        Prevoz dummyPrevoz = new Prevoz("Maribor", "Koper", "040202108", 10.0, 3, 4, false, "Toyota Yaris črne barve", "Luka", trenutniCas,-34,151,100);
-        Prevoz dummyPrevoz2 = new Prevoz("Ljubljana", "Maribor", "040256339", 5.0, 3, 3, false, "Toyota Hilux", "Žiga", drugCas,-50,150,250);
-        Prevoz dummyPrevoz3 = new Prevoz("Celje", "Novo Mesto", "04025897464", 7.0, 1, 4, true, "Mazda 3", "Anja", drugCas.plusDays(2),66,-50,150);
+        Prevoz dummyPrevoz = new Prevoz("Maribor", "Koper", "040202108", 10.0, 3, 4, false, "Toyota Yaris črne barve", "Polar", trenutniCas,-34,151,100);
+        Prevoz dummyPrevoz2 = new Prevoz("Ljubljana", "Maribor", "040256339", 5.0, 3, 3, false, "Toyota Hilux", "Polar", drugCas,-50,150,250);
+        Prevoz dummyPrevoz3 = new Prevoz("Celje", "Novo Mesto", "04025897464", 7.0, 1, 4, true, "Mazda 3", "Polar", drugCas.plusDays(2),66,-50,150);
         aktivniPrevozi.add(dummyPrevoz2);
         aktivniPrevozi.add(dummyPrevoz3);
-        for (Integer i=0; i<10;i++)
-            aktivniPrevozi.add(dummyPrevoz);
+        //for (Integer i=0; i<10;i++)
+            //aktivniPrevozi.add(dummyPrevoz);
 
 //        for(Integer i = 0; i < aktivniPrevozi.size(); i++){
 //            Prevoz a = aktivniPrevozi.get(i);
@@ -111,7 +116,7 @@ public class PonujamFragment extends Fragment implements OnQueryTextListener{
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, final int i, long l) {
                 layoutInflater = (LayoutInflater) getActivity().getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-                ViewGroup container = (ViewGroup) layoutInflater.inflate(R.layout.popup,null);
+                ViewGroup container = (ViewGroup) layoutInflater.inflate(R.layout.popup_izbrisi,null);
 
 
                 DisplayMetrics dm = new DisplayMetrics();
@@ -119,15 +124,15 @@ public class PonujamFragment extends Fragment implements OnQueryTextListener{
                 int width = dm.widthPixels;
                 int height = dm.heightPixels;
 
-                popupWindow = new PopupWindow(container, (int)(width*.4), (int)(height*.125), true);
-                popupWindow.showAtLocation(frameLayout, Gravity.CENTER, 0, 0);
+                popupWindowIzbrisi = new PopupWindow(container, (int)(width*.4), (int)(height*.125), true);
+                popupWindowIzbrisi.showAtLocation(frameLayout, Gravity.CENTER, 0, 0);
                 frameLayout.getForeground().setAlpha(75);// Ozadju nastavim transparency, da je zatemnjeno
 
-                // Closes the popup window when touch outside.
-                popupWindow.setOutsideTouchable(true);// Ker na Android 5.0.1 ne deluje dismiss popupa, poskusim s tem pristopom
-                popupWindow.setFocusable(true);
+                // Closes the popup_izbrisi window when touch outside.
+                popupWindowIzbrisi.setOutsideTouchable(true);// Ker na Android 5.0.1 ne deluje dismiss popupa, poskusim s tem pristopom
+                popupWindowIzbrisi.setFocusable(true);
                 // Removes default background.
-                popupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                popupWindowIzbrisi.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
                 btnIzbrisi = (Button) container.findViewById(R.id.btnIzbrisi);
                 btnIzbrisi.setOnClickListener(new View.OnClickListener() {
@@ -137,24 +142,24 @@ public class PonujamFragment extends Fragment implements OnQueryTextListener{
                         listAdapterPrevozov = new PrevozAdapter(getActivity().getApplicationContext(), aktivniPrevozi);
                         final ListView listViewPrevozov = (ListView) getView().findViewById(R.id.seznamMojihPrevozov);
                         listViewPrevozov.setAdapter(listAdapterPrevozov);
-                        popupWindow.dismiss();
+                        popupWindowIzbrisi.dismiss();
                         Toast.makeText(getContext(), "Izbrisano", Toast.LENGTH_SHORT).show();
                     }
                 });
 
-                btnPreklici = (Button) container.findViewById(R.id.btnPreklici);
-                btnPreklici.setOnClickListener(new View.OnClickListener() {
+                btnPrekliciBrisanje = (Button) container.findViewById(R.id.btnPrekliciBrisanje);
+                btnPrekliciBrisanje.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        popupWindow.dismiss();
+                        popupWindowIzbrisi.dismiss();
                     }
                 });
 
 
-                popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                popupWindowIzbrisi.setOnDismissListener(new PopupWindow.OnDismissListener() {
                     @Override
                     public void onDismiss() {
-                        frameLayout.getForeground().setAlpha(0);// Ozadje spet transparentno(normalno) ko se popup zapre
+                        frameLayout.getForeground().setAlpha(0);// Ozadje spet transparentno(normalno) ko se popup_izbrisi zapre
                     }
                 });
 
@@ -191,8 +196,8 @@ public class PonujamFragment extends Fragment implements OnQueryTextListener{
             case R.id.btnSettings:
                 btnSettingsClick(item);
                 return true;
-            case R.id.btnDodaj:
-                btnDodajClick(item);
+            case R.id.btnPlus:
+                btnPlusClick(item);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -204,16 +209,63 @@ public class PonujamFragment extends Fragment implements OnQueryTextListener{
         startActivity(intent);
     }
 
-    public void btnDodajClick(MenuItem item){
-        final String dateTime = "29.11.2017 16:00:00";
-        DateTime trenutniCas = new DateTime(); //trenutni datum in točen čas
-        DateTimeFormatter dtf = DateTimeFormat.forPattern("dd.MM.yyyy HH:mm:ss");
-        DateTime drugCas = dtf.parseDateTime(dateTime);
-        Prevoz dummyPrevoz = new Prevoz("Spar", "Pohorje", "04025897464", 7.0, 1, 4, true, "Mazda 3", "Polar", drugCas.plusDays(2),60,32,100);
-        aktivniPrevozi.add(dummyPrevoz);
-        listAdapterPrevozov = new PrevozAdapter(getActivity().getApplicationContext(), aktivniPrevozi);
-        final ListView listViewPrevozov = (ListView) getView().findViewById(R.id.seznamMojihPrevozov);
-        listViewPrevozov.setAdapter(listAdapterPrevozov);
+    public void btnPlusClick(MenuItem item){
+
+        layoutInflater = (LayoutInflater) getActivity().getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+        ViewGroup container = (ViewGroup) layoutInflater.inflate(R.layout.popup_dodaj,null);
+
+        DisplayMetrics dm = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
+        int width = dm.widthPixels;
+        int height = dm.heightPixels;
+
+        popupWindowDodaj = new PopupWindow(container, (int)(width*.7), (int)(height*.4), true);
+        popupWindowDodaj.showAtLocation(frameLayout, Gravity.CENTER, 0, 0);
+        frameLayout.getForeground().setAlpha(75);// Ozadju nastavim transparency, da je zatemnjeno
+
+        // Closes the popup_dodaj window when touch outside.
+        popupWindowDodaj.setOutsideTouchable(true);// Ker na Android 5.0.1 ne deluje dismiss popupa, poskusim s tem pristopom
+        popupWindowDodaj.setFocusable(true);
+        // Removes default background.
+        popupWindowDodaj.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        etOd = (EditText) container.findViewById(R.id.etOd);
+        etDo = (EditText) container.findViewById(R.id.etDo);
+        etCas = (EditText) container.findViewById(R.id.etCas);
+        etCena = (EditText) container.findViewById(R.id.etCena);
+
+        btnDodaj = (Button) container.findViewById(R.id.btnDodaj);
+        btnDodaj.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final String dateTime = "29.11.2017 16:00:00";
+                DateTime trenutniCas = new DateTime(); //trenutni datum in točen čas
+                DateTimeFormatter dtf = DateTimeFormat.forPattern("dd.MM.yyyy HH:mm:ss");
+                DateTime drugCas = dtf.parseDateTime(dateTime);
+                Prevoz dodanPrevoz = new Prevoz(etOd.getText().toString(), etDo.getText().toString(), "04025897464",Double.parseDouble(etCena.getText().toString()), 1, 4, true, "Mazda 3", "Polar", drugCas.plusDays(2),60,32,100);
+                aktivniPrevozi.add(dodanPrevoz);
+                listAdapterPrevozov = new PrevozAdapter(getActivity().getApplicationContext(), aktivniPrevozi);
+                final ListView listViewPrevozov = (ListView) getView().findViewById(R.id.seznamMojihPrevozov);
+                listViewPrevozov.setAdapter(listAdapterPrevozov);
+                popupWindowDodaj.dismiss();
+            }
+        });
+
+        btnPrekliciDodajanje = (Button) container.findViewById(R.id.btnPrekliciDodajanje);
+        btnPrekliciDodajanje.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popupWindowDodaj.dismiss();
+            }
+        });
+
+        popupWindowDodaj.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                frameLayout.getForeground().setAlpha(0);// Ozadje spet transparentno(normalno) ko se popup_dodaj zapre
+            }
+        });
+
         Toast.makeText(getContext(), "Dodano", Toast.LENGTH_LONG).show();
     }
 }
