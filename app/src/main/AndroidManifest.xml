@@ -13,6 +13,7 @@
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.WRITE_SMS" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <!-- PODATKOVNA BAZA -->
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- To auto-complete the email text field in the login form with the user's emails -->

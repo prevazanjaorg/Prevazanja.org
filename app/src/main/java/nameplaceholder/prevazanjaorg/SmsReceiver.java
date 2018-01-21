@@ -21,13 +21,16 @@ public class SmsReceiver extends BroadcastReceiver {
     public boolean running = true; // nekak iz naastavitev če je res, drugače skso laufa
     private Context contXt;
 
+    /*TODO
+    vprašaj za dovoljenja ZA SMS, PHONESTATE,INTERNET,....
+     */
 
     public SmsReceiver(){}
 
     @Override
     public void onReceive(Context context, Intent intent) { // intenti so filtrirani v androidmanifest v receiver intentfilter: action == intent
-        contXt = context;
         if(running) { // dobi nekak iz nastavitev če je vklopljen sms sistem
+            contXt = context;
             if (intent.getAction().equals("android.provider.Telephony.SMS_RECEIVED")) { // če je intent SMS_RECEIVED
                /*
                 if(checkifRunning()) {
