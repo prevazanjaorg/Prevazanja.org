@@ -47,9 +47,7 @@ public class PodrobnostiActivity extends AppCompatActivity {
 
         Intent getPrevoz = getIntent();
 
-        if (getPrevoz.getSerializableExtra("Prevoz") != null) {
-            prevoz = (Prevoz)getPrevoz.getSerializableExtra("Prevoz");
-        }
+        prevoz = (Prevoz)getPrevoz.getSerializableExtra("Prevoz");
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -114,5 +112,9 @@ public class PodrobnostiActivity extends AppCompatActivity {
             // Show 3 total pages.
             return 3;
         }
+    }
+
+    public Prevoz getPrevoz(){
+        return prevoz;
     }
 }

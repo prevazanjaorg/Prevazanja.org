@@ -9,6 +9,32 @@ import java.io.Serializable;
 public class Uporabnik implements Serializable{
     public String telefon;
     public String username;
+    public double ocene;
+    public int stOcen = 0;
+
+    public double getOcene() {
+        return ocene;
+    }
+
+    public void setOcene(double ocene) {
+        this.ocene = ocene;
+    }
+
+    public void incStOcen() {
+        stOcen++;
+    }
+
+    public void decStOcen() {
+        stOcen--;
+    }
+
+    public int getStOcen() {
+        return stOcen;
+    }
+
+    public void setStOcen(int stOcen) {
+        this.stOcen = stOcen;
+    }
 
     public Uporabnik(String telefon, String username) {
         this.telefon = telefon;

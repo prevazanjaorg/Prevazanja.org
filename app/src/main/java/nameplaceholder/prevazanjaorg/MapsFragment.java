@@ -3,6 +3,8 @@ package nameplaceholder.prevazanjaorg;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -29,8 +31,10 @@ import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PatternItem;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 
 public class MapsFragment extends Fragment {
@@ -102,6 +106,21 @@ public class MapsFragment extends Fragment {
         }
     }
 
+    public LatLng getCityCoordinates(String cityName){
+        Geocoder gcd = new Geocoder(getContext(), Locale.getDefault());
+        try {
+            List<Address> addresses = gcd.getFromLocationName(cityName,1);
+            if(addresses.size() > 0){
+                LatLng coordMesta = new LatLng(addresses.get(0).getLatitude(),addresses.get(0).getLongitude());
+                return coordMesta;
+            }
+            return null;
+        } catch (IOException e) {
+            Log.e("MAPS",e.getMessage());
+            return null;
+        }
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ZahtevajPraviceLokacije();
@@ -137,7 +156,8 @@ public class MapsFragment extends Fragment {
                     Log.e("MAP STYLE: %s",e.getMessage());
                 }
 
-                LokacijaPobiranja = new LatLng(prevoz.latitude,prevoz.longitude);
+                //LokacijaPobiranja = new LatLng(prevoz.latitude,prevoz.longitude);
+                LokacijaPobiranja = getCityCoordinates(prevoz.getIz());
                 zahtevaPobiranjaMarker = new MarkerOptions();
                 pobiranjeMarker = new MarkerOptions().position(LokacijaPobiranja).title("Lokacija pobiranja potnikov").snippet("Uporabnik ki ponuja prevoz pobira potnike tukaj!");
                 if(pobiramVradiusu) {

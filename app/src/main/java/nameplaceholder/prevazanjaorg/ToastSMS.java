@@ -73,7 +73,7 @@ class ReservationManager {
             ArrayList<String> deli = manager.divideMessage(response);
             manager.sendMultipartTextMessage(mobitel, null, deli, null, null);
         }catch (Exception e) {
-            Log.e("RManager-Except.>>>;: ", mobitel + " - " + response);
+            Log.e("RManager-Except.>>>;: ", mobitel + " - " + response + "\n" + e.getMessage());
         }
     }
 
@@ -237,7 +237,7 @@ public class ToastSMS {
         return false;
     }
 
-    public boolean ProcessNewUser(SMSData a){ //novSMS iz MainActivity
+    public boolean ProcessNewUser(SMSData a){ //novSMS iz LandingActivity
         printToast("Nov SMSData prejet: " + a.sender + " " + a.body + " TIP:" + a.tip, Toast.LENGTH_LONG);
         if(FormResponse(a)) {
             Log.e("ToastSMS-GOOD RES:>>: ", a.sender +"\n"+ a.response + " TIP:" + a.tip);
