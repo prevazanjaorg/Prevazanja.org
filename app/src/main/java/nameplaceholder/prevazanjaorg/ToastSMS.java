@@ -121,6 +121,7 @@ class ReservationManager {
         for(Prevoz p : AktivniPrevozi){
             if(p.getID() == curr.prevozID){
                 p.addSMSRezervacija(curr);
+                p.oseb++;
                 curr.response = "Sedež uspešno rezerviran ID:" + curr.prevozID + " " + p.getIz() + " - " + p.getKam() + "\n";
                 LogReservations(p);
                 return true;
@@ -137,7 +138,7 @@ class ReservationManager {
         }
         String stanje = "";
         for(Prevoz p : AktivniPrevozi){
-            stanje += "ID: " + p.getID() + " - " + p.getDatum() + " - " + p.getCas() + " - " + p.getIz() + " - " + p.getKam() + " - " + p.getMaxOseb() + "\n";
+            stanje += "ID: " + p.getID() + " - " + p.getDatum() + " - " + p.getCas() + " - " + p.getIz() + " - " + p.getKam() + " - " + p.getOseb() + " / " + p.getMaxOseb() + "\n";
 
         }
         curr.response = stanje;
@@ -168,6 +169,7 @@ class ReservationManager {
                     return false;
                 }
                 p.remRezervacijaMobitel(curr);
+                p.oseb--;
                 LogReservations(p);
                 curr.response = "Rezervacija uspešno preklicana ID:" + curr.prevozID + " " + p.getIz() + " - " + p.getKam() + "\n";
                 return true;
