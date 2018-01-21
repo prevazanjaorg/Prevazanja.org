@@ -38,6 +38,7 @@ public class Prevoz implements Serializable {
     public double longitude;
     public int radius;
     public ArrayList<Integer> ocene;
+    public Boolean reported = false;
 
     public static final int MONDAY = 1;
     public static final int TUESDAY = 2;
@@ -47,7 +48,34 @@ public class Prevoz implements Serializable {
     public static final int SATURDAY = 6;
     public static final int SUNDAY = 7;
 
+    public Boolean getReported() {
+        return reported;
+    }
 
+    public void setReported(Boolean reported) {
+        this.reported = reported;
+    }
+
+    public int addRezervacija (Uporabnik u){
+        if (rezervacije.size()<maxOseb)
+            rezervacije.add(u);
+        else {
+            Log.d("errRezervacije", "addRezervacija: rezervacije so polne");
+            return -1;
+        }
+        return 1;
+    }
+
+    public int remRezervacija (Uporabnik u) {
+        for (int i = 0; i < rezervacije.size(); i++) {
+            if (rezervacije.get(i) == u) {
+                rezervacije.remove(i);
+                return 1;
+            }
+        }
+        Log.d("errRezervacija", "remRezervacija: nobena izbrisana, ker ni bilo ujemanja");
+        return -1;
+    }
 
     public Prevoz(Prevoz t){
         this.rezervacije = t.rezervacije;

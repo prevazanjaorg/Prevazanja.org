@@ -1,17 +1,21 @@
 package nameplaceholder.prevazanjaorg;
 
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 
@@ -94,29 +98,48 @@ public class PodrobnostiFragment extends Fragment {
         opis.setText("(" + prevoz.getSteviloOcen() + " ocen)");
 
         //TODO funkcionalnost rezerviraj buttona
+
+        /*
+            Začasen sample uporabnik. To bo prijavljeni uporabnik
+         */
+        final Uporabnik prijavljeni = new Uporabnik("040202108", "lukec");
+
         final Button rezerviraj = (Button) getView().findViewById(R.id.podrobnosti_btn);
         rezerviraj.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 if (rezerviraj.getText() != "PREKLIČI") {
-                    rezerviraj.setText("PREKLIČI");
+                    if (prevoz.addRezervacija(prijavljeni) != -1)
+                        rezerviraj.setText("PREKLIČI");
+                } else {
+                    if (prevoz.remRezervacija(prijavljeni) != -1)
+                        rezerviraj.setText("REZERVIRAJ");
                 }
-                else {
-                    rezerviraj.setText("REZERVIRAJ");
-                }
+
             }
         });
 
-        //TODO funkcionalnost report buttona
-        /*
-        Button report = (Button) getView().findViewById(R.id.podrobnosti_btn_report);
+        final ImageButton report = (ImageButton) getView().findViewById(R.id.podrobnosti_btn_report);
         report.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (!prevoz.reported)
+                    new AlertDialog.Builder(getContext())
+                        .setMessage("Želiš res prijaviti prevoz kot neustrezen?")
+                        .setCancelable(false)
+                        .setPositiveButton("Da", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                prevoz.setReported(true);
+                            }
+                        })
+                        .setNegativeButton("Ne", null)
+                        .show();
 
             }
         });
-        */
+
 
     }
 
