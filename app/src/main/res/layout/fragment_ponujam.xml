@@ -3,7 +3,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#f2680d"
-    android:id="@+id/list_relative"
+    android:id="@+id/list_Ponujam"
     android:foreground="@drawable/dimming">
     <RelativeLayout
         android:layout_width="match_parent"
@@ -25,7 +25,6 @@
             android:layout_below="@id/my_toolbar"
             android:divider="@android:color/transparent"
             android:dividerHeight="5dp"/>
-
 
     </RelativeLayout>
 </FrameLayout>

@@ -158,7 +158,6 @@ class PrevozAdapter extends ArrayAdapter<Prevoz> implements Filterable {
         protected void publishResults(CharSequence constraint, FilterResults results) {
             prevozi = (ArrayList<Prevoz>) results.values;
             notifyDataSetChanged();
-
         }
     }
 
