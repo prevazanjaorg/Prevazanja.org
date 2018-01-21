@@ -106,7 +106,7 @@ public class Prevoz implements Serializable {
         this.radius = t.radius;
     }
 
-    public Prevoz(String initIz, String initKam, String initMobitel, double initStrosek, int initOseb, int initMaxOseb, Boolean initZavarovanje, String initAvto, String initIme, DateTime initCas,double latitude,double longitude,int rad, double initOcene) {
+    public Prevoz(String initIz, String initKam, String initMobitel, double initStrosek, int initOseb, int initMaxOseb, Boolean initZavarovanje, String initAvto, String initIme, DateTime initCas,double latitude,double longitude,int rad) {
         this.iz = initIz;
         this.kam = initKam;
         this.mobitel = initMobitel;

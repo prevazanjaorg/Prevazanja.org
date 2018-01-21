@@ -65,6 +65,8 @@ public class IscemFragment extends Fragment implements OnQueryTextListener {
         return fragment;
     }
 
+    final ArrayList<Prevoz> dbprevozi = new ArrayList<Prevoz>();
+
     public class AsyncCallSoapVrniPrevoze extends AsyncTask<String, Void, String>{
         private final ProgressDialog dialog = new ProgressDialog(getActivity());
 
@@ -85,10 +87,61 @@ public class IscemFragment extends Fragment implements OnQueryTextListener {
 
             //Log.d("krneki", doc.toString());
             String prevozi=doc.toString();
-
-
-
-
+            Prevoz p;
+            int i = 0;
+            int j;
+            while (i < 5000) {
+                i = i + prevozi.substring(i).indexOf("<string>");
+                i+=16; // zamaknemo naprej za <string>+\n
+                if (prevozi.substring(i).contains("<string>")) {
+                    Log.d("fuck", String.valueOf(i)+" in "+String.valueOf(i + prevozi.substring(i).indexOf('|')));
+                    int id = Integer.valueOf(prevozi.substring(i, i + prevozi.substring(i).indexOf('|'))); // zdaj smo pri delimiterju (ID)
+                    i = i + prevozi.substring(i).indexOf('|');
+                    String iz = prevozi.substring(++i, i + prevozi.substring(i).indexOf('|')); // pri naslednjem delimeterju (iz)
+                    i = i + prevozi.substring(i).indexOf('|');
+                    String ka = prevozi.substring(++i, i + prevozi.substring(i).indexOf('|')); // kam
+                    i = i + prevozi.substring(i).indexOf('|');
+                    String te = prevozi.substring(++i, i + prevozi.substring(i).indexOf('|')); // telefon
+                    i = i + prevozi.substring(i).indexOf('|');
+                    int os = Integer.valueOf(prevozi.substring(++i, i + prevozi.substring(i).indexOf('|'))); // oseb
+                    i = i + prevozi.substring(i).indexOf('|');
+                    int mo = Integer.valueOf(prevozi.substring(++i, i + prevozi.substring(i).indexOf('|'))); // maxoseb
+                    i = i + prevozi.substring(i).indexOf('|');
+                    Boolean za = Boolean.parseBoolean(prevozi.substring(++i, i + prevozi.substring(i).indexOf('|'))); //zavarovanje
+                    i = i + prevozi.substring(i).indexOf('|');
+                    String av = prevozi.substring(++i, i + prevozi.substring(i).indexOf('|')); // avto
+                    i = i + prevozi.substring(i).indexOf('|');
+                    DateTimeFormatter dtf = DateTimeFormat.forPattern("d.M. H:m");
+                    String tempDatumString = prevozi.substring(++i, i + prevozi.substring(i).indexOf('|') + prevozi.substring(i + prevozi.substring(i).indexOf('|') + 1).indexOf('|') + 1); // datum string
+                    tempDatumString = tempDatumString.substring(tempDatumString.indexOf(',') + 1);
+                    StringBuilder sb = new StringBuilder(tempDatumString);
+                    sb.deleteCharAt(tempDatumString.indexOf('|'));
+                    sb.deleteCharAt(tempDatumString.indexOf('.')+1);
+                    sb.deleteCharAt(0);
+                    tempDatumString = sb.toString();
+                    i = i + prevozi.substring(i).indexOf('|');
+                    DateTime dt = dtf.parseDateTime(tempDatumString);
+                    i++; // preskočimo uro
+                    i = i + prevozi.substring(i).indexOf('|');
+                    String im = prevozi.substring(++i, i + prevozi.substring(i).indexOf('|')); // ime
+                    i = i + prevozi.substring(i).indexOf('|');
+                    String op = prevozi.substring(++i, i + prevozi.substring(i).indexOf('|')); // opis
+                    i = i + prevozi.substring(i).indexOf('|');
+                    Double la = Double.valueOf((prevozi.substring(++i, i + prevozi.substring(i).indexOf('|'))).replace(',','.')); //latitude
+                    i = i + prevozi.substring(i).indexOf('|');
+                    Double lo = Double.valueOf((prevozi.substring(++i, i + prevozi.substring(i).indexOf('|'))).replace(',','.')); //longtitude
+                    i = i + prevozi.substring(i).indexOf('|');
+                    int ra = Integer.valueOf(prevozi.substring(++i, i + prevozi.substring(i).indexOf('|'))); // radius
+                    i = i + prevozi.substring(i).indexOf('|');
+                    int fk = Integer.valueOf(prevozi.substring(++i, i + prevozi.substring(i).indexOf('\n'))); // fkUporabnik
+                    i = i + prevozi.substring(i).indexOf('\n');
+                    p = new Prevoz(iz, ka, te, 10.0, os, mo, za, av, im, dt, lo,lo,ra);
+                    dbprevozi.add(p);
+                }
+                else
+                    break;
+            }
+            return;
         }
     }
 
@@ -97,30 +150,34 @@ public class IscemFragment extends Fragment implements OnQueryTextListener {
         setHasOptionsMenu(true);
         View rootView = inflater.inflate(R.layout.fragment_iscem, container, false);
 
-        new AsyncCallSoapVrniPrevoze().execute();
-
-        final ArrayList<Prevoz> aktivniPrevozi = new ArrayList<Prevoz>();
+        //final ArrayList<Prevoz> aktivniPrevozi = new ArrayList<Prevoz>();
         Toolbar myToolbar = (Toolbar) rootView.findViewById(R.id.my_toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(myToolbar); //need to cast your activity from getActivity() to AppCompatActivity first,  because getActivity() returns a FragmentActivity and you need an AppCompatActivity
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.app_name);
 
-        // TESTNI PREVBOZI
+        new AsyncCallSoapVrniPrevoze().execute();
+
+        Log.d("aylmao", "I happen bithc!");
+
+        /*
+        // TESTNI PREVOZI
         final String dateTime = "29.11.2017 16:00:00";
         DateTime trenutniCas = new DateTime(); //trenutni datum in točen čas
         DateTimeFormatter dtf = DateTimeFormat.forPattern("dd.MM.yyyy HH:mm:ss");
         DateTime drugCas = dtf.parseDateTime(dateTime);
         //ArrayList<Integer> ocene = new ArrayList<Integer>();
         //ocene.add(10); ocene.add(9); ocene.add(7); ocene.add(10); ocene.add(10);
-        Prevoz dummyPrevoz = new Prevoz("Maribor", "Koper", "040202108", 10.0, 3, 4, false, "Toyota Yaris črne barve", "Polar", trenutniCas,-34,151,100, 4.5);
-        Prevoz dummyPrevoz2 = new Prevoz("Ljubljana", "Maribor", "040256339", 5.0, 3, 3, false, "Toyota Hilux", "Polar", drugCas,-50,150,250, 5);
-        Prevoz dummyPrevoz3 = new Prevoz("Celje", "Novo Mesto", "04025897464", 7.0, 1, 4, true, "Mazda 3", "Polar", drugCas.plusDays(2),66,-50,150, 9.5);
+        Prevoz dummyPrevoz = new Prevoz("Maribor", "Koper", "040202108", 10.0, 3, 4, false, "Toyota Yaris črne barve", "Polar", trenutniCas,-34,151,100);
+        Prevoz dummyPrevoz2 = new Prevoz("Ljubljana", "Maribor", "040256339", 5.0, 3, 3, false, "Toyota Hilux", "Polar", drugCas,-50,150,250);
+        Prevoz dummyPrevoz3 = new Prevoz("Celje", "Novo Mesto", "04025897464", 7.0, 1, 4, true, "Mazda 3", "Polar", drugCas.plusDays(2),66,-50,150);
         aktivniPrevozi.add(dummyPrevoz2);
         aktivniPrevozi.add(dummyPrevoz3);
         for (Integer i=0; i<10;i++)
             aktivniPrevozi.add(dummyPrevoz);
+        */
 
         // V adapter damo vse prevoze. nato adapter podamo seznamu
-        listAdapterPrevozov = new PrevozAdapter(getActivity().getApplicationContext(), aktivniPrevozi);
+        listAdapterPrevozov = new PrevozAdapter(getActivity().getApplicationContext(), dbprevozi);
         final ListView listViewPrevozov = (ListView) rootView.findViewById(R.id.seznamPrevozov);
         listViewPrevozov.setAdapter(listAdapterPrevozov);
 
