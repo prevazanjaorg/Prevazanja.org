@@ -73,7 +73,7 @@ class ReservationManager {
             ArrayList<String> deli = manager.divideMessage(response);
             manager.sendMultipartTextMessage(mobitel, null, deli, null, null);
         }catch (Exception e) {
-            Log.e("RManager-Except.>>>;: ", mobitel + " - " + response);
+            Log.e("RManager-Except.>>>;: ", mobitel + " - " + response + "\n" + e.getMessage());
         }
     }
 

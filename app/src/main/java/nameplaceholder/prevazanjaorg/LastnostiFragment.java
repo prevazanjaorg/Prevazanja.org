@@ -54,8 +54,12 @@ public class LastnostiFragment extends Fragment {
 
         izpis=(TextView)rootView.findViewById(R.id.izpis);
         izpis.setMovementMethod(new ScrollingMovementMethod());
-        new AsyncCallSoapPrikaziLastnosti().execute();
-
+        try {
+            new AsyncCallSoapPrikaziLastnosti().execute();
+        }
+        catch(Exception ex){
+            Log.e("errorS","Napaka v Soap Call prikaz lastnosti"); //
+        }
 
 
         return rootView;

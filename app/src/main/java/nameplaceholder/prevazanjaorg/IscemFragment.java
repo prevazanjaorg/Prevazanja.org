@@ -83,8 +83,8 @@ public class IscemFragment extends Fragment implements OnQueryTextListener {
                 new AsyncCallSoapVrniPrevoze().execute();
             Document doc = Jsoup.parse(result);
 
-            //Log.d("krneki", doc.toString());
-            String prevozi=doc.toString();
+            Log.d("krneki", doc.toString());
+            //String prevozi=doc.toString();
 
 
 

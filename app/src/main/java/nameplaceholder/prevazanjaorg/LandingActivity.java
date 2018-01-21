@@ -1,6 +1,8 @@
 package nameplaceholder.prevazanjaorg;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -58,7 +60,8 @@ public class LandingActivity extends AppCompatActivity {
         mViewPager.setCurrentItem(1);
 
         //Jaka
-        if(BackgroundServiceRunning)//če so smsi v nastavitvah vklopljeni
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        if(settings.getBoolean("sporocanje_switch", false))//če so smsi v nastavitvah vklopljeni
             startService(new Intent(this, SMSBackgroundService.class));
         //Jaka
     }

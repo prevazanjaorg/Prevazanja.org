@@ -67,7 +67,6 @@ public class CallSoap {
         String OPERATION_NAME="Prijava";
         String NAMESPACE="http://tempuri.org/";
 
-        //String SOAP_ADDRESS="http://213.161.3.238/prevozi/webservice.asmx";
         String SOAP_ADDRESS="http://213.161.3.238/prevozi/webservice.asmx";
         SoapObject request = new SoapObject(NAMESPACE,OPERATION_NAME);
 
@@ -218,12 +217,12 @@ public class CallSoap {
         return response;
     }
 
-    public String VrniPrevoze(){
+    public String VrniPrevoze(){ //to je ime metode
         String SOAP_ACTION = "http://tempuri.org/VrniPrevoze";
         String OPERATION_NAME="VrniPrevoze";
         String NAMESPACE="http://tempuri.org/";
 
-        String SOAP_ADDRESS="http://213.161.3.238/prevozi/webservice.asmx";
+        String SOAP_ADDRESS="http://213.161.3.238/prevozi/webservice.asmx"; //to je link do webserverja
         //String SOAP_ADDRESS="http://93.103.196.202/prevozi/webservice.asmx";
         SoapObject request = new SoapObject(NAMESPACE,OPERATION_NAME);
 
