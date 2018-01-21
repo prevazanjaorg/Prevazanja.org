@@ -89,9 +89,9 @@ public class PonujamFragment extends Fragment implements OnQueryTextListener{
         DateTime drugCas = dtf.parseDateTime(dateTime);
         ArrayList<Integer> ocene = new ArrayList<Integer>();
         ocene.add(10); ocene.add(9); ocene.add(7); ocene.add(10); ocene.add(10);
-        Prevoz dummyPrevoz = new Prevoz("Maribor", "Koper", "040202108", 10.0, 3, 4, false, "Toyota Yaris črne barve", "Polar", trenutniCas,-34,151,100, ocene);
-        Prevoz dummyPrevoz2 = new Prevoz("Ljubljana", "Maribor", "040256339", 5.0, 3, 3, false, "Toyota Hilux", "Polar", drugCas,-50,150,250, ocene);
-        Prevoz dummyPrevoz3 = new Prevoz("Celje", "Novo Mesto", "04025897464", 7.0, 1, 4, true, "Mazda 3", "Polar", drugCas.plusDays(2),66,-50,150, ocene);
+        Prevoz dummyPrevoz = new Prevoz("Maribor", "Koper", "040202108", 10.0, 3, 4, false, "Toyota Yaris črne barve", "Polar", trenutniCas,-34,151,100, 9.5);
+        Prevoz dummyPrevoz2 = new Prevoz("Ljubljana", "Maribor", "040256339", 5.0, 3, 3, false, "Toyota Hilux", "Polar", drugCas,-50,150,250, 5.5);
+        Prevoz dummyPrevoz3 = new Prevoz("Celje", "Novo Mesto", "04025897464", 7.0, 1, 4, true, "Mazda 3", "Polar", drugCas.plusDays(2),66,-50,150, 9);
         aktivniPrevozi.add(dummyPrevoz2);
         aktivniPrevozi.add(dummyPrevoz3);
         //for (Integer i=0; i<10;i++)
@@ -246,7 +246,7 @@ public class PonujamFragment extends Fragment implements OnQueryTextListener{
                 DateTime drugCas = dtf.parseDateTime(dateTime);
                 ArrayList<Integer> ocene = new ArrayList<Integer>();
                 ocene.add(10); ocene.add(9); ocene.add(7); ocene.add(10); ocene.add(10);
-                Prevoz dodanPrevoz = new Prevoz(etOd.getText().toString(), etDo.getText().toString(), "04025897464",Double.parseDouble(etCena.getText().toString()), 1, 4, true, "Mazda 3", "Polar", drugCas.plusDays(2),60,32,100, ocene);
+                Prevoz dodanPrevoz = new Prevoz(etOd.getText().toString(), etDo.getText().toString(), "04025897464",Double.parseDouble(etCena.getText().toString()), 1, 4, true, "Mazda 3", "Polar", drugCas.plusDays(2),60,32,100, 8);
                 aktivniPrevozi.add(dodanPrevoz);
                 listAdapterPrevozov = new PrevozAdapter(getActivity().getApplicationContext(), aktivniPrevozi);
                 final ListView listViewPrevozov = (ListView) getView().findViewById(R.id.seznamMojihPrevozov);

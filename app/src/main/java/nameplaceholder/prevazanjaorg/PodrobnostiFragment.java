@@ -86,16 +86,25 @@ public class PodrobnostiFragment extends Fragment {
             }
         });
 
+        TextView opis = (TextView) getView().findViewById(R.id.podrobnosti_opis);
+        opis.setText(prevoz.getOpis() + "\n" + prevoz.getIme());
+
         TextView ocena = (TextView) getView().findViewById(R.id.podrobnosti_ocena);
-        ocena.setText(String.format("%.1f", prevoz.getOcena()));
-        if (prevoz.getOcena() < 7)
-            prostamesta.setTextColor(Color.parseColor("#ff4444")); //red
+        TextView ocenapodrobno = (TextView) getView().findViewById(R.id.podrobnosti_ocenaStevilo);
+        if (prevoz.getLastnik() != null) {
+            if (prevoz.getLastnik().getStOcen() > 0) {
+                ocena.setText(String.format("%.1f", prevoz.getLastnik().getOcene()));
+                if (prevoz.getLastnik().getOcene() < 7)
+                    prostamesta.setTextColor(Color.parseColor("#ff4444")); //red
+            } else
+                ocena.setText("NaN");
 
-        TextView ocenapodrobno = (TextView) getView().findViewById(R.id.podrobnosti_opis);
-        ocenapodrobno.setText(prevoz.getOpis() + "\n" + prevoz.getIme());
-
-        TextView opis = (TextView) getView().findViewById(R.id.podrobnosti_ocenaStevilo);
-        opis.setText("(" + prevoz.getSteviloOcen() + " ocen)");
+             ocenapodrobno.setText("(" + prevoz.getLastnik().getStOcen() + " ocen)");
+        }
+        else {
+            ocena.setText("neznan avtor");
+            ocenapodrobno.setText("");
+        }
 
         //TODO funkcionalnost rezerviraj buttona
 

@@ -32,12 +32,12 @@ public class Prevoz implements Serializable {
     public DateTime casDatum;
     public int ID;
     public ArrayList<Uporabnik> rezervacije;
+    public Uporabnik lastnik;
     public String opis;
     public Context c;
     public double latitude;
     public double longitude;
     public int radius;
-    public ArrayList<Integer> ocene;
     public Boolean reported = false;
 
     public static final int MONDAY = 1;
@@ -47,6 +47,14 @@ public class Prevoz implements Serializable {
     public static final int FRIDAY = 5;
     public static final int SATURDAY = 6;
     public static final int SUNDAY = 7;
+
+    public Uporabnik getLastnik() {
+        return lastnik;
+    }
+
+    public void setLastnik(Uporabnik lastnik) {
+        this.lastnik = lastnik;
+    }
 
     public Boolean getReported() {
         return reported;
@@ -96,10 +104,9 @@ public class Prevoz implements Serializable {
         this.latitude = t.latitude;
         this.longitude = t.longitude;
         this.radius = t.radius;
-        this.ocene = t.ocene;
     }
 
-    public Prevoz(String initIz, String initKam, String initMobitel, double initStrosek, int initOseb, int initMaxOseb, Boolean initZavarovanje, String initAvto, String initIme, DateTime initCas,double latitude,double longitude,int rad, ArrayList<Integer> initOcene) {
+    public Prevoz(String initIz, String initKam, String initMobitel, double initStrosek, int initOseb, int initMaxOseb, Boolean initZavarovanje, String initAvto, String initIme, DateTime initCas,double latitude,double longitude,int rad, double initOcene) {
         this.iz = initIz;
         this.kam = initKam;
         this.mobitel = initMobitel;
@@ -114,17 +121,9 @@ public class Prevoz implements Serializable {
         this.latitude = latitude;
         this.longitude = longitude;
         this.radius = rad;
-        this.ocene = initOcene;
     }
 
-    public ArrayList<Integer> getOcene() {
-        return ocene;
-    }
-
-    public void setOcene(ArrayList<Integer> ocene) {
-        this.ocene = ocene;
-    }
-
+    /*
     public Double getOcena() {
         Integer sum = 0;
         for (Integer a:ocene) {
@@ -132,10 +131,13 @@ public class Prevoz implements Serializable {
         }
         return (double)sum/ocene.size();
     }
+    /*
 
+    /*
     public Integer getSteviloOcen() {
         return ocene.size();
     }
+    */
 
     public int getOseb() {
         return oseb;
