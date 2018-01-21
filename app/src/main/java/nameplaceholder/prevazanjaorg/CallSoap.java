@@ -217,4 +217,33 @@ public class CallSoap {
 
         return response;
     }
+
+    public String VrniPrevoze(){
+        String SOAP_ACTION = "http://tempuri.org/VrniPrevoze";
+        String OPERATION_NAME="VrniPrevoze";
+        String NAMESPACE="http://tempuri.org/";
+
+        String SOAP_ADDRESS="http://213.161.3.238/prevozi/webservice.asmx";
+        //String SOAP_ADDRESS="http://93.103.196.202/prevozi/webservice.asmx";
+        SoapObject request = new SoapObject(NAMESPACE,OPERATION_NAME);
+
+        SoapSerializationEnvelope envelope=new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.dotNet=true;
+        envelope.setOutputSoapObject(request);
+        String response;
+
+        try{
+            HttpTransportSE httpTransport=new HttpTransportSE(SOAP_ADDRESS);
+            httpTransport.setXmlVersionTag("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
+            httpTransport.debug=true;
+            //Log.d("krneki","delaaa");
+            httpTransport.call(SOAP_ACTION,envelope);
+            response=httpTransport.responseDump;
+        }
+        catch(Exception ex){
+            response = ex.toString();
+        }
+
+        return response;
+    }
 }

@@ -3,9 +3,11 @@ package nameplaceholder.prevazanjaorg;
 import android.annotation.SuppressLint;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -26,9 +28,15 @@ import android.widget.PopupWindow;
 import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
+
 import java.util.ArrayList;
 import java.util.zip.Inflater;
 
@@ -57,10 +65,39 @@ public class IscemFragment extends Fragment implements OnQueryTextListener {
         return fragment;
     }
 
+    public class AsyncCallSoapVrniPrevoze extends AsyncTask<String, Void, String>{
+        private final ProgressDialog dialog = new ProgressDialog(getActivity());
+
+        @Override
+        protected String doInBackground(String... strings) {
+            CallSoap CS = new CallSoap();
+
+            String response = CS.VrniPrevoze();
+            return response;
+        }
+        @Override
+        protected void onPostExecute(String result){
+            super.onPostExecute(result);
+            dialog.dismiss();
+            if(result.substring(0,1).equals("j"))
+                new AsyncCallSoapVrniPrevoze().execute();
+            Document doc = Jsoup.parse(result);
+
+            //Log.d("krneki", doc.toString());
+            String prevozi=doc.toString();
+
+
+
+
+        }
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         View rootView = inflater.inflate(R.layout.fragment_iscem, container, false);
+
+        new AsyncCallSoapVrniPrevoze().execute();
 
         final ArrayList<Prevoz> aktivniPrevozi = new ArrayList<Prevoz>();
         Toolbar myToolbar = (Toolbar) rootView.findViewById(R.id.my_toolbar);
