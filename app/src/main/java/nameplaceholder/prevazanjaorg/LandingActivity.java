@@ -212,7 +212,7 @@ public class LandingActivity extends AppCompatActivity {
             // Return a PlaceholderFragment (defined as a static inner class below).
             switch(position){
                 case 0:
-                    return ponujamFragment.newInstance(position,dbprevozi);
+                    return ponujamFragment.newInstance(position,mojiPrevozi);
                 case 1:
                     return landingFragment.newInstance(position);
                 case 2:

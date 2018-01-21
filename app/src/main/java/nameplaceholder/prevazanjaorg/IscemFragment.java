@@ -87,26 +87,6 @@ public class IscemFragment extends Fragment implements OnQueryTextListener {
 
         Log.e("ISCEM", "DBPREVOZI OK");
 
-        /*
-        // TESTNI PREVOZI
-        final String dateTime = "29.11.2017 16:00:00";
-        DateTime trenutniCas = new DateTime(); //trenutni datum in točen čas
-        DateTimeFormatter dtf = DateTimeFormat.forPattern("dd.MM.yyyy HH:mm:ss");
-        DateTime drugCas = dtf.parseDateTime(dateTime);
-        //ArrayList<Integer> ocene = new ArrayList<Integer>();
-        //ocene.add(10); ocene.add(9); ocene.add(7); ocene.add(10); ocene.add(10);
-        Prevoz dummyPrevoz = new Prevoz("Maribor", "Koper", "040202108", 10.0, 3, 4, false, "Toyota Yaris črne barve", "Polar", trenutniCas,-34,151,100, 4.5);
-        Prevoz dummyPrevoz2 = new Prevoz("Ljubljana", "Maribor", "040256339", 5.0, 3, 3, false, "Toyota Hilux", "Polar", drugCas,-50,150,250, 5);
-        Prevoz dummyPrevoz3 = new Prevoz("Celje", "Novo Mesto", "04025897464", 7.0, 1, 4, true, "Mazda 3", "Polar", drugCas.plusDays(2),66,-50,150, 9.5);
-        aktivniPrevozi.add(dummyPrevoz2);
-        aktivniPrevozi.add(dummyPrevoz3);
-        for (Integer i=0; i<10;i++)
-            aktivniPrevozi.add(dummyPrevoz);
-        */
-        // V adapter damo vse prevoze. nato adapter podamo seznamu
-        //listAdapterPrevozov = new PrevozAdapter(getActivity().getApplicationContext(), dbprevozi);
-       // final ListView listViewPrevozov = (ListView) rootView.findViewById(R.id.seznamPrevozov);
-       // listViewPrevozov.setAdapter(listAdapterPrevozov);
 
         listViewPrevozov.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @SuppressLint("SetTextI18n")
