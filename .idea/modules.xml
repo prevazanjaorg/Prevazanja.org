@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/Prevazanja.org.iml" filepath="$PROJECT_DIR$/Prevazanja.org.iml" />
       <module fileurl="file://C:\Users\Potatoseus\AndroidStudioProjects\PrevoziPLUSPLUS\Prevazanja.org.iml" filepath="C:\Users\Potatoseus\AndroidStudioProjects\PrevoziPLUSPLUS\Prevazanja.org.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/PrevoziPLUSPLUS.iml" filepath="$PROJECT_DIR$/.idea/PrevoziPLUSPLUS.iml" />
+      <module fileurl="file://C:\Users\Jaka\AndroidStudioProjects\Prevazanja.org\.idea\PrevoziPLUSPLUS.iml" filepath="C:\Users\Jaka\AndroidStudioProjects\Prevazanja.org\.idea\PrevoziPLUSPLUS.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/ksoap2-android-assembly-2.4-jar-with-dependencies/ksoap2-android-assembly-2.4-jar-with-dependencies.iml" filepath="$PROJECT_DIR$/ksoap2-android-assembly-2.4-jar-with-dependencies/ksoap2-android-assembly-2.4-jar-with-dependencies.iml" />
     </modules>
