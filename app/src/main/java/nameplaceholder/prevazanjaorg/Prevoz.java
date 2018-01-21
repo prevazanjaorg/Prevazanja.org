@@ -37,6 +37,7 @@ public class Prevoz implements Serializable {
     public double latitude;
     public double longitude;
     public int radius;
+    public ArrayList<Integer> ocene;
 
     public static final int MONDAY = 1;
     public static final int TUESDAY = 2;
@@ -67,6 +68,45 @@ public class Prevoz implements Serializable {
         this.latitude = t.latitude;
         this.longitude = t.longitude;
         this.radius = t.radius;
+        this.ocene = t.ocene;
+    }
+
+    public Prevoz(String initIz, String initKam, String initMobitel, double initStrosek, int initOseb, int initMaxOseb, Boolean initZavarovanje, String initAvto, String initIme, DateTime initCas,double latitude,double longitude,int rad, ArrayList<Integer> initOcene) {
+        this.iz = initIz;
+        this.kam = initKam;
+        this.mobitel = initMobitel;
+        this.strosek = initStrosek;
+        this.oseb = initOseb;
+        this.maxOseb = initMaxOseb;
+        this.zavarovanje = initZavarovanje;
+        this.avto = initAvto;
+        this.ime = initIme;
+        this.casDatum = initCas;
+        this.rezervacije = new ArrayList<Uporabnik>();
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.radius = rad;
+        this.ocene = initOcene;
+    }
+
+    public ArrayList<Integer> getOcene() {
+        return ocene;
+    }
+
+    public void setOcene(ArrayList<Integer> ocene) {
+        this.ocene = ocene;
+    }
+
+    public Double getOcena() {
+        Integer sum = 0;
+        for (Integer a:ocene) {
+            sum += a;
+        }
+        return (double)sum/ocene.size();
+    }
+
+    public Integer getSteviloOcen() {
+        return ocene.size();
     }
 
     public int getOseb() {
@@ -124,8 +164,6 @@ public class Prevoz implements Serializable {
         }
     }
 
-
-
     public String getIme() {
         if (ime!=null)
             return ime;
@@ -152,23 +190,6 @@ public class Prevoz implements Serializable {
 
     public void setCasDatum(DateTime casDatum) {
         this.casDatum = casDatum;
-    }
-
-    public Prevoz(String initIz, String initKam, String initMobitel, double initStrosek, int initOseb, int initMaxOseb, Boolean initZavarovanje, String initAvto, String initIme, DateTime initCas,double latitude,double longitude,int rad) {
-        this.iz = initIz;
-        this.kam = initKam;
-        this.mobitel = initMobitel;
-        this.strosek = initStrosek;
-        this.oseb = initOseb;
-        this.maxOseb = initMaxOseb;
-        this.zavarovanje = initZavarovanje;
-        this.avto = initAvto;
-        this.ime = initIme;
-        this.casDatum = initCas;
-        this.rezervacije = new ArrayList<Uporabnik>();
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.radius = rad;
     }
 
     public String getIz() {
