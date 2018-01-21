@@ -1,16 +1,27 @@
 package nameplaceholder.prevazanjaorg;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
+import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 
 public class LastnostiFragment extends Fragment {
     private static final String ARG_SECTION_NUMBER = "section_number";
-
     //private OnFragmentInteractionListener mListener;
     private static Prevoz prevoz;
 
@@ -27,58 +38,73 @@ public class LastnostiFragment extends Fragment {
         return fragment;
     }
 
-//    @Override
-//    public void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        if (getArguments() != null) {
-//            mParam1 = getArguments().getString(ARG_PARAM1);
-//            mParam2 = getArguments().getString(ARG_PARAM2);
-//        }
-//    }
-
+    TextView izpis;
+    ViewPager viewPager;
+    CustomSwipeAdapter adapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_lastnosti, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_lastnosti, container, false);
+        viewPager = (ViewPager) rootView.findViewById(R.id.viewer);
+        adapter = new CustomSwipeAdapter(getActivity());
+        viewPager.setAdapter(adapter);
+
+
+
+
+        izpis=(TextView)rootView.findViewById(R.id.izpis);
+        izpis.setMovementMethod(new ScrollingMovementMethod());
+        try {
+            new AsyncCallSoapPrikaziLastnosti().execute();
+        }
+        catch(Exception ex){
+            Log.e("errorS","Napaka v Soap Call prikaz lastnosti"); //
+        }
+
+
+        return rootView;
     }
 
-//    // TODO: Rename method, update argument and hook method into UI event
-//    public void onButtonPressed(Uri uri) {
-//        if (mListener != null) {
-//            mListener.onFragmentInteraction(uri);
-//        }
-//    }
+    public class AsyncCallSoapPrikaziLastnosti extends AsyncTask<String, Void, String> {
+        private final ProgressDialog dialog = new ProgressDialog(getActivity());
 
-//    @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
-//    }
-//
-//    @Override
-//    public void onDetach() {
-//        super.onDetach();
-//        mListener = null;
-//    }
-//
-//    /**
-//     * This interface must be implemented by activities that contain this
-//     * fragment to allow an interaction in this fragment to be communicated
-//     * to the activity and potentially other fragments contained in that
-//     * activity.
-//     * <p>
-//     * See the Android Training lesson <a href=
-//     * "http://developer.android.com/training/basics/fragments/communicating.html"
-//     * >Communicating with Other Fragments</a> for more information.
-//     */
-//    public interface OnFragmentInteractionListener {
-//        // TODO: Update argument type and name
-//        void onFragmentInteraction(Uri uri);
-//    }
+        @Override
+        protected String doInBackground(String... strings) {
+            CallSoap CS = new CallSoap();
+
+            String response = CS.VrniLastnosti();
+            return response;
+        }
+        @Override
+        protected void onPostExecute(String result){
+            super.onPostExecute(result);
+            dialog.dismiss();
+            if(result.substring(0,1).equals("j"))
+                new AsyncCallSoapPrikaziLastnosti().execute();
+            Document doc = Jsoup.parse(result);
+            Elements element = doc.getElementsByTag("VrniLastnostiResult");
+
+            int lastIndex = 0;
+            int count=0;
+            while(lastIndex != -1){
+
+                lastIndex = element.toString().indexOf("imeLastnosti",lastIndex);
+
+                if(lastIndex != -1){
+                    count ++;
+                    lastIndex += "imeLastnosti".length();
+                }
+            }
+            int x= 0; //zacetni indeks
+            int y; //koncni indeks
+            String izpisi="";
+            for(int i = 0;i<count;i++){
+                x = element.toString().indexOf("imeLastnosti",x+1);
+                y=element.toString().indexOf("\"",x+17);
+                izpisi+="- "+element.toString().substring(x+15, y)+"\n";
+
+            }
+            izpis.setText(izpisi);
+        }
+    }
 }

@@ -32,11 +32,13 @@ public class Prevoz implements Serializable {
     public DateTime casDatum;
     public int ID;
     public ArrayList<Uporabnik> rezervacije;
+    public Uporabnik lastnik;
     public String opis;
     public Context c;
     public double latitude;
     public double longitude;
     public int radius;
+    public Boolean reported = false;
 
     public static final int MONDAY = 1;
     public static final int TUESDAY = 2;
@@ -46,7 +48,42 @@ public class Prevoz implements Serializable {
     public static final int SATURDAY = 6;
     public static final int SUNDAY = 7;
 
+    public Uporabnik getLastnik() {
+        return lastnik;
+    }
 
+    public void setLastnik(Uporabnik lastnik) {
+        this.lastnik = lastnik;
+    }
+
+    public Boolean getReported() {
+        return reported;
+    }
+
+    public void setReported(Boolean reported) {
+        this.reported = reported;
+    }
+
+    public int addRezervacija (Uporabnik u){
+        if (rezervacije.size()<maxOseb)
+            rezervacije.add(u);
+        else {
+            Log.d("errRezervacije", "addRezervacija: rezervacije so polne");
+            return -1;
+        }
+        return 1;
+    }
+
+    public int remRezervacija (Uporabnik u) {
+        for (int i = 0; i < rezervacije.size(); i++) {
+            if (rezervacije.get(i) == u) {
+                rezervacije.remove(i);
+                return 1;
+            }
+        }
+        Log.d("errRezervacija", "remRezervacija: nobena izbrisana, ker ni bilo ujemanja");
+        return -1;
+    }
 
     public Prevoz(Prevoz t){
         this.rezervacije = t.rezervacije;
@@ -68,6 +105,39 @@ public class Prevoz implements Serializable {
         this.longitude = t.longitude;
         this.radius = t.radius;
     }
+
+    public Prevoz(String initIz, String initKam, String initMobitel, double initStrosek, int initOseb, int initMaxOseb, Boolean initZavarovanje, String initAvto, String initIme, DateTime initCas,double latitude,double longitude,int rad, double initOcene) {
+        this.iz = initIz;
+        this.kam = initKam;
+        this.mobitel = initMobitel;
+        this.strosek = initStrosek;
+        this.oseb = initOseb;
+        this.maxOseb = initMaxOseb;
+        this.zavarovanje = initZavarovanje;
+        this.avto = initAvto;
+        this.ime = initIme;
+        this.casDatum = initCas;
+        this.rezervacije = new ArrayList<Uporabnik>();
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.radius = rad;
+    }
+
+    /*
+    public Double getOcena() {
+        Integer sum = 0;
+        for (Integer a:ocene) {
+            sum += a;
+        }
+        return (double)sum/ocene.size();
+    }
+    /*
+
+    /*
+    public Integer getSteviloOcen() {
+        return ocene.size();
+    }
+    */
 
     public int getOseb() {
         return oseb;
@@ -124,8 +194,6 @@ public class Prevoz implements Serializable {
         }
     }
 
-
-
     public String getIme() {
         if (ime!=null)
             return ime;
@@ -152,23 +220,6 @@ public class Prevoz implements Serializable {
 
     public void setCasDatum(DateTime casDatum) {
         this.casDatum = casDatum;
-    }
-
-    public Prevoz(String initIz, String initKam, String initMobitel, double initStrosek, int initOseb, int initMaxOseb, Boolean initZavarovanje, String initAvto, String initIme, DateTime initCas,double latitude,double longitude,int rad) {
-        this.iz = initIz;
-        this.kam = initKam;
-        this.mobitel = initMobitel;
-        this.strosek = initStrosek;
-        this.oseb = initOseb;
-        this.maxOseb = initMaxOseb;
-        this.zavarovanje = initZavarovanje;
-        this.avto = initAvto;
-        this.ime = initIme;
-        this.casDatum = initCas;
-        this.rezervacije = new ArrayList<Uporabnik>();
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.radius = rad;
     }
 
     public String getIz() {

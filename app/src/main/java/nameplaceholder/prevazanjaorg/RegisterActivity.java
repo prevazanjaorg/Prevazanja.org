@@ -39,7 +39,7 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View view) {
                 new RegisterActivity.AsyncCallSoapRegistracija().execute();
                 //Toast.makeText(getApplicationContext(),usernameView.getText().toString() + "   " + emailView.getText().toString() + "   " + ageView.getText().toString() + "   " + passwordView.getText().toString(), Toast.LENGTH_LONG).show(); // naredi login da daš al username,mail al pa stevilko /slashi/, naredi register
-                startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+                startActivity(new Intent(RegisterActivity.this, LandingActivity.class));
             }
         });
     }

@@ -21,4 +21,10 @@
         <item name="android:windowCloseOnTouchOutside">true</item>
     </style>
 
+    <style name="lastnostiText" parent="@android:style/TextAppearance">
+        <item name="android:textSize">@dimen/infoPrevoza_textSize_lastnosti</item>
+        <item name="android:textColor">@color/colorBlackOpacity</item>
+        <item name="android:paddingBottom">8dp</item>
+    </style>
+
 </resources>

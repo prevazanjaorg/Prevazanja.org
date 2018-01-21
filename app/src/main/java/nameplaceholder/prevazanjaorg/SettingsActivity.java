@@ -3,6 +3,7 @@ package nameplaceholder.prevazanjaorg;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.icu.text.IDNA;
 import android.media.Ringtone;
@@ -13,12 +14,15 @@ import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
+import android.preference.SwitchPreference;
 import android.support.v7.app.ActionBar;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
 import android.text.TextUtils;
 import android.view.MenuItem;
+import android.widget.Switch;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -34,6 +38,10 @@ import java.util.List;
  * API Guide</a> for more information on developing a Settings UI.
  */
 public class SettingsActivity extends AppCompatPreferenceActivity {
+
+    public static SwitchPreference sms;
+    public static SharedPreferences sprefs;
+    public static SharedPreferences.Editor sprefsEditor;
 
     /**
      * A preference value change listener that updates the preference's summary
@@ -297,6 +305,23 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             // to their values. When their values change, their summaries are
             // updated to reflect the new value, per the Android Design
             // guidelines.
+
+            sms = (SwitchPreference)findPreference("sporocanje_switch");
+
+            sms.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference arg0, Object isSmsOnObject) {
+                    boolean smsServiceOn = (Boolean) isSmsOnObject;
+                    if(smsServiceOn){
+                        sprefs = getActivity().getSharedPreferences("sporocanje_switch",Context.MODE_PRIVATE);
+                        sprefsEditor = sprefs.edit();
+                        sprefsEditor.putBoolean("sporocanje_switch",true);
+                        sprefsEditor.commit();
+                        Toast.makeText(getActivity(), "SMS sistem uspešno vključen! Ponovno zaženite aplikacijo!", Toast.LENGTH_SHORT).show();
+                    }
+                    return true;
+                }
+            });
         }
 
         @Override

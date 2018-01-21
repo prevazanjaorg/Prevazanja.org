@@ -26,7 +26,6 @@ public class Lastnosti_prevoza extends AppCompatActivity {
     TextView PrikazLastnostiTV;
     Button DodajLastnost;
     EditText vstaviLastnosteT;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +59,7 @@ public class Lastnosti_prevoza extends AppCompatActivity {
                 new AsyncCallSoapPrijava().execute();
             }
         });
+
     }
 
     public class AsyncCallSoapPrijava extends AsyncTask<String, Void, String>{

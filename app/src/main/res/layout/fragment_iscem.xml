@@ -3,8 +3,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorPrimaryDarkish"
-    android:id="@+id/list_relative"
-    android:foreground="@drawable/dimming">
+    android:id="@+id/list_relative">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
