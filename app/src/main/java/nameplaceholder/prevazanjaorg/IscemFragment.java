@@ -52,98 +52,23 @@ public class IscemFragment extends Fragment implements OnQueryTextListener {
     private LayoutInflater layoutInflater;
     private PopupWindow popupWindow;
     private FrameLayout frameLayout;
+    private static final ArrayList<Prevoz> dbprevozi = new ArrayList<Prevoz>();
 
     public IscemFragment() {
         // Required empty public constructor
     }
 
-    public static IscemFragment newInstance(int sectionNumber) {
+    public static IscemFragment newInstance(int sectionNumber, ArrayList<Prevoz> prevozi) {
         IscemFragment fragment = new IscemFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_SECTION_NUMBER,sectionNumber);
         fragment.setArguments(args);
+        for(Prevoz p : prevozi){
+            dbprevozi.add(p);
+        }
         return fragment;
     }
 
-    final ArrayList<Prevoz> dbprevozi = new ArrayList<Prevoz>();
-
-    public class AsyncCallSoapVrniPrevoze extends AsyncTask<String, Void, String>{
-        private final ProgressDialog dialog = new ProgressDialog(getActivity());
-
-        @Override
-        protected String doInBackground(String... strings) {
-            CallSoap CS = new CallSoap();
-
-            String response = CS.VrniPrevoze();
-            return response;
-        }
-        @Override
-        protected void onPostExecute(String result){
-            super.onPostExecute(result);
-            dialog.dismiss();
-            if(result.substring(0,1).equals("j"))
-                new AsyncCallSoapVrniPrevoze().execute();
-            Document doc = Jsoup.parse(result);
-
-            //Log.d("krneki", doc.toString());
-            String prevozi=doc.toString();
-            Prevoz p;
-            int i = 0;
-            int j;
-            while (i < 5000) {
-                i = i + prevozi.substring(i).indexOf("<string>");
-                i+=16; // zamaknemo naprej za <string>+\n
-                if (prevozi.substring(i).contains("<string>")) {
-                    Log.d("fuck", String.valueOf(i)+" in "+String.valueOf(i + prevozi.substring(i).indexOf('|')));
-                    int id = Integer.valueOf(prevozi.substring(i, i + prevozi.substring(i).indexOf('|'))); // zdaj smo pri delimiterju (ID)
-                    i = i + prevozi.substring(i).indexOf('|');
-                    String iz = prevozi.substring(++i, i + prevozi.substring(i).indexOf('|')); // pri naslednjem delimeterju (iz)
-                    i = i + prevozi.substring(i).indexOf('|');
-                    String ka = prevozi.substring(++i, i + prevozi.substring(i).indexOf('|')); // kam
-                    i = i + prevozi.substring(i).indexOf('|');
-                    String te = prevozi.substring(++i, i + prevozi.substring(i).indexOf('|')); // telefon
-                    i = i + prevozi.substring(i).indexOf('|');
-                    int os = Integer.valueOf(prevozi.substring(++i, i + prevozi.substring(i).indexOf('|'))); // oseb
-                    i = i + prevozi.substring(i).indexOf('|');
-                    int mo = Integer.valueOf(prevozi.substring(++i, i + prevozi.substring(i).indexOf('|'))); // maxoseb
-                    i = i + prevozi.substring(i).indexOf('|');
-                    Boolean za = Boolean.parseBoolean(prevozi.substring(++i, i + prevozi.substring(i).indexOf('|'))); //zavarovanje
-                    i = i + prevozi.substring(i).indexOf('|');
-                    String av = prevozi.substring(++i, i + prevozi.substring(i).indexOf('|')); // avto
-                    i = i + prevozi.substring(i).indexOf('|');
-                    DateTimeFormatter dtf = DateTimeFormat.forPattern("d.M. H:m");
-                    String tempDatumString = prevozi.substring(++i, i + prevozi.substring(i).indexOf('|') + prevozi.substring(i + prevozi.substring(i).indexOf('|') + 1).indexOf('|') + 1); // datum string
-                    tempDatumString = tempDatumString.substring(tempDatumString.indexOf(',') + 1);
-                    StringBuilder sb = new StringBuilder(tempDatumString);
-                    sb.deleteCharAt(tempDatumString.indexOf('|'));
-                    sb.deleteCharAt(tempDatumString.indexOf('.')+1);
-                    sb.deleteCharAt(0);
-                    tempDatumString = sb.toString();
-                    i = i + prevozi.substring(i).indexOf('|');
-                    DateTime dt = dtf.parseDateTime(tempDatumString);
-                    i++; // preskočimo uro
-                    i = i + prevozi.substring(i).indexOf('|');
-                    String im = prevozi.substring(++i, i + prevozi.substring(i).indexOf('|')); // ime
-                    i = i + prevozi.substring(i).indexOf('|');
-                    String op = prevozi.substring(++i, i + prevozi.substring(i).indexOf('|')); // opis
-                    i = i + prevozi.substring(i).indexOf('|');
-                    Double la = Double.valueOf((prevozi.substring(++i, i + prevozi.substring(i).indexOf('|'))).replace(',','.')); //latitude
-                    i = i + prevozi.substring(i).indexOf('|');
-                    Double lo = Double.valueOf((prevozi.substring(++i, i + prevozi.substring(i).indexOf('|'))).replace(',','.')); //longtitude
-                    i = i + prevozi.substring(i).indexOf('|');
-                    int ra = Integer.valueOf(prevozi.substring(++i, i + prevozi.substring(i).indexOf('|'))); // radius
-                    i = i + prevozi.substring(i).indexOf('|');
-                    int fk = Integer.valueOf(prevozi.substring(++i, i + prevozi.substring(i).indexOf('\n'))); // fkUporabnik
-                    i = i + prevozi.substring(i).indexOf('\n');
-                    p = new Prevoz(iz, ka, te, 10.0, os, mo, za, av, im, dt, lo,lo,ra);
-                    dbprevozi.add(p);
-                }
-                else
-                    break;
-            }
-            return;
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -155,9 +80,12 @@ public class IscemFragment extends Fragment implements OnQueryTextListener {
         ((AppCompatActivity) getActivity()).setSupportActionBar(myToolbar); //need to cast your activity from getActivity() to AppCompatActivity first,  because getActivity() returns a FragmentActivity and you need an AppCompatActivity
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.app_name);
 
-        new AsyncCallSoapVrniPrevoze().execute();
 
-        Log.d("aylmao", "I happen bithc!");
+        listAdapterPrevozov = new PrevozAdapter(getActivity().getApplicationContext(), dbprevozi);
+        final ListView listViewPrevozov = (ListView) rootView.findViewById(R.id.seznamPrevozov);
+        listViewPrevozov.setAdapter(listAdapterPrevozov);
+
+        Log.e("ISCEM", "DBPREVOZI OK");
 
         /*
         // TESTNI PREVOZI
@@ -175,11 +103,10 @@ public class IscemFragment extends Fragment implements OnQueryTextListener {
         for (Integer i=0; i<10;i++)
             aktivniPrevozi.add(dummyPrevoz);
         */
-
         // V adapter damo vse prevoze. nato adapter podamo seznamu
-        listAdapterPrevozov = new PrevozAdapter(getActivity().getApplicationContext(), dbprevozi);
-        final ListView listViewPrevozov = (ListView) rootView.findViewById(R.id.seznamPrevozov);
-        listViewPrevozov.setAdapter(listAdapterPrevozov);
+        //listAdapterPrevozov = new PrevozAdapter(getActivity().getApplicationContext(), dbprevozi);
+       // final ListView listViewPrevozov = (ListView) rootView.findViewById(R.id.seznamPrevozov);
+       // listViewPrevozov.setAdapter(listAdapterPrevozov);
 
         listViewPrevozov.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @SuppressLint("SetTextI18n")

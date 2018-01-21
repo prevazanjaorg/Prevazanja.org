@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -55,7 +56,7 @@ public class PonujamFragment extends Fragment implements OnQueryTextListener{
     private EditText etCas;
     private EditText etCena;
 
-    ArrayList<Prevoz> aktivniPrevozi = new ArrayList<Prevoz>();
+    private final static ArrayList<Prevoz> aktivniPrevozi = new ArrayList<Prevoz>();
 
     private static String TELEFONSKA_STEVILKA = "040420069";
 
@@ -63,11 +64,14 @@ public class PonujamFragment extends Fragment implements OnQueryTextListener{
         // Required empty public constructor
     }
 
-    public static PonujamFragment newInstance(int sectionNumber) {
+    public static PonujamFragment newInstance(int sectionNumber, ArrayList<Prevoz> prevozi) {
         PonujamFragment fragment = new PonujamFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_SECTION_NUMBER,sectionNumber);
         fragment.setArguments(args);
+        for(Prevoz p : prevozi){
+            aktivniPrevozi.add(p);
+        }
         return fragment;
     }
 
@@ -82,33 +86,13 @@ public class PonujamFragment extends Fragment implements OnQueryTextListener{
         String title = "Moji " + getContext().getString((R.string.app_name));
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(title);
 
-        // TESTNI PREVBOZI
-        final String dateTime = "29.11.2017 16:00:00";
-        DateTime trenutniCas = new DateTime(); //trenutni datum in točen čas
-        DateTimeFormatter dtf = DateTimeFormat.forPattern("dd.MM.yyyy HH:mm:ss");
-        DateTime drugCas = dtf.parseDateTime(dateTime);
-        ArrayList<Integer> ocene = new ArrayList<Integer>();
-        ocene.add(10); ocene.add(9); ocene.add(7); ocene.add(10); ocene.add(10);
-        Prevoz dummyPrevoz = new Prevoz("Maribor", "Koper", "040202108", 10.0, 3, 4, false, "Toyota Yaris črne barve", "Polar", trenutniCas,-34,151,100);
-        Prevoz dummyPrevoz2 = new Prevoz("Ljubljana", "Maribor", "040256339", 5.0, 3, 3, false, "Toyota Hilux", "Polar", drugCas,-50,150,250);
-        Prevoz dummyPrevoz3 = new Prevoz("Celje", "Novo Mesto", "04025897464", 7.0, 1, 4, true, "Mazda 3", "Polar", drugCas.plusDays(2),66,-50,150);
-        aktivniPrevozi.add(dummyPrevoz2);
-        aktivniPrevozi.add(dummyPrevoz3);
-        //for (Integer i=0; i<10;i++)
-            //aktivniPrevozi.add(dummyPrevoz);
-
-//        for(Integer i = 0; i < aktivniPrevozi.size(); i++){
-//            Prevoz a = aktivniPrevozi.get(i);
-//            if(a.getMobitel() != TELEFONSKA_STEVILKA){
-//                aktivniPrevozi.remove(a);
-//                //Toast.makeText(getContext(), a.getIme(), Toast.LENGTH_SHORT).show();
-//            }
-//        }
 
         // V adapter damo vse prevoze. nato adapter podamo seznamu
         listAdapterPrevozov = new PrevozAdapter(getActivity().getApplicationContext(), aktivniPrevozi);
         final ListView listViewPrevozov = (ListView) rootView.findViewById(R.id.seznamMojihPrevozov);
         listViewPrevozov.setAdapter(listAdapterPrevozov);
+        Log.e("PONUJAM", "AKTVNI PREVOZI OK");
+
 
         frameLayout = (FrameLayout) rootView.findViewById(R.id.list_relative); // najdem activity_list.xml <frame>
 
@@ -169,8 +153,10 @@ public class PonujamFragment extends Fragment implements OnQueryTextListener{
                 return true;
             }
         });
+
         return rootView;
     }
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_ponujam, menu);

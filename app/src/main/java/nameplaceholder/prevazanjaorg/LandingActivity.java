@@ -1,7 +1,9 @@
 package nameplaceholder.prevazanjaorg;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -13,6 +15,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,7 +25,17 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+
+import java.util.ArrayList;
 
 public class LandingActivity extends AppCompatActivity {
 
@@ -43,22 +56,117 @@ public class LandingActivity extends AppCompatActivity {
     private PonujamFragment ponujamFragment;
     private IscemFragment iscemFragment;
     private LandingFragment landingFragment;
+    private static final ArrayList<Prevoz> dbprevozi = new ArrayList<Prevoz>();
+    private static final ArrayList<Prevoz> mojiPrevozi = new ArrayList<Prevoz>();
 
-    boolean BackgroundServiceRunning = true;//dobim nekak iz nastavitev
+
+    public class AsyncCallSoapVrniPrevoze extends AsyncTask<String, Void, String> {
+        private final ProgressDialog dialog = new ProgressDialog(getApplicationContext());
+
+        @Override
+        protected String doInBackground(String... strings) {
+            CallSoap CS = new CallSoap();
+
+            String response = CS.VrniPrevoze();
+            return response;
+        }
+
+        @Override
+        protected void onPostExecute(String result){
+            super.onPostExecute(result);
+            dialog.dismiss();
+            if(result.substring(0,1).equals("j"))
+                new AsyncCallSoapVrniPrevoze().execute();
+            Document doc = Jsoup.parse(result);
+
+            //Log.d("krneki", doc.toString());
+            String prevozi=doc.toString();
+            Prevoz p;
+            int i = 0;
+            int j;
+            while (i < 50000) {
+                i = i + prevozi.substring(i).indexOf("<string>");
+                i+=16; // zamaknemo naprej za <string>+\n
+                if (prevozi.substring(i).contains("<string>")) {
+                    int id = Integer.valueOf(prevozi.substring(i, i + prevozi.substring(i).indexOf('|'))); // zdaj smo pri delimiterju (ID)
+                    i = i + prevozi.substring(i).indexOf('|');
+                    String iz = prevozi.substring(++i, i + prevozi.substring(i).indexOf('|')); // pri naslednjem delimeterju (iz)
+                    i = i + prevozi.substring(i).indexOf('|');
+                    String ka = prevozi.substring(++i, i + prevozi.substring(i).indexOf('|')); // kam
+                    i = i + prevozi.substring(i).indexOf('|');
+                    String te = prevozi.substring(++i, i + prevozi.substring(i).indexOf('|')); // telefon
+                    i = i + prevozi.substring(i).indexOf('|');
+                    int os = Integer.valueOf(prevozi.substring(++i, i + prevozi.substring(i).indexOf('|'))); // oseb
+                    i = i + prevozi.substring(i).indexOf('|');
+                    int mo = Integer.valueOf(prevozi.substring(++i, i + prevozi.substring(i).indexOf('|'))); // maxoseb
+                    i = i + prevozi.substring(i).indexOf('|');
+                    Boolean za = Boolean.parseBoolean(prevozi.substring(++i, i + prevozi.substring(i).indexOf('|'))); //zavarovanje
+                    i = i + prevozi.substring(i).indexOf('|');
+                    String av = prevozi.substring(++i, i + prevozi.substring(i).indexOf('|')); // avto
+                    i = i + prevozi.substring(i).indexOf('|');
+                    DateTimeFormatter dtf = DateTimeFormat.forPattern("d.M. H:m");
+                    String tempDatumString = prevozi.substring(++i, i + prevozi.substring(i).indexOf('|') + prevozi.substring(i + prevozi.substring(i).indexOf('|') + 1).indexOf('|') + 1); // datum string
+                    tempDatumString = tempDatumString.substring(tempDatumString.indexOf(',') + 1);
+                    StringBuilder sb = new StringBuilder(tempDatumString);
+                    sb.deleteCharAt(tempDatumString.indexOf('|'));
+                    sb.deleteCharAt(tempDatumString.indexOf('.')+1);
+                    sb.deleteCharAt(0);
+                    tempDatumString = sb.toString();
+                    i = i + prevozi.substring(i).indexOf('|');
+                    DateTime dt = dtf.parseDateTime(tempDatumString);
+                    i++; // preskočimo uro
+                    i = i + prevozi.substring(i).indexOf('|');
+                    String im = prevozi.substring(++i, i + prevozi.substring(i).indexOf('|')); // ime
+                    i = i + prevozi.substring(i).indexOf('|');
+                    String op = prevozi.substring(++i, i + prevozi.substring(i).indexOf('|')); // opis
+                    i = i + prevozi.substring(i).indexOf('|');
+                    Double la = Double.valueOf((prevozi.substring(++i, i + prevozi.substring(i).indexOf('|'))).replace(',','.')); //latitude
+                    i = i + prevozi.substring(i).indexOf('|');
+                    Double lo = Double.valueOf((prevozi.substring(++i, i + prevozi.substring(i).indexOf('|'))).replace(',','.')); //longtitude
+                    i = i + prevozi.substring(i).indexOf('|');
+                    int ra = Integer.valueOf(prevozi.substring(++i, i + prevozi.substring(i).indexOf('|'))); // radius
+                    i = i + prevozi.substring(i).indexOf('|');
+                    int fk = Integer.valueOf(prevozi.substring(++i, i + prevozi.substring(i).indexOf('\n'))); // fkUporabnik
+                    i = i + prevozi.substring(i).indexOf('\n');
+                    p = new Prevoz(iz, ka, te, 10.0, os, mo, za, av, im, dt, lo,lo,ra);
+                    dbprevozi.add(p);
+                }
+                else
+                    break;
+            }
+
+            for(Prevoz prev : dbprevozi){
+                if(prev.getMobitel().equals("1234567")){
+                    mojiPrevozi.add(prev);
+                }
+            }
+
+            Log.e("LA", "DB PREVOZI: " + dbprevozi.size());
+            Log.e("MP", "MOJI PREVOZI: " + mojiPrevozi.size());
+            Intent novSMSintent = new Intent(getApplicationContext(),SMSBackgroundService.class);
+            novSMSintent.putExtra("MOJIPREVOZI",mojiPrevozi);
+            getApplicationContext().startService(novSMSintent);
+
+            // Create the adapter that will return a fragment for each of the three
+            // primary sections of the activity.
+            mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+
+            // Set up the ViewPager with the sections adapter.
+            mViewPager = (ViewPager) findViewById(R.id.container);
+            mViewPager.setAdapter(mSectionsPagerAdapter);
+            mViewPager.setCurrentItem(1);
+
+            return;
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_landing);
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
-        // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
-        mViewPager.setCurrentItem(1);
-
+        new AsyncCallSoapVrniPrevoze().execute();//PRIDOBITEV PREVOZEV IZ BAZE
+        Toast.makeText(getApplicationContext(),"Pridobivanje prevozev iz baze!", Toast.LENGTH_LONG);
         //Jaka
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         if(settings.getBoolean("sporocanje_switch", false))//če so smsi v nastavitvah vklopljeni
@@ -104,11 +212,11 @@ public class LandingActivity extends AppCompatActivity {
             // Return a PlaceholderFragment (defined as a static inner class below).
             switch(position){
                 case 0:
-                    return ponujamFragment.newInstance(position);
+                    return ponujamFragment.newInstance(position,dbprevozi);
                 case 1:
                     return landingFragment.newInstance(position);
                 case 2:
-                    return iscemFragment.newInstance(position);
+                    return iscemFragment.newInstance(position,dbprevozi);
                 default:
                     return landingFragment.newInstance(position);
             }
