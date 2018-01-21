@@ -123,22 +123,6 @@ public class Prevoz implements Serializable {
         this.radius = rad;
     }
 
-    /*
-    public Double getOcena() {
-        Integer sum = 0;
-        for (Integer a:ocene) {
-            sum += a;
-        }
-        return (double)sum/ocene.size();
-    }
-    /*
-
-    /*
-    public Integer getSteviloOcen() {
-        return ocene.size();
-    }
-    */
-
     public int getOseb() {
         return oseb;
     }
@@ -284,7 +268,7 @@ public class Prevoz implements Serializable {
     }
 
     public String getDatum() {
-        DateTimeFormatter dtf = DateTimeFormat.forPattern("dd.MM.yyyy");
+        DateTimeFormatter dtf = DateTimeFormat.forPattern("dd.MM");
         return dtf.print(casDatum);
     }
 

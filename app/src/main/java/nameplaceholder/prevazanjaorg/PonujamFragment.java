@@ -93,7 +93,6 @@ public class PonujamFragment extends Fragment implements OnQueryTextListener{
         listViewPrevozov.setAdapter(listAdapterPrevozov);
         Log.e("PONUJAM", "AKTVNI PREVOZI OK");
 
-
         frameLayout = (FrameLayout) rootView.findViewById(R.id.list_relative); // najdem activity_list.xml <frame>
 
         frameLayout.getForeground().setAlpha(0); // Črn foreground nardim transparenten
