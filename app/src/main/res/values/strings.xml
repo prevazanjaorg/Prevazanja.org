@@ -52,7 +52,7 @@
     </string>
 
     <string name="pref_title_display_name">Uporabniško ime</string>
-    <string name="pref_default_display_name">Hackerman01</string>
+    <string name="pref_default_display_name">NikoKolar</string>
 
     <string name="pref_title_add_friends_to_messages">Add friends to messages</string>
     <string-array name="pref_example_list_titles">
@@ -118,10 +118,16 @@
         <item>Entry 3</item>
     </string-array>
 
-    <string-array name="list_preference_entry_values">
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
+    <string-array name="list_preference_mapzoom">
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+    </string-array>
+
+    <string-array name="list_preference_radius">
+        <item>1000m</item>
+        <item>500m</item>
+        <item>250m</item>
     </string-array>
 
     <string-array name="multi_select_list_preference_default_value" />

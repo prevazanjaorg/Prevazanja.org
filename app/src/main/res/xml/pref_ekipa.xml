@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <EditTextPreference
+        android:defaultValue="C.E.O."
+        android:key="edit_text_preference_1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="Luka Ernestini"
+        android:focusable="false"
+        android:clickable="false"/>
+    <EditTextPreference
+        android:defaultValue="C.E.O."
+        android:key="edit_text_preference_2"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="Janko Češnjaj"
+        android:focusable="false"
+        android:clickable="false"/>
+    <EditTextPreference
+        android:defaultValue="C.E.O."
+        android:key="edit_text_preference_3"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="Jaka Čugalj"
+        android:focusable="false"
+        android:clickable="false"/>
+    <EditTextPreference
+        android:defaultValue="C.E.O."
+        android:key="edit_text_preference_4"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="Niko Kolar"
+        android:focusable="false"
+        android:clickable="false"/>
+</PreferenceScreen>

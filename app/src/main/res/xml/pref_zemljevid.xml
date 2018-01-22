@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="radius_switch"
+        android:summary="Pobiram v krogu prikazanem na zemljevidu"
+        android:title="Pobiram v radiusu" />
+
+    <ListPreference
+        android:defaultValue="15"
+        android:entries="@array/list_preference_mapzoom"
+        android:entryValues="@array/list_preference_mapzoom"
+        android:key="list_preferenceMapZoom"
+        android:title="Map zoom" />
+
+    <ListPreference
+        android:defaultValue="1000"
+        android:entries="@array/list_preference_radius"
+        android:entryValues="@array/list_preference_radius"
+        android:key="list_preferenceRadius"
+        android:title="Radius pobiranja" />
+
+</PreferenceScreen>

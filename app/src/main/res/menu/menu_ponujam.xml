@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <item android:id="@+id/listSearch"
+    <item android:id="@+id/listSearchPonujam"
         android:title="@string/search_title"
         android:icon="@drawable/ic_action_search"
         app:actionViewClass="android.widget.SearchView"
