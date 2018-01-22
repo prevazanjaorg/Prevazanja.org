@@ -53,7 +53,7 @@ public class PodrobnostiFragment extends Fragment {
         relacija.setText(prevoz.getIz() + " - " + prevoz.getKam());
 
         TextView datum = (TextView) getView().findViewById(R.id.podrobnosti_txtview_datum);
-        datum.setText(prevoz.getDatum());
+        datum.setText(prevoz.getDan()+", "+prevoz.getDatum());
 
         TextView ura = (TextView) getView().findViewById(R.id.podrobnosti_txtview_ura);
         ura.setText(prevoz.getCas());

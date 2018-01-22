@@ -58,6 +58,7 @@ public class PonujamFragment extends Fragment implements OnQueryTextListener{
 
     ArrayList<Prevoz> shranjeniPrevozi = new ArrayList<Prevoz>();
     IscemFragment iscemFragment = new IscemFragment();
+    private final static ArrayList<Prevoz> aktivniPrevozi = new ArrayList<Prevoz>();
 
     private static String TELEFONSKA_STEVILKA = "040420069";
 
@@ -65,11 +66,14 @@ public class PonujamFragment extends Fragment implements OnQueryTextListener{
         // Required empty public constructor
     }
 
-    public static PonujamFragment newInstance(int sectionNumber) {
+    public static PonujamFragment newInstance(int sectionNumber, ArrayList<Prevoz> prevozi) {
         PonujamFragment fragment = new PonujamFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_SECTION_NUMBER,sectionNumber);
         fragment.setArguments(args);
+        for(Prevoz p : prevozi){
+            aktivniPrevozi.add(p);
+        }
         return fragment;
     }
 
@@ -106,11 +110,11 @@ public class PonujamFragment extends Fragment implements OnQueryTextListener{
         Prevoz dummyPrevoz2 = new Prevoz("Ljubljana", "Maribor", TELEFONSKA_STEVILKA, 5.0, 3, 3, false, "Toyota Hilux", "Polar", drugCas,-50,150,250);
         Prevoz dummyPrevoz3 = new Prevoz("Celje", "Novo Mesto", TELEFONSKA_STEVILKA, 7.0, 1, 4, true, "Mazda 3", "Polar", drugCas.plusDays(2),66,-50,150);
 
-        if(shranjeniPrevozi.size() == 0){
-            shranjeniPrevozi.add(dummyPrevoz);
-            shranjeniPrevozi.add(dummyPrevoz2);
-            shranjeniPrevozi.add(dummyPrevoz3);
-        }
+//        if(shranjeniPrevozi.size() == 0){
+//            shranjeniPrevozi.add(dummyPrevoz);
+//            shranjeniPrevozi.add(dummyPrevoz2);
+//            shranjeniPrevozi.add(dummyPrevoz3);
+//        }
 
 //        for(Integer i = 0; i < aktivniPrevozi.size(); i++){
 //            Prevoz a = aktivniPrevozi.get(i);
@@ -125,9 +129,10 @@ public class PonujamFragment extends Fragment implements OnQueryTextListener{
         //iscemFragment.vrniShranjenePrevoze();
         //shranjeniPrevozi = (ArrayList<Prevoz>)getArguments().getSerializable("seznam");
 
-        listAdapterPrevozov = new PrevozAdapter(getActivity().getApplicationContext(), shranjeniPrevozi);
+        listAdapterPrevozov = new PrevozAdapter(getActivity().getApplicationContext(), aktivniPrevozi);
         final ListView listViewPrevozov = (ListView) rootView.findViewById(R.id.seznamMojihPrevozov);
         listViewPrevozov.setAdapter(listAdapterPrevozov);
+        Log.e("PONUJAM", "AKTVNI PREVOZI OK");
 
         frameLayout = (FrameLayout) rootView.findViewById(R.id.list_Ponujam);
 
@@ -158,8 +163,8 @@ public class PonujamFragment extends Fragment implements OnQueryTextListener{
                 btnIzbrisi.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        shranjeniPrevozi.remove(i);
-                        listAdapterPrevozov = new PrevozAdapter(getActivity().getApplicationContext(), shranjeniPrevozi);
+                        aktivniPrevozi.remove(i);
+                        listAdapterPrevozov = new PrevozAdapter(getActivity().getApplicationContext(), aktivniPrevozi);
                         final ListView listViewPrevozov = (ListView) getView().findViewById(R.id.seznamMojihPrevozov);
                         listViewPrevozov.setAdapter(listAdapterPrevozov);
                         popupWindowIzbrisi.dismiss();
@@ -184,8 +189,10 @@ public class PonujamFragment extends Fragment implements OnQueryTextListener{
                 return true;
             }
         });
+
         return rootView;
     }
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_ponujam, menu);
@@ -227,8 +234,6 @@ public class PonujamFragment extends Fragment implements OnQueryTextListener{
     }
 
     public void btnPlusClick(MenuItem item){
-        Toast.makeText(getContext(), Integer.toString(shranjeniPrevozi.size()), Toast.LENGTH_SHORT).show();
-
         layoutInflater = (LayoutInflater) getActivity().getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
         ViewGroup container = (ViewGroup) layoutInflater.inflate(R.layout.popup_dodaj,null);
 
@@ -261,8 +266,8 @@ public class PonujamFragment extends Fragment implements OnQueryTextListener{
                 DateTimeFormatter dtf = DateTimeFormat.forPattern("dd.MM.yyyy HH:mm:ss");
                 DateTime drugCas = dtf.parseDateTime(dateTime);
                 Prevoz dodanPrevoz = new Prevoz(etOd.getText().toString(), etDo.getText().toString(), "04025897464",Double.parseDouble(etCena.getText().toString()), 1, 4, true, "Mazda 3", "Polar", drugCas.plusDays(2),60,32,100);
-                shranjeniPrevozi.add(dodanPrevoz);
-                listAdapterPrevozov = new PrevozAdapter(getActivity().getApplicationContext(), shranjeniPrevozi);
+                aktivniPrevozi.add(dodanPrevoz);
+                listAdapterPrevozov = new PrevozAdapter(getActivity().getApplicationContext(), aktivniPrevozi);
                 final ListView listViewPrevozov = (ListView) getView().findViewById(R.id.seznamMojihPrevozov);
                 listViewPrevozov.setAdapter(listAdapterPrevozov);
                 popupWindowDodaj.dismiss();
