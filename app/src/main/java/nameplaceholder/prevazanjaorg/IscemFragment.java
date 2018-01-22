@@ -52,77 +52,41 @@ public class IscemFragment extends Fragment implements OnQueryTextListener {
     private LayoutInflater layoutInflater;
     private PopupWindow popupWindow;
     private FrameLayout frameLayout;
+    private static final ArrayList<Prevoz> dbprevozi = new ArrayList<Prevoz>();
 
     public IscemFragment() {
         // Required empty public constructor
     }
 
-    public static IscemFragment newInstance(int sectionNumber) {
+    public static IscemFragment newInstance(int sectionNumber, ArrayList<Prevoz> prevozi) {
         IscemFragment fragment = new IscemFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_SECTION_NUMBER,sectionNumber);
         fragment.setArguments(args);
+        for(Prevoz p : prevozi){
+            dbprevozi.add(p);
+        }
         return fragment;
     }
 
-    public class AsyncCallSoapVrniPrevoze extends AsyncTask<String, Void, String>{
-        private final ProgressDialog dialog = new ProgressDialog(getActivity());
-
-        @Override
-        protected String doInBackground(String... strings) {
-            CallSoap CS = new CallSoap();
-
-            String response = CS.VrniPrevoze();
-            return response;
-        }
-        @Override
-        protected void onPostExecute(String result){
-            super.onPostExecute(result);
-            dialog.dismiss();
-            if(result.substring(0,1).equals("j"))
-                new AsyncCallSoapVrniPrevoze().execute();
-            Document doc = Jsoup.parse(result);
-
-            Log.d("krneki", doc.toString());
-            //String prevozi=doc.toString();
-
-
-
-
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         View rootView = inflater.inflate(R.layout.fragment_iscem, container, false);
 
-        new AsyncCallSoapVrniPrevoze().execute();
-
-        final ArrayList<Prevoz> aktivniPrevozi = new ArrayList<Prevoz>();
+        //final ArrayList<Prevoz> aktivniPrevozi = new ArrayList<Prevoz>();
         Toolbar myToolbar = (Toolbar) rootView.findViewById(R.id.my_toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(myToolbar); //need to cast your activity from getActivity() to AppCompatActivity first,  because getActivity() returns a FragmentActivity and you need an AppCompatActivity
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.app_name);
 
-        // TESTNI PREVBOZI
-        final String dateTime = "29.11.2017 16:00:00";
-        DateTime trenutniCas = new DateTime(); //trenutni datum in točen čas
-        DateTimeFormatter dtf = DateTimeFormat.forPattern("dd.MM.yyyy HH:mm:ss");
-        DateTime drugCas = dtf.parseDateTime(dateTime);
-        //ArrayList<Integer> ocene = new ArrayList<Integer>();
-        //ocene.add(10); ocene.add(9); ocene.add(7); ocene.add(10); ocene.add(10);
-        Prevoz dummyPrevoz = new Prevoz("Maribor", "Koper", "040202108", 10.0, 3, 4, false, "Toyota Yaris črne barve", "Polar", trenutniCas,-34,151,100, 4.5);
-        Prevoz dummyPrevoz2 = new Prevoz("Ljubljana", "Maribor", "040256339", 5.0, 3, 3, false, "Toyota Hilux", "Polar", drugCas,-50,150,250, 5);
-        Prevoz dummyPrevoz3 = new Prevoz("Celje", "Novo Mesto", "04025897464", 7.0, 1, 4, true, "Mazda 3", "Polar", drugCas.plusDays(2),66,-50,150, 9.5);
-        aktivniPrevozi.add(dummyPrevoz2);
-        aktivniPrevozi.add(dummyPrevoz3);
-        for (Integer i=0; i<10;i++)
-            aktivniPrevozi.add(dummyPrevoz);
 
-        // V adapter damo vse prevoze. nato adapter podamo seznamu
-        listAdapterPrevozov = new PrevozAdapter(getActivity().getApplicationContext(), aktivniPrevozi);
+        listAdapterPrevozov = new PrevozAdapter(getActivity().getApplicationContext(), dbprevozi);
         final ListView listViewPrevozov = (ListView) rootView.findViewById(R.id.seznamPrevozov);
         listViewPrevozov.setAdapter(listAdapterPrevozov);
+
+        Log.e("ISCEM", "DBPREVOZI OK");
+
 
         listViewPrevozov.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @SuppressLint("SetTextI18n")

@@ -106,7 +106,7 @@ public class Prevoz implements Serializable {
         this.radius = t.radius;
     }
 
-    public Prevoz(String initIz, String initKam, String initMobitel, double initStrosek, int initOseb, int initMaxOseb, Boolean initZavarovanje, String initAvto, String initIme, DateTime initCas,double latitude,double longitude,int rad, double initOcene) {
+    public Prevoz(String initIz, String initKam, String initMobitel, double initStrosek, int initOseb, int initMaxOseb, Boolean initZavarovanje, String initAvto, String initIme, DateTime initCas,double latitude,double longitude,int rad) {
         this.iz = initIz;
         this.kam = initKam;
         this.mobitel = initMobitel;
@@ -122,22 +122,6 @@ public class Prevoz implements Serializable {
         this.longitude = longitude;
         this.radius = rad;
     }
-
-    /*
-    public Double getOcena() {
-        Integer sum = 0;
-        for (Integer a:ocene) {
-            sum += a;
-        }
-        return (double)sum/ocene.size();
-    }
-    /*
-
-    /*
-    public Integer getSteviloOcen() {
-        return ocene.size();
-    }
-    */
 
     public int getOseb() {
         return oseb;
@@ -284,7 +268,7 @@ public class Prevoz implements Serializable {
     }
 
     public String getDatum() {
-        DateTimeFormatter dtf = DateTimeFormat.forPattern("dd.MM.yyyy");
+        DateTimeFormatter dtf = DateTimeFormat.forPattern("dd.MM");
         return dtf.print(casDatum);
     }
 
