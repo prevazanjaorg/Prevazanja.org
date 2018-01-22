@@ -34,6 +34,8 @@
     <string name="password">Password</string>
     <string name="dodajLastnost">Dodaj lastnost</string>
     <string name="lastnosti">Preostale slike</string>
+    <string name="desnaPuscica"> + </string>
+    <string name="levaPuscica"> - </string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

@@ -47,13 +47,15 @@ public class LastnostiFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
-    int prva=0;;
+    int prva=0;
     int len=0;
     ImageView najvecja;
     ImageView leva;
     ImageView sredina;
     ImageView desna;
     Bitmap bitmap;
+    Button prvaPlusPlus;
+    Button prvaMinusMinus;
     List<String> Stringi = new ArrayList<String>();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -63,11 +65,31 @@ public class LastnostiFragment extends Fragment {
         najvecja = (ImageView) rootView.findViewById(R.id.imageView4);
         sredina=(ImageView) rootView.findViewById(R.id.imageView2);
         leva=(ImageView) rootView.findViewById(R.id.imageView1);
+        prvaPlusPlus=(Button) rootView.findViewById(R.id.button2);
+        prvaMinusMinus=(Button)rootView.findViewById(R.id.button1);
+
+        prvaPlusPlus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                prva++;
+                if(prva==len)
+                    prva=0;
+                setImages(prva);
+            }
+        });
+
+        prvaMinusMinus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                prva--;
+                if(prva==0)
+                    prva=len-1;
+                setImages(prva);
+            }
+        });
+
+
         new AsyncCallSoapVrniSlike().execute();
-        new GetImageFromURL(najvecja).execute("https://i.vimeocdn.com/video/577610798_780x439.jpg");
-        new GetImageFromURL(leva).execute("https://i.vimeocdn.com/video/577610798_780x439.jpg");
-        new GetImageFromURL(desna).execute("https://i.vimeocdn.com/video/577610798_780x439.jpg");
-        new GetImageFromURL(sredina).execute("https://i.vimeocdn.com/video/577610798_780x439.jpg");
 
 
         return rootView;
@@ -125,22 +147,34 @@ public class LastnostiFragment extends Fragment {
                     len++;
                 }
             }
-
+            setImages(prva);
         }
     }
     public void setImages(int prva){
-        int temp=prva;
-        if(temp<len) {
-            new GetImageFromURL(najvecja).execute(Stringi.get(temp));
-            if(++temp<len)
-                new GetImageFromURL(leva).execute(Stringi.get(temp));
-            else
-                new GetImageFromURL(leva).execute(Stringi.get(temp));
-            new GetImageFromURL(desna).execute(Stringi.get(3));
-            new GetImageFromURL(sredina).execute(Stringi.get(4));
-        }
-        else{
+        if(prva<0)
+            prva=len-1;
+        else if(prva>len-1)
             prva=0;
-        }
+        new GetImageFromURL(najvecja).execute(Stringi.get(prva));
+        int temp=prva+1;
+        if(temp<0)
+            temp=len-1;
+        else if(temp>len-1)
+            temp=0;
+        new GetImageFromURL(leva).execute(Stringi.get(temp));
+        temp++;
+        if(temp<0)
+            temp=len-1;
+        else if(temp>len-1)
+            temp=0;
+        new GetImageFromURL(sredina).execute(Stringi.get(temp));
+        temp++;
+        if(temp<0)
+            temp=len-1;
+        else if(temp>len-1)
+            temp=0;
+        new GetImageFromURL(desna).execute(Stringi.get(temp));
     }
+
+
 }
