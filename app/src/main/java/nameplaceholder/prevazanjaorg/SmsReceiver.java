@@ -21,7 +21,7 @@ import java.util.Scanner;
 
 public class SmsReceiver extends BroadcastReceiver {
 
-    public boolean running = false; // nekak iz naastavitev če je res, drugače skso laufa
+    public boolean running = false;
     private Context contXt;
 
 

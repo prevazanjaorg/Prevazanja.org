@@ -317,7 +317,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                         sprefsEditor = sprefs.edit();
                         sprefsEditor.putBoolean("sporocanje_switch",true);
                         sprefsEditor.commit();
-                        Toast.makeText(getActivity(), "SMS sistem uspešno vključen!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "SMS sistem uspešno vključen! Ponovno zaženite aplikacijo!", Toast.LENGTH_SHORT).show();
                     }
                     return true;
                 }

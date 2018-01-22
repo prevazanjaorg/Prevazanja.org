@@ -102,15 +102,15 @@ public class PonujamFragment extends Fragment implements OnQueryTextListener{
         DateTimeFormatter dtf = DateTimeFormat.forPattern("dd.MM.yyyy HH:mm:ss");
         DateTime drugCas = dtf.parseDateTime(dateTime);
 
-        ArrayList<Integer> ocene = new ArrayList<Integer>();
-        ocene.add(10); ocene.add(9); ocene.add(7); ocene.add(10); ocene.add(10);
-        Prevoz dummyPrevoz = new Prevoz("Maribor", "Koper", "040202108", 10.0, 3, 4, false, "Toyota Yaris črne barve", "Polar", trenutniCas,-34,151,100, ocene);
-        Prevoz dummyPrevoz2 = new Prevoz("Ljubljana", "Maribor", "040256339", 5.0, 3, 3, false, "Toyota Hilux", "Polar", drugCas,-50,150,250, ocene);
-        Prevoz dummyPrevoz3 = new Prevoz("Celje", "Novo Mesto", "04025897464", 7.0, 1, 4, true, "Mazda 3", "Polar", drugCas.plusDays(2),66,-50,150, ocene);
-        shranjeniPrevozi.add(dummyPrevoz2);
-        //shranjeniPrevozi.add(dummyPrevoz3);
-        //for (Integer i=0; i<10;i++)
-            //aktivniPrevozi.add(dummyPrevoz);
+        Prevoz dummyPrevoz = new Prevoz("Maribor", "Koper", TELEFONSKA_STEVILKA, 10.0, 3, 4, false, "Toyota Yaris črne barve", "Polar", trenutniCas,-34,151,100);
+        Prevoz dummyPrevoz2 = new Prevoz("Ljubljana", "Maribor", TELEFONSKA_STEVILKA, 5.0, 3, 3, false, "Toyota Hilux", "Polar", drugCas,-50,150,250);
+        Prevoz dummyPrevoz3 = new Prevoz("Celje", "Novo Mesto", TELEFONSKA_STEVILKA, 7.0, 1, 4, true, "Mazda 3", "Polar", drugCas.plusDays(2),66,-50,150);
+
+        if(shranjeniPrevozi.size() == 0){
+            shranjeniPrevozi.add(dummyPrevoz);
+            shranjeniPrevozi.add(dummyPrevoz2);
+            shranjeniPrevozi.add(dummyPrevoz3);
+        }
 
 //        for(Integer i = 0; i < aktivniPrevozi.size(); i++){
 //            Prevoz a = aktivniPrevozi.get(i);
@@ -175,15 +175,12 @@ public class PonujamFragment extends Fragment implements OnQueryTextListener{
                     }
                 });
 
-
                 popupWindowIzbrisi.setOnDismissListener(new PopupWindow.OnDismissListener() {
                     @Override
                     public void onDismiss() {
                         frameLayout.getForeground().setAlpha(0);// Ozadje spet transparentno(normalno) ko se popup_izbrisi zapre
                     }
                 });
-
-                //Toast.makeText(getContext(), "Long press", Toast.LENGTH_LONG).show();
                 return true;
             }
         });
@@ -205,7 +202,7 @@ public class PonujamFragment extends Fragment implements OnQueryTextListener{
 
     @Override
     public boolean onQueryTextChange(String query) {
-        listAdapterPrevozov.getFilter().filter(query + " " + TELEFONSKA_STEVILKA);
+        listAdapterPrevozov.getFilter().filter(query);
         return false;
     }
 
@@ -263,9 +260,7 @@ public class PonujamFragment extends Fragment implements OnQueryTextListener{
                 DateTime trenutniCas = new DateTime(); //trenutni datum in točen čas
                 DateTimeFormatter dtf = DateTimeFormat.forPattern("dd.MM.yyyy HH:mm:ss");
                 DateTime drugCas = dtf.parseDateTime(dateTime);
-                ArrayList<Integer> ocene = new ArrayList<Integer>();
-                ocene.add(10); ocene.add(9); ocene.add(7); ocene.add(10); ocene.add(10);
-                Prevoz dodanPrevoz = new Prevoz(etOd.getText().toString(), etDo.getText().toString(), "04025897464",Double.parseDouble(etCena.getText().toString()), 1, 4, true, "Mazda 3", "Polar", drugCas.plusDays(2),60,32,100,ocene);
+                Prevoz dodanPrevoz = new Prevoz(etOd.getText().toString(), etDo.getText().toString(), "04025897464",Double.parseDouble(etCena.getText().toString()), 1, 4, true, "Mazda 3", "Polar", drugCas.plusDays(2),60,32,100);
                 shranjeniPrevozi.add(dodanPrevoz);
                 listAdapterPrevozov = new PrevozAdapter(getActivity().getApplicationContext(), shranjeniPrevozi);
                 final ListView listViewPrevozov = (ListView) getView().findViewById(R.id.seznamMojihPrevozov);
