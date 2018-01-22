@@ -245,4 +245,41 @@ public class CallSoap {
 
         return response;
     }
+
+    public String VrniSlike(int idPrevoza){
+        String SOAP_ACTION = "http://tempuri.org/VrniSlike";
+        String OPERATION_NAME="VrniSlike";
+        String NAMESPACE="http://tempuri.org/";
+
+        String SOAP_ADDRESS="http://213.161.3.238/prevozi/webservice.asmx";
+        SoapObject request = new SoapObject(NAMESPACE,OPERATION_NAME);
+        PropertyInfo PI=new PropertyInfo();
+
+        PI=new PropertyInfo();
+        PI.setName("idPrevoza");
+        PI.setValue(idPrevoza);
+        PI.setType(String.class);
+        request.addProperty(PI);
+
+        SoapSerializationEnvelope envelope=new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.dotNet=true;
+        envelope.setOutputSoapObject(request);
+        String response;
+
+        try{
+            HttpTransportSE httpTransport=new HttpTransportSE(SOAP_ADDRESS);
+            httpTransport.setXmlVersionTag("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
+            httpTransport.debug=true;
+            //Log.d("krneki","delaaa");
+            httpTransport.call(SOAP_ACTION,envelope);
+            response=httpTransport.responseDump;
+        }
+        catch(Exception ex){
+            response = ex.toString();
+            //response="Težava pri uporabi matode Prijava :/";
+
+        }
+
+        return response;
+    }
 }
